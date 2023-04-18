@@ -8,10 +8,21 @@
     tools:context=".CalendarFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hola" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/calendarFloatingActionButton"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        android:scaleType="center"
+        android:src="@drawable/add"
+        app:backgroundTint="@color/bottom_add_click_color"
+        app:fabSize="auto"
+        app:maxImageSize="40dp" />
 
 
 </RelativeLayout>

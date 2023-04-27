@@ -7,4 +7,10 @@
         <item>Futbol</item>
         <item>Yoga</item>
     </string-array>
+
+    <string-array name="sex_array">
+        <item>Man</item>
+        <item>Woman</item>
+    </string-array>
+
 </resources>

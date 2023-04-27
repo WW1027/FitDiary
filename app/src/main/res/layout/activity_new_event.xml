@@ -37,30 +37,31 @@
 
   <TableLayout
       android:id="@+id/newEventTableLayout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_width="408dp"
+      android:layout_height="210dp"
       android:layout_marginTop="30dp"
       android:stretchColumns="1"
+      app:layout_constraintBottom_toTopOf="@id/newEventImageText"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/newEventHorizontalLine"
-      app:layout_constraintBottom_toTopOf="@id/newEventImageText">
+      app:layout_constraintTop_toBottomOf="@id/newEventHorizontalLine">
 
     <TableRow>
-        <TextView
-            android:id="@+id/newEventDateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/recursive_medium"
-            android:gravity="center"
-            android:layout_marginLeft="40sp"
-            android:text="Date:"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:padding="5dp"/>
+
+      <TextView
+          android:id="@+id/newEventDateText"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:layout_marginLeft="40sp"
+          android:fontFamily="@font/recursive_medium"
+          android:gravity="center"
+          android:padding="5dp"
+          android:text="Date:"
+          android:textAlignment="center"
+          android:textColor="@color/black"
+          android:textSize="16sp"
+          android:textStyle="bold" />
 
       <EditText
           android:id="@+id/newEventDateTextRectangle"
@@ -79,20 +80,23 @@
           android:id="@+id/newEventDateImageSelector"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          app:srcCompat="@drawable/date"
           android:layout_marginRight="40dp"
-          android:gravity="center"/>
+          android:gravity="center"
+          app:srcCompat="@drawable/date" />
 
 
     </TableRow>
+
     <TableRow>
+
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:padding="5dp"
           android:text=""
-          android:textSize="10sp"
-          android:padding="5dp"/>
+          android:textSize="10sp" />
     </TableRow>
+
     <TableRow>
 
       <TextView
@@ -100,15 +104,15 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerInParent="true"
+          android:layout_marginLeft="40sp"
           android:fontFamily="@font/recursive_medium"
           android:gravity="center"
-          android:layout_marginLeft="40sp"
+          android:padding="5dp"
           android:text="Sport:"
           android:textAlignment="center"
           android:textColor="@color/black"
           android:textSize="16sp"
-          android:textStyle="bold"
-          android:padding="5dp"/>
+          android:textStyle="bold" />
 
       <EditText
           android:id="@+id/newEventSportTextRectangle"
@@ -131,42 +135,46 @@
           android:contentDescription="@string/app_name"
           tools:ignore="TouchTargetSizeCheck" />
     </TableRow>
+
     <TableRow>
+
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:padding="5dp"
           android:text=""
-          android:textSize="10sp"
-          android:padding="5dp"/>
+          android:textSize="10sp" />
     </TableRow>
-    <TableRow>
-    <TextView
-        android:id="@+id/newEventDurationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:fontFamily="@font/recursive_medium"
-        android:gravity="center"
-        android:layout_marginLeft="15sp"
-        android:text="Duration:"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:padding="5dp"/>
 
-    <EditText
-        android:id="@+id/newEventDurationTextRectangle"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/rounded_rectangle"
-        android:fontFamily="@font/recursive_medium"
-        android:gravity="center"
-        android:hint="  30"
-        android:textAlignment="viewStart"
-        tools:ignore="RtlCompat,TouchTargetSizeCheck" />
+    <TableRow>
+
+      <TextView
+          android:id="@+id/newEventDurationText"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:layout_marginLeft="15sp"
+          android:fontFamily="@font/recursive_medium"
+          android:gravity="center"
+          android:padding="5dp"
+          android:text="Duration:"
+          android:textAlignment="center"
+          android:textColor="@color/black"
+          android:textSize="16sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:id="@+id/newEventDurationTextRectangle"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_marginLeft="10dp"
+          android:layout_marginRight="10dp"
+          android:background="@drawable/rounded_rectangle"
+          android:fontFamily="@font/recursive_medium"
+          android:gravity="center"
+          android:hint="  30"
+          android:textAlignment="viewStart"
+          tools:ignore="RtlCompat,TouchTargetSizeCheck" />
 
       <Spinner
           android:id="@+id/newEventDurationSpinner"
@@ -177,29 +185,33 @@
           android:text="hello"
           tools:ignore="TouchTargetSizeCheck" />
     </TableRow>
+
     <TableRow>
+
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:padding="5dp"
           android:text=""
-          android:textSize="10sp"
-          android:padding="5dp"/>
+          android:textSize="10sp" />
     </TableRow>
+
     <TableRow>
+
       <TextView
           android:id="@+id/newEventPulseText"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerInParent="true"
+          android:layout_marginLeft="15sp"
           android:fontFamily="@font/recursive_medium"
           android:gravity="center"
-          android:layout_marginLeft="15sp"
+          android:padding="5dp"
           android:text="Pulse:"
           android:textAlignment="center"
           android:textColor="@color/black"
           android:textSize="16sp"
-          android:textStyle="bold"
-          android:padding="5dp" />
+          android:textStyle="bold" />
 
 
       <EditText

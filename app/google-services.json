@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "734280593023",
+    "project_id": "fitdiary-a7cb9",
+    "storage_bucket": "fitdiary-a7cb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734280593023:android:d43369144bac1b4606994a",
+        "android_client_info": {
+          "package_name": "ub.edu.fitdiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734280593023-e5ftorf2n6ck7tbp4ufkfuvdhnunfs8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrJmqcKIAH0LJJ1emAYjIDoN7HAg6JeVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734280593023-e5ftorf2n6ck7tbp4ufkfuvdhnunfs8b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

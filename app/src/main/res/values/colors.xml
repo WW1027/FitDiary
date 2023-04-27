@@ -11,4 +11,8 @@
     <color name="light_orange">#FFEEDC</color>
     <color name="orange">#EA7F0D</color>
     <color name="brown">#7E4501</color>
+    <color name="red">#FF0000</color>
+
+    <color name="orange2">#FFE4B5</color>
+    <color name="light_gray">#F5F5F5</color>
 </resources>

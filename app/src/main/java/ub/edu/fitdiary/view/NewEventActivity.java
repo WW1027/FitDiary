@@ -1,7 +1,9 @@
-package ub.edu.fitdiary;
+package ub.edu.fitdiary.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import ub.edu.fitdiary.R;
 
 public class NewEventActivity extends AppCompatActivity {
 

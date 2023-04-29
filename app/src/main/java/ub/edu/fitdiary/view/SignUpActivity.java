@@ -77,7 +77,6 @@ public class SignUpActivity extends AppCompatActivity {
         mSignInClickText = findViewById(R.id.signUpSignInClickText);
 
         mAcceptButton.setOnClickListener(view -> {
-
             if(!mAgreeCheckBox.isChecked()){
                 Toast.makeText(getApplicationContext(), "You must agree the conditions",
                         Toast.LENGTH_SHORT).show();
@@ -140,11 +139,12 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             mRepository.addUser(
-                                email,
-                                mNameEditText.getText().toString(),
-                                mSurnameEditText.getText().toString(),
-                                mDateEditText.getText().toString(),
-                                mSexSpinner.getSelectedItem().toString()
+                                    email,
+                                    email,
+                                    mNameEditText.getText().toString(),
+                                    mSurnameEditText.getText().toString(),
+                                    mDateEditText.getText().toString(),
+                                    mSexSpinner.getSelectedItem().toString()
                             );
                             // Anar a la pantalla home de l'usuari autenticat
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);

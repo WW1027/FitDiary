@@ -30,7 +30,6 @@ public class AuthenticationActivity extends AppCompatActivity {
     private TextView mForgetPasswordText;
 
     /* Mòdul autenticació de Firebase */
-
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override

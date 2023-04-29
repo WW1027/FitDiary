@@ -49,7 +49,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                 Intent intent = new Intent(ResetPasswordActivity.this, AuthenticationActivity.class);
                                 startActivity(intent);
                             }else{
-                                Toast.makeText(getApplicationContext(), "User does not exit",
+                                Toast.makeText(getApplicationContext(), task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }

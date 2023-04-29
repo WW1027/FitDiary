@@ -170,7 +170,7 @@ public class SignUpActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             //Log.d(TAG, "Sign up create user succeeded");
-                            Toast.makeText(getApplicationContext(), "Email or password incorrect",
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

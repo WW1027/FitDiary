@@ -1,11 +1,17 @@
-package ub.edu.fitdiary;
+package ub.edu.fitdiary.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import ub.edu.fitdiary.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +28,9 @@ public class CalendarFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView mDateCardsRV;
+    private DateCardAdapter mDateCardRVAdapter;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -60,4 +69,28 @@ public class CalendarFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_calendar, container, false);
     }
+
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        initView(view);
+
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(
+                view.getContext(), LinearLayoutManager.HORIZONTAL, false
+        );
+
+        mDateCardsRV.setLayoutManager(manager);
+
+        mDateCardRVAdapter.setmOnClickSelectListener(new DateCardAdapter.OnClickSelectListener() {
+            @Override
+            public void OnClickSelect(int position) {
+
+            }
+        });
+
+    }
+
+    private void initView(View view) {
+        //associete the views with the xml
+        mDateCardsRV = view.findViewById(R.id.userCardDate);
+    }
+
 }

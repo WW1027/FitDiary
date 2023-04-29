@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/light_orange"
-        tools:context=".HomeFragment">
+        tools:context=".view.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -68,9 +68,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/recursive_medium"
                         android:gravity="center"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:text="Goal: 60 min"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="Goal: 45 min"
                         android:textAlignment="center"
                         android:textColor="@color/orange"
                         android:textSize="20sp"
@@ -163,6 +163,7 @@
                 android:indeterminateOnly="false"
                 android:progressDrawable="@drawable/progress"
                 tools:progress="60"
+                android:progress="60"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 app:layout_constraintBottom_toTopOf="@+id/txtStats"
@@ -251,11 +252,12 @@
                 android:id="@+id/idBarChart"
                 android:layout_width="260dp"
                 android:layout_height="200dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/newEventHorizontalLine2"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/newEventHorizontalLine2"/>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

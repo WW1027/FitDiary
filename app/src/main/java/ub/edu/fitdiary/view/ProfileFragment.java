@@ -318,7 +318,6 @@ public class ProfileFragment extends Fragment {
     }
 
     public void initData(){
-
         String email = this.user.getEmail();
         DocumentReference docRef=mDb.collection("users").document(email);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

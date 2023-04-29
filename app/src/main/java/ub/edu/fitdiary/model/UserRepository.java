@@ -161,7 +161,7 @@ public class UserRepository {
         Map<String, Object> signedUpUser = new HashMap<>();
         signedUpUser.put("name", name);
         signedUpUser.put("surname", surname);
-        signedUpUser.put("date", date);
+        signedUpUser.put("birthday", date);
         signedUpUser.put("sex", sex);
         signedUpUser.put("picture_url", null);
 

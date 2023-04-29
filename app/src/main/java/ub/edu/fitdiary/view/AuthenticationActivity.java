@@ -68,7 +68,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                             } else {
                                 // Si falla el logueig, fes un Toast
                                 //Log.d(TAG, "Sign up create user succeeded");
-                                Toast.makeText(getApplicationContext(), "Login failed.",
+                                Toast.makeText(getApplicationContext(), task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }

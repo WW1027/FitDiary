@@ -12,4 +12,6 @@
         <item>Man</item>
         <item>Woman</item>
     </string-array>
+    <string name="statistics">Statistics</string>
+    <string name="progress">Progress</string>
 </resources>

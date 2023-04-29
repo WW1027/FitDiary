@@ -80,8 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
             if(!mAgreeCheckBox.isChecked()){
                 Toast.makeText(getApplicationContext(), "You must agree the conditions",
                         Toast.LENGTH_SHORT).show();
-            }
-            if(!isDataEmpty(new ArrayList<>(Arrays.asList(mNameEditText, mSurnameEditText, mDateEditText)))) {
+            }else if(!isDataEmpty(new ArrayList<>(Arrays.asList(mNameEditText, mSurnameEditText, mDateEditText)))) {
                 try{
                     signUp(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());}
                 catch(Exception e){

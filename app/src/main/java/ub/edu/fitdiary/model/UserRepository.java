@@ -98,6 +98,7 @@ public class UserRepository {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 User user = new User(
                                         document.toString(), // ID = Email
+                                        document.getString("username"),
                                         document.getString("name"),
                                         document.getString("surname"),
                                         document.getString("birthday"),

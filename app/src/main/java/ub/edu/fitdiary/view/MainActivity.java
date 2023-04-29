@@ -1,7 +1,6 @@
 package ub.edu.fitdiary.view;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -32,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.homeFragment:
-                        loadFragment(new HomeFragment(),true);
+                    case R.id.statisticsFragment:
+                        loadFragment(new StatisticsFragment(),false);
                         break;
                     case R.id.calendarFragment:
-                        loadFragment(new CalendarFragment(),false);
+                        loadFragment(new CalendarFragment(),true);
                         break;
                     case R.id.profileFragment:
                         loadFragment(new ProfileFragment(),false);
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bottomNavigationView.setSelectedItemId(R.id.homeFragment);
+        bottomNavigationView.setSelectedItemId(R.id.calendarFragment);
     }
 
     public void loadFragment(Fragment fragment, boolean flag){

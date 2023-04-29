@@ -52,7 +52,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/recursive_medium"
-            android:text="Email / Username"
+            android:text="Email"
             android:textColor="@color/orange"
             android:textSize="16sp"
             android:textStyle="bold" />

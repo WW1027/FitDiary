@@ -100,7 +100,7 @@ public class UserRepository {
                                         document.toString(), // ID = Email
                                         document.getString("name"),
                                         document.getString("surname"),
-                                        document.getString("date"),
+                                        document.getString("birthday"),
                                         document.getString("sex"),
                                         document.getString("picture_url")
                                 );

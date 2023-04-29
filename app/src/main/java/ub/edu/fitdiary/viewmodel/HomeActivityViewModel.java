@@ -113,7 +113,7 @@ public class HomeActivityViewModel extends AndroidViewModel
 
         StorageReference storageRef = mStorage.getReference();
         StorageReference fileRef = storageRef.child("uploads")
-            .child(imageUri.getLastPathSegment());
+                .child(imageUri.getLastPathSegment());
 
         // Crea una tasca de pujada de fitxer a FileStorage
         UploadTask uploadTask = fileRef.putFile(imageUri);
@@ -173,4 +173,3 @@ public class HomeActivityViewModel extends AndroidViewModel
         mUsers.getValue().remove(position);
     }
 }
-

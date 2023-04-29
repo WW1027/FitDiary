@@ -14,4 +14,8 @@
     </string-array>
     <string name="statistics">Statistics</string>
     <string name="progress">Progress</string>
+    <string-array name="time_array">
+        <item>min</item>
+        <item>hour</item>
+    </string-array>
 </resources>

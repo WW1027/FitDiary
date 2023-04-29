@@ -33,10 +33,10 @@ public class DateRepository {
      */
     public void loadDates(ArrayList<Date> dates) {
         dates.clear();
-        //TODO load
+        //TODO: falta actualizar para todos los días
 
         //provisional para provar
-        for (int i = 1; i < 31; i++) {
+        for (int i = 1; i <= 31; i++) {
             String a = String.valueOf(i);
             Date date = new Date(a, "Mon");
             dates.add(date);

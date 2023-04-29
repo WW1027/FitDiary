@@ -7,4 +7,6 @@
         <item>Futbol</item>
         <item>Yoga</item>
     </string-array>
+    <string name="pulseHint">Place your index (first finger) and middle fingers on their wrist, at the base of their thumb. And count how many beats you feel in a minute.</string>
+
 </resources>

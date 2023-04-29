@@ -1,17 +1,377 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/light_orange"
-    tools:context=".view.ProfileFragment">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/light_orange">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/light_orange"
+        tools:context=".ProfileFragment">
+
+        <!-- TODO: Update blank fragment layout -->
+
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="118dp"
+            android:layout_height="87dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="47dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginEnd="246dp"
+            android:src="@drawable/profile" />
+
+        <TextView
+            android:id="@+id/profileUsernameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="116dp"
+            android:layout_marginBottom="44dp"
+            android:text="Username"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/profileUsernameImageEdit"
+            android:layout_width="52dp"
+            android:layout_height="38dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="47dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            app:srcCompat="@drawable/edit" />
+
+        <TextView
+            android:id="@+id/profileSuggestionsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/themeRow"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="266dp"
+            android:layout_marginBottom="30dp"
+            android:text="Suggestions:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:id="@+id/newEventTableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/profileImageView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="20dp"
+            android:stretchColumns="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/profileNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="40dp"
+                    android:fontFamily="@font/recursive_medium"
+                    android:text="Name"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profileNameEditText"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
+                    android:text=""
+                    android:textColor="@color/black"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                <ImageView
+                    android:id="@+id/profileNameImageEdit"
+                    android:layout_width="38dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="40dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/edit" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/profileSurnameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="40sp"
+                    android:fontFamily="@font/recursive_medium"
+                    android:text="Surname"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+
+                    />
+
+                <EditText
+                    android:id="@+id/profileSurnameEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
+                    android:text=""
+                    android:textColor="@color/black"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                <ImageView
+                    android:id="@+id/profileSurnameImageEdit"
+                    android:layout_width="38dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="40dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/edit" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:id="@+id/profileBirthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="40sp"
+                    android:fontFamily="@font/recursive_medium"
+                    android:text="Date:"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profileBirthRectangle"
+                    android:layout_width="213dp"
+                    android:layout_height="37dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_rectangle"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:fontFamily="@font/recursive_medium"
+                    android:gravity="center"
+                    android:hint="dd/mm/yyyy"
+                    android:paddingLeft="10dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:ignore="RtlCompat,TouchTargetSizeCheck" />
+
+                <ImageView
+                    android:id="@+id/profileBirthSelector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="40dp"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/date" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/profileEmailText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="40sp"
+                    android:fontFamily="@font/recursive_medium"
+                    android:text="Email"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profileEmailEditText"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
+                    android:text=""
+
+                    android:textColor="@color/black"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            </TableRow
+
+                >
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/profileSexText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="40sp"
+                    android:fontFamily="@font/recursive_medium"
+                    android:text="Sex:"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+
+                <Spinner
+                    android:id="@+id/profileSexSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginRight="45dp"
+                    android:contentDescription="@string/app_name"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </TableRow>
 
 
 
-</FrameLayout>
+        </TableLayout>
+
+        <TableRow
+            android:id="@+id/themeRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/newEventTableLayout"
+            >
+
+            <TextView
+                android:id="@+id/profileThemeText"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:fontFamily="@font/recursive_medium"
+                android:layout_marginLeft="40sp"
+                android:gravity="center"
+                android:text="Theme:"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/space"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:fontFamily="@font/recursive_medium"
+                android:layout_marginLeft="10sp"
+                android:gravity="center"
+
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/profileThemeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="200dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/orange"
+                android:visibility="visible"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </TableRow>
+
+        <EditText
+            android:id="@+id/profileSuggestionsEditText"
+            android:layout_width="263dp"
+            android:layout_height="70dp"
+            android:layout_below="@+id/profileSuggestionsText"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="-15dp"
+            android:layout_marginBottom="130dp"
+            android:background="@drawable/rounded_rectangle"
+            android:fontFamily="@font/recursive_medium"
+            android:gravity="center"
+            android:hint="It will be better if..."
+            android:paddingStart="10dp"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:ignore="RtlCompat,TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/profileSendButton"
+            android:layout_width="61dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profileSuggestionsText"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="-5dp"
+            android:layout_toEndOf="@+id/profileSuggestionsEditText"
+            android:background="@color/orange"
+            android:fontFamily="@font/recursive_medium"
+            android:text="Send"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/profileLogOutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profileSuggestionsEditText"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="-90dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/orange"
+            android:fontFamily="@font/recursive_medium"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Log Out"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
+
+    </RelativeLayout>
+
+</ScrollView>

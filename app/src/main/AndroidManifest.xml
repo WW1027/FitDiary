@@ -14,19 +14,18 @@
         <activity
             android:name="ub.edu.fitdiary.view.ResetPasswordActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="ub.edu.fitdiary.view.SignUpActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:exported="false"/>
         <activity
             android:name="ub.edu.fitdiary.view.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="ub.edu.fitdiary.view.NewEventActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="ub.edu.fitdiary.view.AuthenticationActivity"
             android:exported="true"

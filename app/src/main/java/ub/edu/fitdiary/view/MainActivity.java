@@ -24,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().hide(); //hide the title bar
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        ActionBar actionBar = getSupportActionBar();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

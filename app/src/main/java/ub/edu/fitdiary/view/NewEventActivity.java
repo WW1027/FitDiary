@@ -11,5 +11,7 @@ public class NewEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_event);
+
+        getSupportActionBar().hide(); //hide the title bar
     }
 }

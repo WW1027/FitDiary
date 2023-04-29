@@ -22,11 +22,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private final String TAG = "ResetPasswordSendEmailActivity";
 
     private ImageView mCancelButton;
-    private TextView mTitle;
-    private TextView mTextView1;
-    private TextView mTextView2;
-    private TextView mTextView3;
-    private TextView mTextView4;
     private EditText mEmailEditText;
     private Button mAcceptButton;
 
@@ -37,12 +32,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
+        getSupportActionBar().hide(); //hide the title bar
+
         mCancelButton = findViewById(R.id.resetPasswordCancel);
-        mTitle = findViewById(R.id.resetPasswordTitle);
-        mTextView1 = findViewById(R.id.resetPasswordText1);
-        mTextView2 = findViewById(R.id.resetPasswordText2);
-        mTextView3 = findViewById(R.id.resetPasswordText3);
-        mTextView4 = findViewById(R.id.resetPasswordText4);
         mEmailEditText = findViewById(R.id.resetPasswordEmailEditText);
         mAcceptButton = findViewById(R.id.resetPasswordAcceptButton);
 
@@ -62,6 +54,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
                             }
                         }
                     });
+        });
+
+        mCancelButton.setOnClickListener(view -> {
+            Intent intent = new Intent(ResetPasswordActivity.this, AuthenticationActivity.class);
+            startActivity(intent);
         });
     }
 }

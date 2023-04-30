@@ -106,6 +106,11 @@ public class ProfileFragment extends Fragment {
         themeButton = view.findViewById(R.id.profileThemeButton);
         profileImageView = view.findViewById(R.id.profileImageView);
 
+        /**
+         * Inicializar a partir de base de datos
+         */
+        initData();
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.sex_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -117,17 +122,13 @@ public class ProfileFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 updateCompletion(user.getEmail(),"sex", sexSpinner.getSelectedItem().toString());
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
 
-        /**
-         * Falta iniciar el spinner con el valor de la base de datos
-         */
-        initData();
+
 
         birthSelectorImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,7 +233,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void modifyData( TextView textView, String text, String field){
+    private void modifyData(TextView textView, String text, String field){
 
         // create a new AlertDialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -280,7 +281,6 @@ public class ProfileFragment extends Fragment {
     }
 
     public void initData(){
-
         String email = this.user.getEmail();
         DocumentReference docRef=mDb.collection("users").document(email);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -292,8 +292,10 @@ public class ProfileFragment extends Fragment {
                     nameEditText.setText(document.getString("name"));
                     surnameEditText.setText(document.getString("surname"));
                     dateEditText.setText(document.getString("birthday"));
-                    if(document.getString("sex").equals("Man")) {sexSpinner.setSelection(0);}
-                    else{ sexSpinner.setSelection(1);}
+                    if(document.getString("sex").equals("Man")) {
+                        sexSpinner.setSelection(0);}
+                    else{
+                        sexSpinner.setSelection(1);}
                 } else {
                     Toast.makeText(getContext(),"No document",Toast.LENGTH_SHORT).show();
                 }

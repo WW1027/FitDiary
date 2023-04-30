@@ -138,7 +138,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void signUp(String email, String password) {
         authenticationActivityViewModel.signUp(
                 email,
-                email,
+                password,
                 mNameEditText.getText().toString(),
                 mSurnameEditText.getText().toString(),
                 mDateEditText.getText().toString(),

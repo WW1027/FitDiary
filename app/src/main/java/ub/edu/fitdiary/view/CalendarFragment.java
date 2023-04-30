@@ -1,10 +1,14 @@
 package ub.edu.fitdiary.view;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -15,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Event;
@@ -36,6 +41,8 @@ public class CalendarFragment extends Fragment {
     private CalendarFragmentViewModel mCalendarFragmentViewModel;
     private RecyclerView mEventsCardsRV;
     private EventCardAdapter mEventCardAdapter;
+    private ImageView mDateSelector;
+    private TextView mMonthYear;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -95,6 +102,9 @@ public class CalendarFragment extends Fragment {
 
         // Buscar el botón de añadir nuevo evento en la vista raíz del fragmento
         addButton = view.findViewById(R.id.calendarFloatingActionButton);
+        mDateSelector = view.findViewById(R.id.DateSelector);
+        mMonthYear = view.findViewById(R.id.monthYearCalendar);
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +164,27 @@ public class CalendarFragment extends Fragment {
             public void OnClickSelect(int pos) {
                 //TODO Dejar ver información detallada de cada evento
 
+            }
+        });
+
+        mDateSelector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //code to pick a date from the calendar
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                //pick a date with android date picker dialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        String[] monthNames = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                        mMonthYear.setText(monthNames[month] + " " + year);
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
             }
         });
 

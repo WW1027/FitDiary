@@ -85,6 +85,7 @@ public class NewEventActivity extends AppCompatActivity {
                             mPulseText.getText().toString(),
                             mCommentText.getText().toString()
                     );
+                    finish();
                 }
             }
         });

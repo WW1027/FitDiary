@@ -14,10 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import ub.edu.fitdiary.R;
 
 public class MainActivity extends AppCompatActivity {
-
     BottomNavigationView bottomNavigationView;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

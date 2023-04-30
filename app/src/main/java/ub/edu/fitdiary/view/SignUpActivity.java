@@ -131,7 +131,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     protected void signUp(String email, String password) {
-
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

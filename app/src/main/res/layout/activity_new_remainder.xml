@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_orange"
-    tools:context=".view.NewRecordatorioActivity">
+    tools:context=".view.NewRemainderActivity">
 
     <TextView
         android:id="@+id/newRecordatorioText"
@@ -76,7 +76,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/newEventDateTextRectangle"
+                android:id="@+id/newRemainderDateTextRectangle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -89,7 +89,7 @@
                 tools:ignore="RtlCompat,TouchTargetSizeCheck" />
 
             <ImageView
-                android:id="@+id/newEventDateImageSelector"
+                android:id="@+id/newRemainderDateImageSelector"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="40dp"
@@ -126,7 +126,7 @@
                 android:padding="5dp"/>
 
             <Spinner
-                android:id="@+id/newEventSportSpinner"
+                android:id="@+id/newRemainderSportSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -175,7 +175,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/newEventDurationTextRectangle"
+                android:id="@+id/newRemainderDurationTextRectangle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -188,7 +188,7 @@
                 tools:ignore="RtlCompat,TouchTargetSizeCheck" />
 
             <Spinner
-                android:id="@+id/newEventDurationSpinner"
+                android:id="@+id/newRemainderDurationSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="15dp"
@@ -230,7 +230,7 @@
         app:layout_constraintTop_toBottomOf="@+id/newEventTableLayout" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/newRemainderTimeBeforeSpinner"
         android:layout_width="100dp"
         android:layout_height="41dp"
         android:textSize="24sp"
@@ -279,7 +279,7 @@
         tools:ignore="TextContrastCheck" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/newRemainderSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

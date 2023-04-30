@@ -35,16 +35,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import ub.edu.fitdiary.R;
-import ub.edu.fitdiary.model.User;
-import ub.edu.fitdiary.model.UserRepository;
 
 public class ProfileFragment extends Fragment {
 
@@ -54,7 +50,6 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
-    private UserRepository mRepository = UserRepository.getInstance();
     private TextView usernameTextView;
     private EditText nameEditText, surnameEditText, dateEditText, emailEditText, suggestionsEditText;
     private Button   sendButton,logOutButton, themeButton;

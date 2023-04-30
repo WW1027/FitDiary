@@ -20,12 +20,9 @@ import ub.edu.fitdiary.R;
 public class ResetPasswordActivity extends AppCompatActivity {
 
     private final String TAG = "ResetPasswordSendEmailActivity";
-
     private ImageView mCancelButton;
     private EditText mEmailEditText;
     private Button mAcceptButton;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

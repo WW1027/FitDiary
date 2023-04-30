@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import ub.edu.fitdiary.R;
-import ub.edu.fitdiary.model.EventRepository;
 import ub.edu.fitdiary.model.SportRepository;
 import ub.edu.fitdiary.viewmodel.NewEventActivtyViewModel;
 
@@ -43,7 +42,6 @@ public class NewEventActivity extends AppCompatActivity {
 
     // Atributos del view model o model del view
     private NewEventActivtyViewModel newEventActivtyViewModel;
-    private EventRepository eventRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +90,14 @@ public class NewEventActivity extends AppCompatActivity {
         });
 
         /* Ajustar Spinner de tipos de deportes disponibles */
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.sports_array, android.R.layout.simple_spinner_item);
+        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.sports_array, android.R.layout.simple_spinner_item);*/
 
         /* Ajustar Spinner de tipo de configuración de tiempo */
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.time_array, android.R.layout.simple_spinner_item);
         // Especificar el layout de uso cuando la lista de elecciones aparece
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Aplicar el adaptador al spinner
         mDurationSpinner.setAdapter(adapter2);
 
@@ -152,6 +150,7 @@ public class NewEventActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
         /* Listener del botón cancel x */
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override

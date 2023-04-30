@@ -23,15 +23,9 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     /* Elementos de la vista de AuthenticationActivity */
 
-    private ImageView mIconImage;
-    private TextView mAppName;
-    private TextView mLoginText;
-    private TextView mEmailTextView;
     private EditText mEmailEditText;
-    private TextView mPasswordTextView;
     private EditText mPasswordEditText;
     private Button mLoginButton;
-    private TextView mSignUpTextView;
     private TextView mSignUpClickText;
     private TextView mForgetPasswordText;
 
@@ -44,15 +38,11 @@ public class AuthenticationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
 
-        mIconImage = findViewById(R.id.authenticationIcon);
-        mAppName = findViewById(R.id.authenticationAppName);
-        mLoginText = findViewById(R.id.authenticationLoginText);
-        mEmailTextView = findViewById(R.id.authenticationEmailTextView);
+        getSupportActionBar().hide(); //hide ActionBar
+
         mEmailEditText = findViewById(R.id.authenticationEmailEditText);
-        mPasswordTextView = findViewById(R.id.authenticationPasswordTextView);
         mPasswordEditText = findViewById(R.id.authenticationPasswordEditText);
         mLoginButton = findViewById(R.id.authenticationLoginButton);
-        mSignUpTextView = findViewById(R.id.authenticationSignUpText);
         mSignUpClickText = findViewById(R.id.authenticationSignUpClickText);
         mForgetPasswordText = findViewById(R.id.authenticationForgetPasswordText);
 

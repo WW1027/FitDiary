@@ -98,6 +98,7 @@ public class UserRepository {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 User user = new User(
                                         document.toString(), // ID = Email
+                                        document.toString(),
                                         document.getString("name"),
                                         document.getString("surname"),
                                         document.getString("birthday"),
@@ -153,17 +154,19 @@ public class UserRepository {
      */
     public void addUser(
             String email,
+            String username,
             String name,
             String surname,
             String date,
             String sex) {
         // Obtenir informació personal de l'usuari
         Map<String, Object> signedUpUser = new HashMap<>();
+        signedUpUser.put("username", username);
         signedUpUser.put("name", name);
         signedUpUser.put("surname", surname);
         signedUpUser.put("birthday", date);
         signedUpUser.put("sex", sex);
-        signedUpUser.put("picture_url", null);
+        signedUpUser.put("picture_url", "");
 
         // Afegir-la a la base de dades
         mDb.collection("users").document(email).set(signedUpUser)

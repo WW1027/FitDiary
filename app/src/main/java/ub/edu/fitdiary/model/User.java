@@ -5,6 +5,7 @@ package ub.edu.fitdiary.model;
  */
 public class User {
     private String email; // Per exemple, el mail
+    private String username;
     private String name;
     private String surname;
     private String birthday;
@@ -17,6 +18,7 @@ public class User {
     }
     public User(
             String email,
+            String username,
             String name,
             String surname,
             String birthday,
@@ -24,6 +26,7 @@ public class User {
             String pictureURL
     ) {
         this.email = email;
+        this.username = username;
         this.name = name;
         this.surname = surname;
         this.birthday = birthday;
@@ -34,6 +37,7 @@ public class User {
 
     // Getters
     public String getEmail(){return this.email;}
+    public String getUsername(){return this.username;}
     public String getName () {
         return this.name;
     }
@@ -48,8 +52,9 @@ public class User {
 
     // Setters
     public void setEmail (String email) { this.email = email;}
+    public void setUsername(String username){ this.username = username;}
     public void setName (String name) { this.name = name; }
-    public void setSurname (String surnmae) {
+    public void setSurname (String surname) {
         this.surname = surname;
     }
     public void setBirthday(String birthday){ this.birthday = birthday;}

@@ -45,26 +45,17 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private ImageView mCancelButton;
-    private TextView mSignUpTextView;
-    private TextView mNameTextView;
     private EditText mNameEditText;
-    private TextView mSurnameTextView;
     private EditText mSurnameEditText;
-    private TextView mDateTextView;
     private EditText mDateEditText;
     private ImageView mDateImageView;
-    private TextView mSexTextView;
     private Spinner mSexSpinner;
-    private TextView mEmailTextView;
     private EditText mEmailEditText;
-    private TextView mPasswordTextView;
     private EditText mPasswordEditText;
     private CheckBox mAgreeCheckBox;
     private TextView mServiceText;
-    private TextView mAndText;
     private TextView mPrivacyText;
     private Button mAcceptButton;
-    private TextView mSignInText;
     private TextView mSignInClickText;
 
     private UserRepository mRepository;
@@ -74,30 +65,23 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        getSupportActionBar().hide(); //hide ActionBar
+
         mAuth = FirebaseAuth.getInstance();
         mRepository = UserRepository.getInstance();
 
         mCancelButton = findViewById(R.id.signUpbtnCancel);
-        mSignUpTextView = findViewById(R.id.signUpTextView);
-        mNameTextView = findViewById(R.id.signUpNameTextView);
         mNameEditText = findViewById(R.id.signUpNameEditText);
-        mSurnameTextView = findViewById(R.id.signUpSurnameTextView);
         mSurnameEditText = findViewById(R.id.signUpSurnameEditText);
-        mDateTextView = findViewById(R.id.signUpDateTextView);
         mDateEditText = findViewById(R.id.signUpDateEditText);
         mDateImageView = findViewById(R.id.signUpDateImageView);
-        mSexTextView = findViewById(R.id.signUpSexTextView);
         mSexSpinner = findViewById(R.id.signUpSexSpinner);
-        mEmailTextView = findViewById(R.id.signUpEmailTextView);
         mEmailEditText = findViewById(R.id.signUpEmailEditText);
-        mPasswordTextView = findViewById(R.id.signUpPasswordTextView);
         mPasswordEditText = findViewById(R.id.signUpPasswordEditText);
         mAgreeCheckBox = findViewById(R.id.signUpAgreeCheckBox);
         mServiceText = findViewById(R.id.signUpServiceTextView);
-        mAndText = findViewById(R.id.signUpAndTextView);
         mPrivacyText = findViewById(R.id.signUpPrivacyTextView);
         mAcceptButton = findViewById(R.id.signUpAcceptButton);
-        mSignInText = findViewById(R.id.signUpSignInText);
         mSignInClickText = findViewById(R.id.signUpSignInClickText);
 
         mAcceptButton.setOnClickListener(view -> {
@@ -149,6 +133,11 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        mCancelButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUpActivity.this, AuthenticationActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     protected void signUp(String email, String password) {
@@ -159,6 +148,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             mRepository.addUser(
+                                email,
                                 email,
                                 mNameEditText.getText().toString(),
                                 mSurnameEditText.getText().toString(),

@@ -37,6 +37,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
+        getSupportActionBar().hide(); //hide ActionBar
+
         mCancelButton = findViewById(R.id.resetPasswordCancel);
         mTitle = findViewById(R.id.resetPasswordTitle);
         mTextView1 = findViewById(R.id.resetPasswordText1);
@@ -57,7 +59,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                 Intent intent = new Intent(ResetPasswordActivity.this, AuthenticationActivity.class);
                                 startActivity(intent);
                             }else{
-                                Toast.makeText(getApplicationContext(), "User does not exit",
+                                Toast.makeText(getApplicationContext(), task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }

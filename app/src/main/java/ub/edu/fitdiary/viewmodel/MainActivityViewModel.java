@@ -60,7 +60,5 @@ public class MainActivityViewModel extends AndroidViewModel {
     */
 
 
-    public void initSports() {
-        sportRepository.initSports();
-    }
+    //public void initSports() { sportRepository.initSports();}
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +42,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ub.edu.fitdiary.R;
+import ub.edu.fitdiary.viewmodel.NewRemainderActivityViewModel;
+import ub.edu.fitdiary.viewmodel.ProfileFragmentViewModel;
 
 public class ProfileFragment extends Fragment {
 
@@ -49,15 +52,14 @@ public class ProfileFragment extends Fragment {
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
-    FirebaseUser user = mAuth.getCurrentUser();
+    private FirebaseUser user = mAuth.getCurrentUser();
     private TextView usernameTextView;
     private EditText nameEditText, surnameEditText, dateEditText, emailEditText, suggestionsEditText;
     private Button   sendButton,logOutButton, themeButton;
     private Spinner sexSpinner;
     private ImageView profileImageView, birthSelectorImageView, usernameButtonEdit,nameButtonEdit, surnameButtonEdit;
 
-
-
+    private ProfileFragmentViewModel profileFragmentViewModel;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -78,6 +80,8 @@ public class ProfileFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
+        profileFragmentViewModel = new ViewModelProvider(this)
+                .get(ProfileFragmentViewModel.class);
         initView(view);
     }
 
@@ -209,24 +213,9 @@ public class ProfileFragment extends Fragment {
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // Obtenir informació personal de l'usuari
-                            Map<String, Object> suggestion = new HashMap<>();
-                            suggestion.put("suggestion", suggestionsEditText.getText().toString());
-                            suggestion.put("date", new Date());
-
-                            // Afegir-la a la base de dades
-                            mDb.collection("users").document(user.getEmail()).collection("suggestions").document().set(suggestion)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(getContext(), "Suggestion sent", Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                Toast.makeText(getContext(), "Error sending suggestion", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-
+                            // Llamar al método de su propio model view
+                            profileFragmentViewModel.sendSuggestion(new Date(), suggestionsEditText.getText().toString());
+                            suggestionsEditText.setText("");
                         }
                     });
                     builder.setNegativeButton("No", null);
@@ -245,19 +234,19 @@ public class ProfileFragment extends Fragment {
 
     private void modifyData( TextView textView, String text, String field){
 
-// create a new AlertDialog builder
+        // create a new AlertDialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(text);
 
-// create a layout for the dialog
+        // create a layout for the dialog
         LinearLayout layout = new LinearLayout(getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
 
-// create an EditText view for user input
+        // create an EditText view for user input
         final EditText editText = new EditText(getContext());
         layout.addView(editText);
 
-// add the layout to the dialog builder
+        // add the layout to the dialog builder
         builder.setView(layout);
 
         builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
@@ -275,7 +264,7 @@ public class ProfileFragment extends Fragment {
         });
         builder.setNegativeButton("Cancel", null);
 
-// Show the confirmation dialog
+        // Show the confirmation dialog
         AlertDialog dialog = builder.create();
         dialog.show();
 

@@ -11,7 +11,7 @@ import java.util.List;
 public class SportRepository {
     private final static String TAG = "SportRepository";
 
-    /* Autoinstancia, patroón del singleton*/
+    /* Autoinstancia, patrón del singleton*/
     private static final SportRepository mInstance = new SportRepository();
 
     /** Referencia a la Base de Datos */

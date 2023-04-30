@@ -21,7 +21,7 @@ import java.util.Map;
  * Sigue el patrón de diseño Singleton.
  */
 public class UserRepository {
-    private static final String TAG = "Repository";
+    private static final String TAG = "UserRepository";
 
     /** Autoinstancia, por el patrón singleton */
     private static final UserRepository mInstance = new UserRepository();

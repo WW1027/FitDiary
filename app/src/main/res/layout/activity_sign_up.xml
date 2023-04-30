@@ -265,7 +265,8 @@
             android:hapticFeedbackEnabled="false"
             android:text="Accept"
             android:textAllCaps="false"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:ignore="TextContrastCheck" />
 
         <TableRow
             android:layout_width="match_parent"

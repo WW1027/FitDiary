@@ -28,7 +28,6 @@ public class CalendarFragment extends Fragment {
      */
     private RecyclerView mDateCardsRV;
     private DateCardAdapter mDateCardRVAdapter;
-    private CalendarFragmentViewModel mHomeFragmentViewModel; //nuestro viewModel
 
     /*
     EVENT ATRIBUTES
@@ -57,7 +56,7 @@ public class CalendarFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState){
         // Inicialitza el ViewModel d'aquesta activity (HomeActivity)
-        mHomeFragmentViewModel = new ViewModelProvider(this)
+        mCalendarFragmentViewModel = new ViewModelProvider(this)
                 .get(CalendarFragmentViewModel.class);
 
         // Anem a buscar la RecyclerView i fem dues coses:
@@ -71,21 +70,21 @@ public class CalendarFragment extends Fragment {
 
         // (2) Inicialitza el RecyclerViewAdapter i li assignem a la RecyclerView.
         mDateCardRVAdapter = new DateCardAdapter(
-                mHomeFragmentViewModel.getDates().getValue() // Passem-li referencia llista usuaris
+                mCalendarFragmentViewModel.getDates().getValue() // Passem-li referencia llista usuaris
         );
         mDateCardRVAdapter.setOnClickSelectListener(new DateCardAdapter.OnClickSelectListener() {
             // Listener que escoltarà quan interactuem amb un item en una posició donada
             // dins de la recicler view.
             @Override
             public void OnClickSelect(int pos) {
-                mHomeFragmentViewModel.selectDate(pos);
+                mCalendarFragmentViewModel.selectDate(pos);
 
             }
         });
 
         mDateCardsRV.setAdapter(mDateCardRVAdapter); // Associa l'adapter amb la ReciclerView
 
-        mHomeFragmentViewModel.loadDatesFromRepository();  // Internament pobla les dates
+        mCalendarFragmentViewModel.loadDatesFromRepository();  // Internament pobla les dates
 
 
         /*
@@ -147,6 +146,16 @@ public class CalendarFragment extends Fragment {
             }
         };
         mCalendarFragmentViewModel.getEvents().observe(getViewLifecycleOwner(), observerEvent);
+
+        mEventCardAdapter.setOnClickSelectListener(new EventCardAdapter.OnClickSelectListener() {
+            // Listener que escoltarà quan interactuem amb un item en una posició donada
+            // dins de la recicler view.
+            @Override
+            public void OnClickSelect(int pos) {
+                //TODO Dejar ver información detallada de cada evento
+
+            }
+        });
 
         // A partir d'aquí, en cas que es faci cap canvi a la llista d'usuaris, HomeActivity ho sabrá
         //mCalendarFragmentViewModel.loadEventsFromRepository();  // Internament pobla els usuaris de la BBDD

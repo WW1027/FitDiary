@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,8 +18,17 @@ import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Event;
 
 public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.ViewHolder>{
+
+
     public void hideEvent(int position) {
         notifyItemRemoved(position);
+    }
+
+    public interface OnClickSelectListener {
+        void OnClickSelect(int position);
+    }
+    public void setOnClickSelectListener(OnClickSelectListener listener) {
+        this.mOnClickSelectListener = listener;
     }
 
     /** Definición de listener (interfaz)
@@ -28,13 +38,11 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
     public interface OnClickHideListener {
         void OnClickHide(int position);
     }
-    public interface OnClickPictureListener {
-        void OnClickImageToast(String username);
-    }
+
     // Instancias que necesitamos para poder gestionar los eventos card views
     private ArrayList<Event> mEvents;
     private OnClickHideListener mOnClickHideListener;
-    private OnClickPictureListener mOnClickPictureListener;
+    private OnClickSelectListener mOnClickSelectListener;
 
     // Constructor
     public EventCardAdapter(ArrayList<Event> eventList) {
@@ -46,10 +54,6 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
         this.mOnClickHideListener = listener;
     }
 
-    // Sirve para poder ver la información de un usuario al hacer click en la imagen desde calendar fragment
-    public void setOnClickImageToastListener(OnClickPictureListener listener) {
-        this.mOnClickPictureListener = listener;
-    }
 
     @NonNull
     public EventCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -77,7 +81,7 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
         // El ViewHolder té el mètode que s'encarrega de llegir els atributs del User (1r parametre),
         // i assignar-los a les variables del ViewHolder.
         // Qualsevol listener que volguem posar a un item, ha d'entrar com a paràmetre extra (2n).
-        holder.bind(mEvents.get(position), this.mOnClickHideListener, this.mOnClickPictureListener);
+        holder.bind(mEvents.get(position), this.mOnClickHideListener, this.mOnClickSelectListener);
     }
 
 
@@ -87,15 +91,17 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
         private final ImageView mCardPictureUrl;
         private final TextView mCardComment;
         private final ImageView mHideButton;
+        private final MaterialCardView mCard;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            mCard = itemView.findViewById(R.id.card2);
             mCardPictureUrl = itemView.findViewById(R.id.avatar);
             mCardComment = itemView.findViewById(R.id.comment);
             mHideButton = itemView.findViewById(R.id.hideButton);
         }
 
-        public void bind(final Event event, OnClickHideListener listener, OnClickPictureListener listener2) {
+        public void bind(final Event event, OnClickHideListener listener, OnClickSelectListener listener2) {
             mCardComment.setText(event.getComment());
             // Carga la imagen de la URL en el ImageView
             Picasso.get().load(event.getImageURL()).into(mCardPictureUrl);
@@ -106,11 +112,21 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
                 @Override //el getAdapterPosition devuelve la posición de la caja user, 0 1 2 etc
                 public void onClick(View view) {listener.OnClickHide(getAdapterPosition());}
             });
+            mCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener2.OnClickSelect(getAdapterPosition());
+                    //TODO Implementar cuando se le clica a un CardView de event
+                }
+            });
             /*** Nos interesa cuando se clicka nos muestre la info detallada ***/
+            /*
             mCardPictureUrl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {listener2.OnClickImageToast(event.toString());}
             });
+            */
+
         }
     }
 }

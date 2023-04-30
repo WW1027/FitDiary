@@ -90,10 +90,6 @@ public class NewEventActivity extends AppCompatActivity {
             }
         });
 
-        /* Ajustar Spinner de tipos de deportes disponibles */
-        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.sports_array, android.R.layout.simple_spinner_item);*/
-
         /* Ajustar Spinner de tipo de configuración de tiempo */
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.time_array, android.R.layout.simple_spinner_item);

@@ -21,7 +21,7 @@ public class CalendarFragmentViewModel extends AndroidViewModel {
     private final MutableLiveData<ArrayList<Event>> mEvents; // Los eventos que la RecyclerView muestra en el Calendar section
     private final MutableLiveData<String> mPictureUrl; // URL de la foto del evento del usuario
     private EventRepository mEventRepository; // Repositorio de eventos
-    public CalendarFragmentViewModel(@NonNull Application application) {
+    public CalendarFragmentViewModel(Application application) {
         super(application);
 
         mDates = new MutableLiveData<>(new ArrayList<>());

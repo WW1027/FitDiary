@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +30,7 @@ import java.util.Calendar;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.UserRepository;
+import ub.edu.fitdiary.viewmodel.AuthenticationActivityViewModel;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -50,7 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button mAcceptButton;
     private TextView mSignInClickText;
 
-    private UserRepository mRepository;
+    private AuthenticationActivityViewModel authenticationActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +61,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         getSupportActionBar().hide(); //hide the title bar
 
-        mAuth = FirebaseAuth.getInstance();
-        mRepository = UserRepository.getInstance();
+        authenticationActivityViewModel =  new ViewModelProvider(this)
+                .get(AuthenticationActivityViewModel.class);
+        //mAuth = FirebaseAuth.getInstance();
+        //mRepository = UserRepository.getInstance();
 
         mCancelButton = findViewById(R.id.signUpbtnCancel);
         mNameEditText = findViewById(R.id.signUpNameEditText);
@@ -123,6 +127,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        // Calcelar acción
         mCancelButton.setOnClickListener(view -> {
             Intent intent = new Intent(SignUpActivity.this, AuthenticationActivity.class);
             startActivity(intent);
@@ -131,7 +136,22 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     protected void signUp(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
+        authenticationActivityViewModel.signUp(
+                email,
+                email,
+                mNameEditText.getText().toString(),
+                mSurnameEditText.getText().toString(),
+                mDateEditText.getText().toString(),
+                mSexSpinner.getSelectedItem().toString()).observe(this, result -> {
+            if (result) {
+                Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Account creation failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        /*mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -153,7 +173,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                });*/
     }
 
     protected boolean isEmpty(EditText text){

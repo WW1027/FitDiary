@@ -10,12 +10,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import ub.edu.fitdiary.R;
+import ub.edu.fitdiary.viewmodel.AuthenticationActivityViewModel;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -23,6 +25,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private ImageView mCancelButton;
     private EditText mEmailEditText;
     private Button mAcceptButton;
+    private AuthenticationActivityViewModel authenticationActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +34,27 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         getSupportActionBar().hide(); //hide the title bar
 
+        authenticationActivityViewModel = new ViewModelProvider(this)
+                .get(AuthenticationActivityViewModel.class);
+
         mCancelButton = findViewById(R.id.resetPasswordCancel);
         mEmailEditText = findViewById(R.id.resetPasswordEmailEditText);
         mAcceptButton = findViewById(R.id.resetPasswordAcceptButton);
 
         mAcceptButton.setOnClickListener(view -> {
-            FirebaseAuth.getInstance().sendPasswordResetEmail(mEmailEditText.getText().toString())
+            authenticationActivityViewModel.sendResetPasswordEmail(mEmailEditText.getText().toString()).observe(this, result -> {
+                if (result) {
+                    Toast.makeText(getApplicationContext(), "Email Sent Successfully!!!",
+                            Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ResetPasswordActivity.this, AuthenticationActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Email Sent Failed!!!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+            /*FirebaseAuth.getInstance().sendPasswordResetEmail(mEmailEditText.getText().toString())
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -51,7 +69,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                             }
                         }
                     });
-        });
+        });*/
 
         mCancelButton.setOnClickListener(view -> {
             Intent intent = new Intent(ResetPasswordActivity.this, AuthenticationActivity.class);

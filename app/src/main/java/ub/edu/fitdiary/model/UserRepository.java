@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -28,6 +30,7 @@ public class UserRepository {
 
     /** Referencia a la Base de Datos */
     private FirebaseFirestore mDb;
+    private FirebaseAuth mAuth;
 
     /** Definición de listener (interfaz),
      *  para escuchar cuando se hayan acabado de leer los usuarios de la BBDD  */
@@ -51,6 +54,7 @@ public class UserRepository {
      * como marca el patrón de diseño Singleton class
      */
     private UserRepository() {
+        mAuth = FirebaseAuth.getInstance();
         mDb = FirebaseFirestore.getInstance();
     }
 
@@ -80,6 +84,12 @@ public class UserRepository {
      */
     public void setOnLoadUserPictureListener(OnLoadUserPictureUrlListener listener) {
         mOnLoadUserPictureUrlListener = listener;
+    }
+
+    /**/
+    public void authenticateUser(String email, String password, OnCompleteListener<AuthResult> listener) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(listener);
     }
 
     /**
@@ -202,4 +212,5 @@ public class UserRepository {
                     Log.d(TAG, "Photo upload failed: " + pictureUrl);
                 });
     }
+
 }

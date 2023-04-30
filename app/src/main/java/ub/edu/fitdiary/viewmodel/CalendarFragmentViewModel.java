@@ -55,8 +55,8 @@ public class CalendarFragmentViewModel extends AndroidViewModel {
     }
 
     /* Mètode que crida a carregar dades dels usuaris */
-    public void loadDatesFromRepository() {
-        mDateRepository.loadDates(mDates.getValue());
+    public void loadDatesFromRepository(CharSequence monthYear) {
+        mDateRepository.loadDates(mDates.getValue(), monthYear);
     }
 
     public void setDates(ArrayList<Date> dates) {

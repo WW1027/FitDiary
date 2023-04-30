@@ -18,8 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Event;
@@ -91,7 +93,15 @@ public class CalendarFragment extends Fragment {
 
         mDateCardsRV.setAdapter(mDateCardRVAdapter); // Associa l'adapter amb la ReciclerView
 
-        mCalendarFragmentViewModel.loadDatesFromRepository();  // Internament pobla les dates
+
+        mMonthYear = view.findViewById(R.id.monthYearCalendar);
+        Calendar calendar = Calendar.getInstance();
+        // Inicialment mostrarà el mes i any actual
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        mMonthYear.setText(dateFormat.format(calendar.getTime()));
+
+        mCalendarFragmentViewModel.loadDatesFromRepository(mMonthYear.getText());  // Internament pobla les dates
+
 
 
         /*
@@ -102,8 +112,7 @@ public class CalendarFragment extends Fragment {
 
         // Buscar el botón de añadir nuevo evento en la vista raíz del fragmento
         addButton = view.findViewById(R.id.calendarFloatingActionButton);
-        mDateSelector = view.findViewById(R.id.DateSelector);
-        mMonthYear = view.findViewById(R.id.monthYearCalendar);
+        mDateSelector = view.findViewById(R.id.DateSelector);;
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,9 +191,12 @@ public class CalendarFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         String[] monthNames = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
                         mMonthYear.setText(monthNames[month] + " " + year);
+                        mCalendarFragmentViewModel.loadDatesFromRepository(mMonthYear.getText());
                     }
                 }, year, month, day);
                 datePickerDialog.show();
+
+
             }
         });
 

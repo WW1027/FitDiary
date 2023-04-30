@@ -1,6 +1,11 @@
 package ub.edu.fitdiary.model;
 
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class DateRepository {
 
@@ -31,14 +36,35 @@ public class DateRepository {
      * Mètode que llegeix els usuaris. Vindrà cridat des de fora i quan acabi,
      * avisarà sempre als listeners, invocant el seu OnLoadUsers.
      */
-    public void loadDates(ArrayList<Date> dates) {
+    public void loadDates(ArrayList<Date> dates, CharSequence monthYear) {
         dates.clear();
-        //TODO: falta actualizar para todos los días
 
-        //provisional para provar
-        for (int i = 1; i <= 31; i++) {
-            String a = String.valueOf(i);
-            Date date = new Date(a, "Mon");
+        // TODO Obtener mes y año seleccionados
+        /*
+        String[] monthYearArray = monthYear.toString().split(" ");
+        int month = Arrays.asList(new DateFormatSymbols().getShortMonths()).indexOf(monthYearArray[0]);
+        int year = Integer.parseInt(monthYearArray[1]);
+         */
+
+        int month = 3; //abril
+        int year = 2023; //2023
+
+        // Crear objeto GregorianCalendar para el mes y año seleccionados
+        // Crear objeto GregorianCalendar para el mes y año seleccionados
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+
+        // Obtener último día del mes
+        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        // Crear objetos Date para cada día del mes
+        for (int i = 1; i <= lastDay; i++) {
+            calendar.set(Calendar.DAY_OF_MONTH, i);
+            String dayOfWeek = new SimpleDateFormat("EEE").format(calendar.getTime());
+            Date date = new Date(String.valueOf(i), dayOfWeek);
             dates.add(date);
         }
 

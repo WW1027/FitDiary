@@ -49,7 +49,7 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
         return mUserData;
     }
 
-    public void loadUserData(String email) {
+    private void loadUserData(String email) {
         userRepository.getUser(email).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot document) {

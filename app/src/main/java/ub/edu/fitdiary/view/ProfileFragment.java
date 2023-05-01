@@ -61,6 +61,9 @@ public class ProfileFragment extends Fragment {
     private Spinner sexSpinner;
     private ImageView profileImageView, birthSelectorImageView, usernameButtonEdit,nameButtonEdit, surnameButtonEdit;
 
+    //Esta variable sirve para que el primer onClickListener del sexspinner de editar no haga nada, para que no lo setea a "Man"
+    private boolean isInitialSelection = true;
+
     private ProfileFragmentViewModel profileFragmentViewModel;
     public ProfileFragment() {
         // Required empty public constructor
@@ -85,6 +88,12 @@ public class ProfileFragment extends Fragment {
         profileFragmentViewModel = new ViewModelProvider(this)
                 .get(ProfileFragmentViewModel.class);
         initView(view);
+    }
+
+    public void onResume() {
+        super.onResume();
+        isInitialSelection = true;
+
     }
 
     private void initView(View view) {
@@ -136,7 +145,9 @@ public class ProfileFragment extends Fragment {
         sexSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                updateCompletion(user.getEmail(),"sex", sexSpinner.getSelectedItem().toString());
+                if (!isInitialSelection)
+                    profileFragmentViewModel.updateCompletion("sex", sexSpinner.getSelectedItem().toString());
+                else isInitialSelection = false;
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -159,7 +170,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         dateEditText.setText(day + "/" + (month + 1) + "/" + year);
-                        updateCompletion(user.getEmail(), "birthday", dateEditText.getText().toString());
+                        updateCompletion("birthday", dateEditText.getText().toString());
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -199,7 +210,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Logout
-                        mAuth.signOut();
+                        profileFragmentViewModel.signOut();
                         Intent intent = new Intent(getContext(), AuthenticationActivity.class);
                         startActivity(intent);
                     }
@@ -268,7 +279,7 @@ public class ProfileFragment extends Fragment {
                 /********************************************************
                  Modificar en la base de datos //Se tiene que pasar por parámetro qué campo se va a modificar
                  *********************************************************/
-                updateCompletion(user.getEmail(), field, message);
+                updateCompletion(field, message);
 
             }
         });
@@ -280,9 +291,9 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    protected void updateCompletion(String email, String field, String text) {
+    protected void updateCompletion(String field, String text) {
         // Como es cambio en la base de datos, se lo pedimos a viewmodel
-        profileFragmentViewModel.updateCompletion(email, field, text);
+        profileFragmentViewModel.updateCompletion(field, text);
     }
 
     public void initData(){

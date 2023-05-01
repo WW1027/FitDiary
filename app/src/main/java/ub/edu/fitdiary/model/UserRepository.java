@@ -265,8 +265,9 @@ public class UserRepository {
                 });
     }
 
-    public void updateCompletion(String email, String field, String text) {
+    public void updateCompletion(String field, String text) {
         // Obtenir informació personal de l'usuari
+        String email=mAuth.getCurrentUser().getEmail();
         Map<String, Object> signedUpUser = new HashMap<>();
         signedUpUser.put(field, text);
 

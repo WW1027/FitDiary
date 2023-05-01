@@ -126,8 +126,8 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
         mDb.collection("users").document(getEmail()).update("sex", newSex);
     }
 
-    public void updateCompletion(String user, String field, String text) {
-        userRepository.updateCompletion(user, field, text);
+    public void updateCompletion(String field, String text) {
+        userRepository.updateCompletion(field, text);
     }
 
     public void signOut() {

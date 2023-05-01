@@ -174,11 +174,11 @@ public class UserRepository {
         });
 
         return userLiveData;
-    }
+    }*/
     public Task<DocumentSnapshot> getUser(String email) {
         DocumentReference documentReference = mDb.collection("users").document(email);
         return documentReference.get();
-    }*/
+    }
 
     /**
      * Método que lee la Url de una foto de perfil de un usuario indicado por su

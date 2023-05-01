@@ -26,7 +26,7 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
     private SuggestionRepository suggestionRepository;
     private UserRepository userRepository;
 
-    private MutableLiveData<User> mUserData = new MutableLiveData<>();
+    private MutableLiveData<User> mUserData;
 
     private FirebaseFirestore mDb;
 
@@ -35,6 +35,9 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
         suggestionRepository = SuggestionRepository.getInstance();
         userRepository = UserRepository.getInstance();
         mDb = FirebaseFirestore.getInstance();
+        mUserData = new MutableLiveData<>();
+
+        loadUserData(getEmail());
     }
 
     public void sendSuggestion(Date date, String suggestion) {
@@ -65,6 +68,63 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
         });
     }
 
+   /* public String getEmail() {
+        return mEmail;
+    }
+
+    public LiveData<String> getName() {
+        return mName;
+    }
+
+    public LiveData<String> getSurname() {
+        return mSurname;
+    }
+
+    public LiveData<String> getBirthday() {
+        return mBirthday;
+    }
+
+    public LiveData<String> getSex() {
+        return mSex;
+    }
+
+    public void loadData() {
+        userRepository.getUser().observeForever(new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    mName.setValue(user.getName());
+                    mSurname.setValue(user.getSurname());
+                    mBirthday.setValue(user.getBirthday());
+                    mSex.setValue(user.getSex());
+                }
+            }
+        });
+    }*/
+
+    /*private void loadData() {
+        DocumentReference docRef = mDb.collection("users").document(email);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot document) {
+                if (document.exists()) {
+                    name.setValue(document.getString("name"));
+                    surname.setValue(document.getString("surname"));
+                    birthday.setValue(document.getString("birthday"));
+                    sex.setValue(document.getString("sex"));
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Manejar errores
+            }
+        });
+    }*/
+
+    public void updateSex(String newSex) {
+        mDb.collection("users").document(getEmail()).update("sex", newSex);
+    }
 
     public void updateCompletion(String user, String field, String text) {
         userRepository.updateCompletion(user, field, text);
@@ -74,4 +134,7 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
         userRepository.signOut();
     }
 
+    public String getEmail() {
+        return userRepository.getEmail();
+    }
 }

@@ -117,7 +117,21 @@ public class ProfileFragment extends Fragment {
         /**
          * Inicializar a partir de base de datos
          */
-        initData();
+        //initData();
+        profileFragmentViewModel.getUserData().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    usernameTextView.setText(user.getUsername());
+                    nameEditText.setText(user.getName());
+                    surnameEditText.setText(user.getSurname());
+                    dateEditText.setText(user.getBirthday());
+                    emailEditText.setText(profileFragmentViewModel.getEmail());
+                    sexSpinner.setSelection(adapter.getPosition(user.getSex()));
+                }
+            }
+        });
+
 
         sexSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -223,9 +237,6 @@ public class ProfileFragment extends Fragment {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
-
-
-
             }
         });
 
@@ -270,18 +281,13 @@ public class ProfileFragment extends Fragment {
     }
 
     protected void updateCompletion(String email, String field, String text) {
-        // Obtenir informació personal de l'usuari
-        /*Map<String, Object> signedUpUser = new HashMap<>();
-        signedUpUser.put(field, text);
-
-        // Actualitzar-la a la base de dades
-        mDb.collection("users").document(email).update(signedUpUser);*/
+        // Como es cambio en la base de datos, se lo pedimos a viewmodel
         profileFragmentViewModel.updateCompletion(email, field, text);
     }
 
     public void initData(){
         String email = this.user.getEmail();
-        DocumentReference docRef=mDb.collection("users").document(email);
+        DocumentReference docRef = mDb.collection("users").document(email);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot document) {
@@ -305,6 +311,5 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
             }});
     }
-
 
 }

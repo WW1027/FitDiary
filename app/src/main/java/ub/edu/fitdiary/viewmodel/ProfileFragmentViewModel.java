@@ -2,6 +2,8 @@ package ub.edu.fitdiary.viewmodel;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -13,9 +15,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ub.edu.fitdiary.model.SuggestionRepository;
 import ub.edu.fitdiary.model.User;
@@ -47,44 +52,29 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
     }
 
     private void loadUserData(String email) {
-        userRepository.getUser(email).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("users").document(email);
+        documentReference.addSnapshotListener(new com.google.firebase.firestore.EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot document) {
-                if (document.exists()) {
-                    User user = document.toObject(User.class);
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    mUserData.setValue(null);
+                    return;
+                }
+
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    User user = documentSnapshot.toObject(User.class);
                     mUserData.setValue(user);
                 } else {
                     mUserData.setValue(null);
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                mUserData.setValue(null);
-            }
         });
+
     }
 
-   /* public String getEmail() {
-        return mEmail;
-    }
-
-    public LiveData<String> getName() {
-        return mName;
-    }
-
-    public LiveData<String> getSurname() {
-        return mSurname;
-    }
-
-    public LiveData<String> getBirthday() {
-        return mBirthday;
-    }
-
-    public LiveData<String> getSex() {
-        return mSex;
-    }
-
+    /*
     public void loadData() {
         userRepository.getUser().observeForever(new Observer<User>() {
             @Override
@@ -97,7 +87,7 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
                 }
             }
         });
-    }*/
+    }
 
     /*private void loadData() {
         DocumentReference docRef = mDb.collection("users").document(email);

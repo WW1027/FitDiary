@@ -37,15 +37,8 @@ public class UserRepository {
     /** Referencia a la Base de Datos */
     private FirebaseFirestore mDb;
     private FirebaseAuth mAuth;
-    private FirebaseUser user;
 
-    public void signOut() {
-        mAuth.signOut();
-    }
 
-    public String getEmail() {
-        return user.getEmail();
-    }
 
     /** Definición de listener (interfaz),
      *  para escuchar cuando se hayan acabado de leer los usuarios de la BBDD  */
@@ -71,7 +64,14 @@ public class UserRepository {
     private UserRepository() {
         mAuth = FirebaseAuth.getInstance();
         mDb = FirebaseFirestore.getInstance();
-        user = mAuth.getCurrentUser();
+    }
+    public void signOut() {
+        mAuth.signOut();
+    }
+
+    public String getEmail() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        return user.getEmail();
     }
 
     /**
@@ -106,10 +106,6 @@ public class UserRepository {
     public void authenticateUser(String email, String password, OnCompleteListener<AuthResult> listener) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(listener);
-    }
-
-    public String getCurrentUserEmail() {
-        return user.getEmail();
     }
 
     /**
@@ -175,10 +171,6 @@ public class UserRepository {
 
         return userLiveData;
     }*/
-    public Task<DocumentSnapshot> getUser(String email) {
-        DocumentReference documentReference = mDb.collection("users").document(email);
-        return documentReference.get();
-    }
 
     /**
      * Método que lee la Url de una foto de perfil de un usuario indicado por su

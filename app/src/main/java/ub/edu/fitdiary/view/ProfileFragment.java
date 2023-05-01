@@ -51,10 +51,10 @@ public class ProfileFragment extends Fragment {
 
     //Get all the views in the fragment_profile.xml
 
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    //private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
-    private FirebaseUser user = mAuth.getCurrentUser();
+    //private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
+    //private FirebaseUser user = mAuth.getCurrentUser();
     private TextView usernameTextView;
     private EditText nameEditText, surnameEditText, dateEditText, emailEditText, suggestionsEditText;
     private Button   sendButton,logOutButton, themeButton;
@@ -296,7 +296,7 @@ public class ProfileFragment extends Fragment {
         profileFragmentViewModel.updateCompletion(field, text);
     }
 
-    public void initData(){
+    /*public void initData(){
         String email = this.user.getEmail();
         DocumentReference docRef = mDb.collection("users").document(email);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -321,6 +321,6 @@ public class ProfileFragment extends Fragment {
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
             }});
-    }
+    }*/
 
 }

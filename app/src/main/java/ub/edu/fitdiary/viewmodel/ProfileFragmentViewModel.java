@@ -28,13 +28,10 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
 
     private MutableLiveData<User> mUserData;
 
-    private FirebaseFirestore mDb;
-
     public ProfileFragmentViewModel(Application application) {
         super(new Application());
         suggestionRepository = SuggestionRepository.getInstance();
         userRepository = UserRepository.getInstance();
-        mDb = FirebaseFirestore.getInstance();
         mUserData = new MutableLiveData<>();
 
         loadUserData(getEmail());
@@ -122,9 +119,6 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
         });
     }*/
 
-    public void updateSex(String newSex) {
-        mDb.collection("users").document(getEmail()).update("sex", newSex);
-    }
 
     public void updateCompletion(String field, String text) {
         userRepository.updateCompletion(field, text);

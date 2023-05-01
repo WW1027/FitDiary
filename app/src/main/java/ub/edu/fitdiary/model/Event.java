@@ -1,6 +1,6 @@
 package ub.edu.fitdiary.model;
 
-public class    Event {
+public class Event {
     private String date;
     private String sport;
     private String duration;

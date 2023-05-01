@@ -50,11 +50,6 @@ import ub.edu.fitdiary.viewmodel.ProfileFragmentViewModel;
 public class ProfileFragment extends Fragment {
 
     //Get all the views in the fragment_profile.xml
-
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-    private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
-    private FirebaseUser user = mAuth.getCurrentUser();
     private TextView usernameTextView;
     private EditText nameEditText, surnameEditText, dateEditText, emailEditText, suggestionsEditText;
     private Button   sendButton,logOutButton, themeButton;
@@ -136,7 +131,7 @@ public class ProfileFragment extends Fragment {
         sexSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                updateCompletion(user.getEmail(),"sex", sexSpinner.getSelectedItem().toString());
+                updateCompletion(profileFragmentViewModel.getEmail(),"sex", sexSpinner.getSelectedItem().toString());
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -159,7 +154,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         dateEditText.setText(day + "/" + (month + 1) + "/" + year);
-                        updateCompletion(user.getEmail(), "birthday", dateEditText.getText().toString());
+                        updateCompletion(profileFragmentViewModel.getEmail(), "birthday", dateEditText.getText().toString());
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -199,7 +194,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Logout
-                        mAuth.signOut();
+                        profileFragmentViewModel.signOut();
                         Intent intent = new Intent(getContext(), AuthenticationActivity.class);
                         startActivity(intent);
                     }
@@ -268,7 +263,7 @@ public class ProfileFragment extends Fragment {
                 /********************************************************
                  Modificar en la base de datos //Se tiene que pasar por parámetro qué campo se va a modificar
                  *********************************************************/
-                updateCompletion(user.getEmail(), field, message);
+                updateCompletion(profileFragmentViewModel.getEmail(), field, message);
 
             }
         });
@@ -285,7 +280,7 @@ public class ProfileFragment extends Fragment {
         profileFragmentViewModel.updateCompletion(email, field, text);
     }
 
-    public void initData(){
+    /*public void initData(){
         String email = this.user.getEmail();
         DocumentReference docRef = mDb.collection("users").document(email);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -310,6 +305,6 @@ public class ProfileFragment extends Fragment {
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
             }});
-    }
+    }*/
 
 }

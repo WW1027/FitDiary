@@ -61,8 +61,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         authenticationActivityViewModel =  new ViewModelProvider(this)
                 .get(AuthenticationActivityViewModel.class);
-        //mAuth = FirebaseAuth.getInstance();
-        //mRepository = UserRepository.getInstance();
 
         mCancelButton = findViewById(R.id.signUpbtnCancel);
         mNameEditText = findViewById(R.id.signUpNameEditText);
@@ -149,29 +147,6 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(this, "Account creation failed", Toast.LENGTH_SHORT).show();
             }
         });
-        /*mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            mRepository.addUser(
-                                    email,
-                                    email,
-                                    mNameEditText.getText().toString(),
-                                    mSurnameEditText.getText().toString(),
-                                    mDateEditText.getText().toString(),
-                                    mSexSpinner.getSelectedItem().toString()
-                            );
-                            // Anar a la pantalla home de l'usuari autenticat
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            //Log.d(TAG, "Sign up create user succeeded");
-                            Toast.makeText(getApplicationContext(), task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
     }
 
     protected boolean isEmpty(EditText text){

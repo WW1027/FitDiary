@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
@@ -42,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ub.edu.fitdiary.R;
+import ub.edu.fitdiary.model.User;
 import ub.edu.fitdiary.viewmodel.NewRemainderActivityViewModel;
 import ub.edu.fitdiary.viewmodel.ProfileFragmentViewModel;
 
@@ -106,16 +108,16 @@ public class ProfileFragment extends Fragment {
         themeButton = view.findViewById(R.id.profileThemeButton);
         profileImageView = view.findViewById(R.id.profileImageView);
 
-        /**
-         * Inicializar a partir de base de datos
-         */
-        initData();
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.sex_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         sexSpinner.setAdapter(adapter);
+
+        /**
+         * Inicializar a partir de base de datos
+         */
+        initData();
 
         sexSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -127,8 +129,6 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
-
 
         birthSelectorImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,12 +145,10 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         dateEditText.setText(day + "/" + (month + 1) + "/" + year);
+                        updateCompletion(user.getEmail(), "birthday", dateEditText.getText().toString());
                     }
                 }, year, month, day);
                 datePickerDialog.show();
-
-                updateCompletion(user.getEmail(), "birthday", dateEditText.getText().toString());
-
             }
         });
 
@@ -273,11 +271,12 @@ public class ProfileFragment extends Fragment {
 
     protected void updateCompletion(String email, String field, String text) {
         // Obtenir informació personal de l'usuari
-        Map<String, Object> signedUpUser = new HashMap<>();
+        /*Map<String, Object> signedUpUser = new HashMap<>();
         signedUpUser.put(field, text);
 
         // Actualitzar-la a la base de dades
-        mDb.collection("users").document(email).update(signedUpUser);
+        mDb.collection("users").document(email).update(signedUpUser);*/
+        profileFragmentViewModel.updateCompletion(email, field, text);
     }
 
     public void initData(){
@@ -306,5 +305,6 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
             }});
     }
+
 
 }

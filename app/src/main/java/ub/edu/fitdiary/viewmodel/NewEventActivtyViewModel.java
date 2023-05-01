@@ -43,7 +43,6 @@ public class NewEventActivtyViewModel extends AndroidViewModel {
     }
 
     public void getSports(SportRepository.OnSportsLoadedListener listener) {
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("sports")
                 .get()

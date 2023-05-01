@@ -35,14 +35,6 @@ public class SportRepository {
         void onSportsLoaded(List<String> sports);
     }
 
-
-    public void initSports() {
-        //Quiero recuperar la lista de deportes que tengo en la base de datos
-        //Buscamos en la base de datos los deportes que hay
-        CollectionReference docRef = mDb.collection("sports");
-
-    }
-
     private void addSport(Sport sport) {
         CollectionReference docRef = mDb.collection("sports");
         docRef.document(sport.getName()).set(sport);

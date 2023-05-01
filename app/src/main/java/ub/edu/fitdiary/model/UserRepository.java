@@ -4,11 +4,17 @@ package ub.edu.fitdiary.model;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -31,6 +37,15 @@ public class UserRepository {
     /** Referencia a la Base de Datos */
     private FirebaseFirestore mDb;
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
+    public void signOut() {
+        mAuth.signOut();
+    }
+
+    public String getEmail() {
+        return user.getEmail();
+    }
 
     /** Definición de listener (interfaz),
      *  para escuchar cuando se hayan acabado de leer los usuarios de la BBDD  */
@@ -56,6 +71,7 @@ public class UserRepository {
     private UserRepository() {
         mAuth = FirebaseAuth.getInstance();
         mDb = FirebaseFirestore.getInstance();
+        user = mAuth.getCurrentUser();
     }
 
     /**
@@ -92,11 +108,15 @@ public class UserRepository {
                 .addOnCompleteListener(listener);
     }
 
+    public String getCurrentUserEmail() {
+        return user.getEmail();
+    }
+
     /**
      * Método que lee los usuarios. Vendrá llamado desde fuera y cuando acabe,
      * avisará siempre a los listeners, invocando su OnLoadUsers.
      */
-    public void loadUsers(ArrayList<User> users){
+    /*public void loadUsers(ArrayList<User> users){
         users.clear();
         mDb.collection("users")
                 .get()
@@ -126,7 +146,39 @@ public class UserRepository {
                         }
                     }
                 });
+    }*/
+
+    /**
+     * Método que lee un usuario. Vendrá llamado desde fuera y cuando acabe,
+     * avisará siempre al listener, invocando su OnLoadUser.
+     */
+    /*public LiveData<User> getUser(String email) {
+        MutableLiveData<User> userLiveData = new MutableLiveData<>();
+        DocumentReference docRef = mDb.collection("users").document(email);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot document) {
+                if (document.exists()) {
+                    User user = document.toObject(User.class);
+                    userLiveData.setValue(user);
+                } else {
+                    userLiveData.setValue(null);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                userLiveData.setValue(null);
+                // Manejar errores
+            }
+        });
+
+        return userLiveData;
     }
+    public Task<DocumentSnapshot> getUser(String email) {
+        DocumentReference documentReference = mDb.collection("users").document(email);
+        return documentReference.get();
+    }*/
 
     /**
      * Método que lee la Url de una foto de perfil de un usuario indicado por su
@@ -213,4 +265,12 @@ public class UserRepository {
                 });
     }
 
+    public void updateCompletion(String email, String field, String text) {
+        // Obtenir informació personal de l'usuari
+        Map<String, Object> signedUpUser = new HashMap<>();
+        signedUpUser.put(field, text);
+
+        // Actualitzar-la a la base de dades
+        mDb.collection("users").document(email).update(signedUpUser);
+    }
 }

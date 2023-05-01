@@ -53,7 +53,7 @@ public class UserRepository {
         void onLoadUsers(ArrayList<User> users);
     }
 
-    public ArrayList<OnLoadUsersListener> mOnLoadUsersListeners = new ArrayList<>();
+    private ArrayList<OnLoadUsersListener> mOnLoadUsersListeners = new ArrayList<>();
 
     /** Definición de listener (interfaz)
      * para poder escuchar cuando se haya terminado de leer la Url de la foto de perfil
@@ -62,7 +62,7 @@ public class UserRepository {
         void OnLoadUserPictureUrl(String pictureUrl);
     }
 
-    public OnLoadUserPictureUrlListener mOnLoadUserPictureUrlListener;
+    private OnLoadUserPictureUrlListener mOnLoadUserPictureUrlListener;
 
     /**
      * Constructor privado para forzar la instanciación con getInstance(),

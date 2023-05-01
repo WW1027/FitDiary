@@ -51,7 +51,7 @@ public class EventRepository {
         void onLoadUsers(ArrayList<Event> events);
     }
 
-    public ArrayList<OnLoadEventsListener> mOnLoadEventsListeners = new ArrayList<>();
+    private ArrayList<OnLoadEventsListener> mOnLoadEventsListeners = new ArrayList<>();
 
     /** Definición de listener (interfaz)
      * para poder escuchar cuando se haya acabado de leer la Url de la foto de evento
@@ -60,7 +60,7 @@ public class EventRepository {
         void OnLoadEventPictureUrl(String pictureUrl);
     }
 
-    public OnLoadEventPictureUrlListener mOnLoadEventPictureUrlListener;
+    private OnLoadEventPictureUrlListener mOnLoadEventPictureUrlListener;
 
     /**
      * Añadir un listener de la operación OnLoadEventsListener.

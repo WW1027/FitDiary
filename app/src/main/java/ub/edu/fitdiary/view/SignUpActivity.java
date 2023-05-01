@@ -36,8 +36,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private final String TAG = "SignUpActivity";
 
-    private FirebaseAuth mAuth;
-
     private ImageView mCancelButton;
     private EditText mNameEditText;
     private EditText mSurnameEditText;

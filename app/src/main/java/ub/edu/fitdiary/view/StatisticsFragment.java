@@ -29,16 +29,16 @@ public class StatisticsFragment extends Fragment {
     char
     */
     // variable for our bar chart
-    BarChart barChart;
+    private BarChart barChart;
 
     // variable for our bar data.
-    BarData barData;
+    private BarData barData;
 
     // variable for our bar data set.
-    BarDataSet barDataSet;
+    private BarDataSet barDataSet;
 
     // array list for storing entries.
-    ArrayList barEntriesArrayList;
+    private ArrayList barEntriesArrayList;
     /*
     char
      */

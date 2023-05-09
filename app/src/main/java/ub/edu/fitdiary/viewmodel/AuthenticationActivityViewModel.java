@@ -26,19 +26,23 @@ public class AuthenticationActivityViewModel extends AndroidViewModel {
     }
 
     public void authenticateUser(String email, String password) {
-        userRepository.authenticateUser(email, password, task -> {
-            if (task.isSuccessful()) {
-                // Autenticación exitosa
-                // Actualizar la vista en consecuencia
-                Intent intent = new Intent(getApplication(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                getApplication().startActivity(intent);
-            } else {
-                // Autenticación fallida
-                // Actualizar la vista en consecuencia
-                Toast.makeText(getApplication(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(password.isEmpty()){
+            Toast.makeText(getApplication(), "Password is Empty", Toast.LENGTH_SHORT).show();
+        }else{
+            userRepository.authenticateUser(email, password, task -> {
+                if (task.isSuccessful()) {
+                    // Autenticación exitosa
+                    // Actualizar la vista en consecuencia
+                    Intent intent = new Intent(getApplication(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    getApplication().startActivity(intent);
+                } else {
+                    // Autenticación fallida
+                    // Actualizar la vista en consecuencia
+                    Toast.makeText(getApplication(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public boolean isUserLogged() {

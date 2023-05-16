@@ -20,8 +20,9 @@ import ub.edu.fitdiary.model.Date;
 public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHolder> {
 
     private OnClickSelectListener mOnClickSelectListener;
+    private static int selectedItemIndex = -1;
+    private static RecyclerView mDateCardsRV;
     private ArrayList<Date> mDates; // Referència a la llista de Dates
-    private int selectedPosition = 0;
 
     /** Definició de listener (interficie)
      *  per a quan algú vulgui escoltar un event de OnClickSelect, és a dir,
@@ -32,12 +33,21 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
     }
 
     //Constructor
-    public DateCardAdapter(ArrayList<Date> mDates) {
+    public DateCardAdapter(RecyclerView mDateCardsRV, ArrayList<Date> mDates) {
+        this.mDateCardsRV = mDateCardsRV;
         this.mDates = mDates;
+    }
+
+    public static void setSelectedItemIndex(int selectedItemIndex) {
+        DateCardAdapter.selectedItemIndex = selectedItemIndex;
     }
 
     public void setOnClickSelectListener(OnClickSelectListener listener) {
         this.mOnClickSelectListener = listener;
+    }
+
+    public static void scroll(){
+        mDateCardsRV.scrollToPosition(selectedItemIndex);
     }
 
     @NonNull
@@ -49,14 +59,28 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
         View view = inflater.inflate(R.layout.date_card_layout, parent, false);
 
         // La classe ViewHolder farà de pont entre la classe Date del model i la view (DateCard).
-        return new ViewHolder(view);
+        return new DateCardAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // El ViewHolder té el mètode que s'encarrega de llegir els atributs del User (1r parametre),
+        // El ViewHolder té el mètode que s'encarrega de llegir els atributs del date (1r parametre),
         // i assignar-los a les variables del ViewHolder.
         // Qualsevol listener que volguem posar a un item, ha d'entrar com a paràmetre extra (2n).
+        Date date = mDates.get(position);
+        holder.bind(date, mOnClickSelectListener);
+
+        // Establecer el color de fondo del CardView según si está seleccionado o no
+        if (position == selectedItemIndex) {
+            holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCard.getContext(), R.color.orange));
+            holder.mCardNumDate.setTextColor(Color.WHITE);
+            holder.mCardDayDate.setTextColor(Color.WHITE);
+        } else {
+            holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCard.getContext(), R.color.light_orange));
+            holder.mCardNumDate.setTextColor(ContextCompat.getColor(holder.mCard.getContext(), R.color.orange));
+            holder.mCardDayDate.setTextColor(ContextCompat.getColor(holder.mCard.getContext(), R.color.orange));
+        }
+
         holder.bind(mDates.get(position), this.mOnClickSelectListener);
     }
 
@@ -70,10 +94,10 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
     }
 
     /**
-     * Mètode que seteja de nou la llista d'usuaris si s'hi han fet canvis de manera externa.
+     * Mètode que seteja de nou la llista de dates si s'hi han fet canvis de manera externa.
      * @param dates
      */
-    public void setUsers(ArrayList<Date> dates) {
+    public void setDates(ArrayList<Date> dates) {
         this.mDates = dates; // no recicla/repinta res
     }
 
@@ -90,10 +114,11 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
      * dels items de la RecyclerView. Podem implementar-ho fora de RecyclerViewAdapter,
      * però es pot fer dins.
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final MaterialCardView mCard;
         private final TextView mCardNumDate;
         private final TextView mCardDayDate;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -112,11 +137,16 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
                 public void onClick(View view) {
                     listener.OnClickSelect(getAdapterPosition());
 
-                    //TODO: Que solo cambie de color cuando esté seleccionado, es decir solo
-                    // un dia a la vez.
-                    mCard.setCardBackgroundColor(ContextCompat.getColor(mCard.getContext(), R.color.orange));
-                    mCardNumDate.setTextColor(Color.WHITE);
-                    mCardDayDate.setTextColor(Color.WHITE);
+                    int previousSelectedItemIndex = DateCardAdapter.selectedItemIndex;
+                    DateCardAdapter.selectedItemIndex = getAdapterPosition();
+
+                    // Restablecer el color de fondo del CardView previamente seleccionado
+                    if (previousSelectedItemIndex != -1) {
+                        notifyItemChanged(previousSelectedItemIndex);
+                    }
+                    // Cambiar el color de fondo del CardView seleccionado actualmente
+                    notifyItemChanged(DateCardAdapter.selectedItemIndex);
+
 
                 }
             });

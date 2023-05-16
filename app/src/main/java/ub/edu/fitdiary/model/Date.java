@@ -4,10 +4,15 @@ public class Date {
 
     private String numDate; // Número date
     private String dayDate; // Dia de la semana
+    private int numMonth; // Dia de la semana
+    private int numYear; // Dia de la semana
 
-    public Date(String numDate, String dayDate) {
+
+    public Date(String numDate, String dayDate, int numMonth, int numYear) {
         this.numDate = numDate;
         this.dayDate = dayDate;
+        this.numMonth = numMonth;
+        this.numYear = numYear;
     }
 
     public String getNumDate() {

@@ -79,7 +79,7 @@ public class CalendarFragment extends Fragment {
 
         // (2) Inicialitza el RecyclerViewAdapter i li assignem a la RecyclerView.
         mDateCardRVAdapter = new DateCardAdapter(
-                mCalendarFragmentViewModel.getDates().getValue() // Passem-li referencia llista usuaris
+                mDateCardsRV, mCalendarFragmentViewModel.getDates().getValue() // Passem-li referencia llista
         );
         mDateCardRVAdapter.setOnClickSelectListener(new DateCardAdapter.OnClickSelectListener() {
             // Listener que escoltarà quan interactuem amb un item en una posició donada
@@ -98,9 +98,12 @@ public class CalendarFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         // Inicialment mostrarà el mes i any actual
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+
         mMonthYear.setText(dateFormat.format(calendar.getTime()));
 
-        mCalendarFragmentViewModel.loadDatesFromRepository(mMonthYear.getText());  // Internament pobla les dates
+        int m = calendar.get(calendar.MONTH);
+        int y = calendar.get(calendar.YEAR);
+        mCalendarFragmentViewModel.loadDatesFromRepository(m, y);  // Internament pobla les dates
 
 
 
@@ -191,7 +194,11 @@ public class CalendarFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         String[] monthNames = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
                         mMonthYear.setText(monthNames[month] + " " + year);
-                        mCalendarFragmentViewModel.loadDatesFromRepository(mMonthYear.getText());
+                        mDateCardsRV.getRecycledViewPool().clear();
+                        mDateCardRVAdapter.notifyDataSetChanged();
+                        mCalendarFragmentViewModel.loadDatesFromRepository(month, year);
+                        DateCardAdapter.setSelectedItemIndex(day-1);
+                        DateCardAdapter.scroll();
                     }
                 }, year, month, day);
                 datePickerDialog.show();

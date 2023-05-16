@@ -1,7 +1,10 @@
 package ub.edu.fitdiary.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -71,9 +74,27 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     });
         });*/
 
-        mCancelButton.setOnClickListener(view -> {
-            Intent intent = new Intent(ResetPasswordActivity.this, AuthenticationActivity.class);
-            startActivity(intent);
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Mostrar ventana para ver si de verdad quiere cancelar la acción
+                // Build the confirmation dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(ResetPasswordActivity.this);
+                builder.setTitle("Confirm Cancel Resetting Password");
+                builder.setMessage("Are you sure you want to cancel this action?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Volvemos a la página anterior
+                        onBackPressed();
+                    }
+                });
+                builder.setNegativeButton("No", null);
+
+                // Show the confirmation dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         });
     }
 }

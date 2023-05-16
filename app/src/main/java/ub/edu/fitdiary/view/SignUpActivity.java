@@ -1,6 +1,8 @@
 package ub.edu.fitdiary.view;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -124,9 +126,27 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         // Calcelar acción
-        mCancelButton.setOnClickListener(view -> {
-            Intent intent = new Intent(SignUpActivity.this, AuthenticationActivity.class);
-            startActivity(intent);
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Mostrar ventana para ver si de verdad quiere cancelar la acción
+                // Build the confirmation dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                builder.setTitle("Confirm Cancel Signing Up");
+                builder.setMessage("Are you sure you want to cancel this action?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Volvemos a la página anterior
+                        onBackPressed();
+                    }
+                });
+                builder.setNegativeButton("No", null);
+
+                // Show the confirmation dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         });
 
     }

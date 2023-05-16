@@ -12,20 +12,31 @@
         android:theme="@style/Theme.FitDiary"
         tools:targetApi="31">
         <activity
-            android:name=".NewRecordatorioActivity"
-            android:exported="false" />
+            android:name="ub.edu.fitdiary.view.ResetPasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".NewEventActivity"
-            android:exported="false" />
+            android:name="ub.edu.fitdiary.view.SignUpActivity"
+            android:exported="false"/>
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name="ub.edu.fitdiary.view.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="ub.edu.fitdiary.view.NewEventActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="ub.edu.fitdiary.view.AuthenticationActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

@@ -1,49 +1,38 @@
-package ub.edu.fitdiary;
-
-import android.os.Bundle;
-import android.view.MenuItem;
+package ub.edu.fitdiary.view;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-
-import ub.edu.fitdiary.view.CalendarFragment;
-import ub.edu.fitdiary.view.StatisticsFragment;
+import ub.edu.fitdiary.R;
 
 public class MainActivity extends AppCompatActivity {
-
-    BottomNavigationView bottomNavigationView;
-
-
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //chart();   //chart
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        ActionBar actionBar = getSupportActionBar();
-
         getSupportActionBar().hide(); //hide the title bar
 
-
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.statisticsFragment:
-                        loadFragment(new StatisticsFragment(),true);
+                        loadFragment(new StatisticsFragment(),false);
                         break;
                     case R.id.calendarFragment:
-                        loadFragment(new CalendarFragment(),false);
+                        loadFragment(new CalendarFragment(),true);
                         break;
                     case R.id.profileFragment:
                         loadFragment(new ProfileFragment(),false);
@@ -53,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bottomNavigationView.setSelectedItemId(R.id.statisticsFragment);
+        bottomNavigationView.setSelectedItemId(R.id.calendarFragment);
     }
 
     public void loadFragment(Fragment fragment, boolean flag){
@@ -65,6 +54,5 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.container, fragment);
         ft.commit();
     }
-
 
 }

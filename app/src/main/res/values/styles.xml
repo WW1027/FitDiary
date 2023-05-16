@@ -4,6 +4,7 @@
         <item  name="colorPrimary">@color/white</item>
         <item  name="colorPrimaryDark">@color/black</item>
         <item  name="colorAccent">@color/orange</item>
+        <item  name="windowNoTitle">true</item>
     </style>
     <style name="CircularDeterminateProgressBar">
         <item name="android:indeterminateOnly">false</item>

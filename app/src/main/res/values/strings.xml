@@ -2,11 +2,30 @@
     <string name="app_name">FitDiary</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="progress">Progress</string>
-    <string name="statistics">Statistics</string>
     <string-array name="sports_array">
         <item>Basket</item>
         <item>Futbol</item>
         <item>Yoga</item>
+    </string-array>
+    <string name="pulseHint">Place your index (first finger) and middle fingers on their wrist, at the base of their thumb. And count how many beats you feel in a minute.</string>
+    <string-array name="sex_array">
+        <item>Man</item>
+        <item>Woman</item>
+    </string-array>
+    <string name="statistics">Statistics</string>
+    <string name="progress">Progress</string>
+    <string-array name="time_array">
+        <item>min</item>
+        <item>hour</item>
+    </string-array>
+    <string-array name="time_before_array">
+        <item>30 min</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>5 hours</item>
+        <item>12 hours</item>
+        <item>1 day</item>
+        <item>2 days</item>
+        <item>3 days</item>
     </string-array>
 </resources>

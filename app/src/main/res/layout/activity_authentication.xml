@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_orange">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/light_orange"
+        android:orientation="vertical"
+        tools:context=".view.AuthenticationActivity">
+
+        <ImageView
+            android:id="@+id/authenticationIcon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="70dp"
+            app:srcCompat="@drawable/icono" />
+
+        <TextView
+            android:id="@+id/authenticationAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/recursive_medium"
+            android:text="FitDiary"
+            android:textColor="@color/orange"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/authenticationLoginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:fontFamily="@font/recursive_medium"
+            android:text="Log in"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/authenticationEmailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/recursive_medium"
+            android:text="Email"
+            android:textColor="@color/orange"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/authenticationEmailEditText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:fontFamily="@font/recursive_medium"
+            android:hint="example@email.com"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/gray" />
+
+        <TextView
+            android:id="@+id/authenticationPasswordTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/recursive_medium"
+            android:text="Password"
+            android:textColor="@color/orange"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/authenticationPasswordEditText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:fontFamily="@font/recursive_medium"
+            android:hint="·················"
+            android:inputType="textPassword"
+            android:textColorHint="@color/gray" />
+
+        <Button
+            android:id="@+id/authenticationLoginButton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@color/orange"
+            android:fontFamily="@font/recursive_medium"
+            android:hapticFeedbackEnabled="false"
+            android:text="Log in"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            tools:ignore="TextContrastCheck" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/authenticationSignUpText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="50dp"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/recursive_medium"
+                android:text="Don't have an account?"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/authenticationSignUpClickText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:contextClickable="true"
+                android:fontFamily="@font/recursive_medium"
+                android:text="Sign up"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <TextView
+            android:id="@+id/authenticationForgetPasswordText"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:contextClickable="true"
+            android:text="Forget Password?"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

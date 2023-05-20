@@ -22,7 +22,7 @@ import ub.edu.fitdiary.model.Event;
 
 public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.ViewHolder>{
 
-    private List<Event> eventsList;
+    private String date;
 
     public void hideEvent(int position) {
         notifyItemRemoved(position);
@@ -116,6 +116,7 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
                 public void onClick(View v) {
                     listener2.OnClickSelect(getAdapterPosition());
                     //TODO Implementar cuando se le clica a un CardView de event
+
                     Intent intent= new Intent(context, DetailedInformationActivity.class);
                     context.startActivity(intent);
                 }

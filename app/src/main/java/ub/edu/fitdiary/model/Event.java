@@ -9,6 +9,10 @@ public class Event {
     private String comment;
 
     //Constructor
+
+    public Event(){
+
+    }
     public Event(String date, String sport, String duration, String pulse, String imageURL, String comment) {
         this.date = date;
         this.sport = sport;

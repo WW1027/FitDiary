@@ -159,6 +159,13 @@ public class CalendarFragment extends Fragment {
         });
         mEventsCardsRV.setAdapter(mEventCardAdapter);
 
+        /*mEventCardAdapter.setOnClickSelectListener(new EventCardAdapter.OnClickSelectListener() {
+            @Override
+            public void OnClickSelect(int position) {
+                System.out.println("position " + position);
+            }
+        });*/
+
         // Observer en CalendarFragment para ver si la lista de Event (observable MutableLiveData)
         // en CalendarFragmentViewModel ha cambiado.
         final Observer<ArrayList<Event>> observerEvent = new Observer<ArrayList<Event>>() {

@@ -5,6 +5,9 @@ public class Suggestion {
     private Date date;
     private String suggestion;
 
+    public Suggestion(){
+
+    }
     public Suggestion(Date date, String suggestion) {
         this.date = date;
         this.suggestion = suggestion;

@@ -2,7 +2,9 @@ package ub.edu.fitdiary.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.List;
 
 import ub.edu.fitdiary.R;
+import ub.edu.fitdiary.model.Event;
 import ub.edu.fitdiary.model.SportRepository;
 import ub.edu.fitdiary.model.User;
 import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
@@ -45,6 +48,10 @@ public class DetailedInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_information);
 
+        Intent intent = getIntent();
+        String date = intent.getStringExtra("date");
+
+
         // Instanciamos su propio view model
         newEventActivityViewModel = new ViewModelProvider(this)
                 .get(NewEventActivityViewModel.class);
@@ -65,20 +72,20 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
         /* TODO: completar la información obtenida de la base de datos */
 
-        /*newEventActivityViewModel.getEventData().observe(this, new Observer<Event>() {
+        newEventActivityViewModel.getEventData().observe(this, new Observer<Event>() {
             @Override
             public void onChanged(Event event) {
                 Log.d("TAG", "observed");
                 if (event != null) {
                     mDate.setText(event.getDate());
-                    mSport.setSelection(adapter.getPosition(event.getSport()));
+                    //mSport.setSelection(adapter.getPosition(event.getSport()));
                     mDuration.setText(event.getDuration());
                     mPulse.setText(event.getPulse());
                     mComment.setText(event.getComment());
                     mCalories.setText(String.valueOf(Integer.parseInt(event.getPulse()) * Integer.parseInt(event.getDuration())));
                 }
             }
-        });*/
+        });
         // Inicializamos los valores de los campos
         // Recuperar lista de sports desde BBDD
         newEventActivityViewModel.getSports(new SportRepository.OnSportsLoadedListener() {

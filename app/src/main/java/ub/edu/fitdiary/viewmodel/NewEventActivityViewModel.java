@@ -22,20 +22,24 @@ import ub.edu.fitdiary.model.EventRepository;
 import ub.edu.fitdiary.model.SportRepository;
 import ub.edu.fitdiary.model.User;
 import ub.edu.fitdiary.model.UserRepository;
+import ub.edu.fitdiary.view.EventCardAdapter;
 
 public class NewEventActivityViewModel extends AndroidViewModel {
     private final static String TAG = "NewEventActivtyViewModel";
     private EventRepository eventRepository;
     private UserRepository userRepository;
     private MutableLiveData<Event> mEventData;
-
-    public NewEventActivityViewModel(Application application){
+    private EventCardAdapter eventCardAdapter;
+    private String date;
+  public NewEventActivityViewModel(Application application){
         super(new Application());
 
         // Instacias generales
         eventRepository = EventRepository.getInstance();
         userRepository = UserRepository.getInstance();
         mEventData = new MutableLiveData<>();
+
+        loadEventData("15-5-202317:07");
     }
 
     public void addEvent(String date, String sport, String duration, String comment, String pulse) {
@@ -65,6 +69,7 @@ public class NewEventActivityViewModel extends AndroidViewModel {
     }
 
     public void deleteEvent() {
+
     }
 
     public LiveData<Event> getEventData() {
@@ -96,4 +101,11 @@ public class NewEventActivityViewModel extends AndroidViewModel {
     public String getEmail() {
         return userRepository.getEmail();
     }
+    public String getDate(){
+      return this.date;
+    }
+    public void setDate(String s){
+      date=s;
+    }
+
 }

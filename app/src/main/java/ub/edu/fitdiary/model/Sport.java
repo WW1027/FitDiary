@@ -5,6 +5,9 @@ public class Sport {
     private float caloriesPerHour;
 
     //Constructor
+    public Sport(){
+
+    }
     public Sport(String name) {
         this.name = name;
         this.caloriesPerHour = caloriesPerHour;

@@ -35,6 +35,7 @@ public class NewEventActivityViewModel extends AndroidViewModel {
         // Instacias generales
         eventRepository = EventRepository.getInstance();
         userRepository = UserRepository.getInstance();
+        mEventData = new MutableLiveData<>();
 
         loadEventData(getEmail(), getDate());
     }

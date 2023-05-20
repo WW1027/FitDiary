@@ -36,13 +36,11 @@ public class NewEventActivityViewModel extends AndroidViewModel {
         eventRepository = EventRepository.getInstance();
         userRepository = UserRepository.getInstance();
         mEventData = new MutableLiveData<>();
-
-        loadEventData(getEmail(), getDate());
     }
 
     public void addEvent(String date, String sport, String duration, String comment, String pulse) {
         // Llamar al método de guardar de model
-        eventRepository.addEvent(date, sport, duration, comment, pulse);
+        eventRepository.addEvent(date, sport, duration, comment, pulse, null);
     }
 
     public void getSports(SportRepository.OnSportsLoadedListener listener) {
@@ -62,28 +60,6 @@ public class NewEventActivityViewModel extends AndroidViewModel {
                     }
                 });
     }
-
-    private void loadEventData(String email) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("users").document(email);
-        documentReference.addSnapshotListener(new com.google.firebase.firestore.EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    mEventData.setValue(null);
-                    return;
-                }
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    Event event = documentSnapshot.toObject(Event.class);
-                    mEventData.setValue(event);
-                } else {
-                    mEventData.setValue(null);
-                }
-            }
-        });
-    }
-
     public void updateCompletion(String field, String text) {
         eventRepository.updateCompletion(field, text);
     }
@@ -95,9 +71,9 @@ public class NewEventActivityViewModel extends AndroidViewModel {
         return mEventData;
     }
 
-    private void loadEventData(String email, String date){
+    private void loadEventData(String date){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("users").document(email);
+        DocumentReference documentReference = db.collection("users").document(getEmail());
         documentReference.collection("events").document(date).addSnapshotListener(new com.google.firebase.firestore.EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -120,6 +96,4 @@ public class NewEventActivityViewModel extends AndroidViewModel {
     public String getEmail() {
         return userRepository.getEmail();
     }
-
-    public String getDate() { return eventRepository.getDate(); }
 }

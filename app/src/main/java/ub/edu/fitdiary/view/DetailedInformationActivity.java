@@ -65,16 +65,17 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
         /* TODO: completar la información obtenida de la base de datos */
 
-        /*newEventActivityViewModel.getEventData().observe(getViewLifecycleOwner(), new Observer<User>() {
+        /*newEventActivityViewModel.getEventData().observe(this, new Observer<Event>() {
             @Override
-            public void onChanged(User user) {
-                if (user != null) {
-                    mSport.setText(user.getUsername());
-                    nameEditText.setText(user.getName());
-                    surnameEditText.setText(user.getSurname());
-                    dateEditText.setText(user.getBirthday());
-                    emailEditText.setText(newEventActivityViewModel.getEmail());
-                    sexSpinner.setSelection(adapter.getPosition(user.getSex()));
+            public void onChanged(Event event) {
+                Log.d("TAG", "observed");
+                if (event != null) {
+                    mDate.setText(event.getDate());
+                    mSport.setSelection(adapter.getPosition(event.getSport()));
+                    mDuration.setText(event.getDuration());
+                    mPulse.setText(event.getPulse());
+                    mComment.setText(event.getComment());
+                    mCalories.setText(String.valueOf(Integer.parseInt(event.getPulse()) * Integer.parseInt(event.getDuration())));
                 }
             }
         });*/

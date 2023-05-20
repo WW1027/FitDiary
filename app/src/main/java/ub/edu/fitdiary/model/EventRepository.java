@@ -45,10 +45,6 @@ public class EventRepository {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public String getDate() {
-        return mAuth.getCurrentUser().getEmail();
-    }
-
     /** Definición de listener (interfaz),
      * para escuchar cuando se hayan acabado de leer los usuarios de la BBDD */
     public interface OnLoadEventsListener {
@@ -100,7 +96,8 @@ public class EventRepository {
             String sport,
             String duration,
             String pulse,
-            String comment) {
+            String comment,
+            String imageURL) {
         // Creamos un nuevo evento con los datos recibidos
         Map<String, Object> newEvent = new HashMap<>();
         newEvent.put("date", date);
@@ -108,6 +105,7 @@ public class EventRepository {
         newEvent.put("duration", duration);
         newEvent.put("pulse", pulse);
         newEvent.put("comment", comment);
+        newEvent.put("imageURL", null);
 
         // Añadimos el evento a la base de datos
         FirebaseUser user = mAuth.getCurrentUser();

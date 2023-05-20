@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATION" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -24,6 +29,10 @@
             android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="ub.edu.fitdiary.view.NewEventActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="ub.edu.fitdiary.view.NewRemainderActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
         <activity

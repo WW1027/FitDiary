@@ -1,9 +1,14 @@
 package ub.edu.fitdiary.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import ub.edu.fitdiary.R;
@@ -12,6 +17,7 @@ import ub.edu.fitdiary.viewmodel.NewRemainderActivityViewModel;
 
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,6 +37,9 @@ public class NewRemainderActivity extends AppCompatActivity {
     private Spinner mDurationSpinner;
     private Switch mRemainderSwitch;
     private Spinner mTimeBeforeSpinner;
+    private Button mAcceptButton;
+
+
 
     private NewRemainderActivityViewModel newRemainderActivityViewModel;
 
@@ -52,6 +61,7 @@ public class NewRemainderActivity extends AppCompatActivity {
         mDurationSpinner = findViewById(R.id.newRemainderDurationSpinner);
         mRemainderSwitch = findViewById(R.id.newRemainderSwitch);
         mTimeBeforeSpinner = findViewById(R.id.newRemainderTimeBeforeSpinner);
+        mAcceptButton= findViewById(R.id.newEventAcceptButton);
 
         // Setear el spinner de deportes
         // Recuperar lista de sports desde BBDD
@@ -113,5 +123,9 @@ public class NewRemainderActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
     }
+
 }

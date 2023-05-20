@@ -56,6 +56,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
         newEventActivityViewModel = new ViewModelProvider(this)
                 .get(NewEventActivityViewModel.class);
 
+        newEventActivityViewModel.loadEventData(date);
         getSupportActionBar().hide(); //hide the title bar
 
         // Relacionamos el id con la variable para referirnos a ella

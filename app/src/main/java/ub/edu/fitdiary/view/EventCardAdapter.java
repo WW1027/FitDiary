@@ -118,6 +118,7 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
                     //TODO Implementar cuando se le clica a un CardView de event
 
                     Intent intent= new Intent(context, DetailedInformationActivity.class);
+                    intent.putExtra("date", event.getDate());
                     context.startActivity(intent);
                 }
             });

@@ -30,7 +30,7 @@ public class NewEventActivityViewModel extends AndroidViewModel {
     private UserRepository userRepository;
     private MutableLiveData<Event> mEventData;
     private EventCardAdapter eventCardAdapter;
-    private String date;
+
   public NewEventActivityViewModel(Application application){
         super(new Application());
 
@@ -39,7 +39,7 @@ public class NewEventActivityViewModel extends AndroidViewModel {
         userRepository = UserRepository.getInstance();
         mEventData = new MutableLiveData<>();
 
-        loadEventData("15-5-202317:07");
+        //loadEventData("17-5-202316:18");
     }
 
     public void addEvent(String date, String sport, String duration, String comment, String pulse) {
@@ -76,7 +76,7 @@ public class NewEventActivityViewModel extends AndroidViewModel {
         return mEventData;
     }
 
-    private void loadEventData(String date){
+    public void loadEventData(String date){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("users").document(getEmail());
         documentReference.collection("events").document(date).addSnapshotListener(new com.google.firebase.firestore.EventListener<DocumentSnapshot>() {
@@ -100,12 +100,6 @@ public class NewEventActivityViewModel extends AndroidViewModel {
 
     public String getEmail() {
         return userRepository.getEmail();
-    }
-    public String getDate(){
-      return this.date;
-    }
-    public void setDate(String s){
-      date=s;
     }
 
 }

@@ -158,4 +158,10 @@ public class EventRepository {
             }
         });
     }
+
+    public void updateCompletion(String field, String text) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        DocumentReference docRef = mDb.collection("users").document(user.getEmail());
+        docRef.update(field, text);
+    }
 }

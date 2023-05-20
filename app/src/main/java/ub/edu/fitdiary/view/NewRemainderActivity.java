@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
-import ub.edu.fitdiary.viewmodel.NewEventActivtyViewModel;
 import ub.edu.fitdiary.viewmodel.NewRemainderActivityViewModel;
 
 import android.view.View;

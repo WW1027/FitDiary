@@ -17,14 +17,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.Calendar;
 import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
-import ub.edu.fitdiary.viewmodel.NewEventActivtyViewModel;
+import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 
 public class NewEventActivity extends AppCompatActivity {
     // Atributos de la interface newEventActivity
@@ -41,7 +39,7 @@ public class NewEventActivity extends AppCompatActivity {
     private ImageView mHintPulseImage;
 
     // Atributos del view model o model del view
-    private NewEventActivtyViewModel newEventActivtyViewModel;
+    private NewEventActivityViewModel newEventActivtyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ public class NewEventActivity extends AppCompatActivity {
 
         // Instanciamos su propio view model
         newEventActivtyViewModel = new ViewModelProvider(this)
-                .get(NewEventActivtyViewModel.class);
+                .get(NewEventActivityViewModel.class);
 
         getSupportActionBar().hide(); //hide the title bar
 

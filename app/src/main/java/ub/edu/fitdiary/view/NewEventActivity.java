@@ -17,14 +17,14 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
-import ub.edu.fitdiary.viewmodel.NewEventActivtyViewModel;
+import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 
 public class NewEventActivity extends AppCompatActivity {
     // Atributos de la interface newEventActivity
@@ -41,7 +41,7 @@ public class NewEventActivity extends AppCompatActivity {
     private ImageView mHintPulseImage;
 
     // Atributos del view model o model del view
-    private NewEventActivtyViewModel newEventActivtyViewModel;
+    private NewEventActivityViewModel newEventActivtyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class NewEventActivity extends AppCompatActivity {
 
         // Instanciamos su propio view model
         newEventActivtyViewModel = new ViewModelProvider(this)
-                .get(NewEventActivtyViewModel.class);
+                .get(NewEventActivityViewModel.class);
 
         getSupportActionBar().hide(); //hide the title bar
 
@@ -119,12 +119,15 @@ public class NewEventActivity extends AppCompatActivity {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                Date date = new Date();
+                String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
 
                 //pick a date with android date picker dialog
                 DatePickerDialog datePickerDialog = new DatePickerDialog(NewEventActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
-                        mDateText.setText(day + "/" + (month + 1) + "/" + year);
+                        mDateText.setText(day + "-" + (month + 1) + "-" + year + " " + horaActual);
                     }
                 }, year, month, day);
                 datePickerDialog.show();

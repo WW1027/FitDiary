@@ -108,69 +108,6 @@ public class UserRepository {
                 .addOnCompleteListener(listener);
     }
 
-    /**
-     * Método que lee los usuarios. Vendrá llamado desde fuera y cuando acabe,
-     * avisará siempre a los listeners, invocando su OnLoadUsers.
-     */
-    /*public void loadUsers(ArrayList<User> users){
-        users.clear();
-        mDb.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                User user = new User(
-                                        document.toString(), // ID = Email
-                                        document.getString("username"),
-                                        document.getString("name"),
-                                        document.getString("surname"),
-                                        document.getString("birthday"),
-                                        document.getString("sex"),
-                                        document.getString("picture_url")
-                                );
-                                users.add(user);
-                            }
-                            // Callback listeners
-                            for (OnLoadUsersListener l: mOnLoadUsersListeners) {
-                                l.onLoadUsers(users);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }*/
-
-    /**
-     * Método que lee un usuario. Vendrá llamado desde fuera y cuando acabe,
-     * avisará siempre al listener, invocando su OnLoadUser.
-     */
-    /*public LiveData<User> getUser(String email) {
-        MutableLiveData<User> userLiveData = new MutableLiveData<>();
-        DocumentReference docRef = mDb.collection("users").document(email);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot document) {
-                if (document.exists()) {
-                    User user = document.toObject(User.class);
-                    userLiveData.setValue(user);
-                } else {
-                    userLiveData.setValue(null);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                userLiveData.setValue(null);
-                // Manejar errores
-            }
-        });
-
-        return userLiveData;
-    }*/
 
     /**
      * Método que lee la Url de una foto de perfil de un usuario indicado por su

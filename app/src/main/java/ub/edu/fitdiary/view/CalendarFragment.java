@@ -121,7 +121,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Código para abrir la nueva actividad de añadir evento nuevo
-                Intent intent = new Intent(getActivity(), NewEventActivity.class);
+                Intent intent = new Intent(getActivity(), NewRemainderActivity.class);
                 startActivity(intent);
             }
         });
@@ -148,7 +148,7 @@ public class CalendarFragment extends Fragment {
         mEventsCardsRV.setLayoutManager(manager2);
 
         // 2. Initializar el RecyclerViewAdapter y asignarlo al RecyclerView
-        mEventCardAdapter = new EventCardAdapter(mCalendarFragmentViewModel.getEvents().getValue());
+        mEventCardAdapter = new EventCardAdapter(mCalendarFragmentViewModel.getEvents().getValue(), getContext());
         mEventCardAdapter.setOnClickHideListener(new EventCardAdapter.OnClickHideListener() {
             @Override
             public void OnClickHide(int position) {
@@ -158,6 +158,13 @@ public class CalendarFragment extends Fragment {
             }
         });
         mEventsCardsRV.setAdapter(mEventCardAdapter);
+
+        /*mEventCardAdapter.setOnClickSelectListener(new EventCardAdapter.OnClickSelectListener() {
+            @Override
+            public void OnClickSelect(int position) {
+                System.out.println("position " + position);
+            }
+        });*/
 
         // Observer en CalendarFragment para ver si la lista de Event (observable MutableLiveData)
         // en CalendarFragmentViewModel ha cambiado.

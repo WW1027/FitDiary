@@ -96,7 +96,8 @@ public class EventRepository {
             String sport,
             String duration,
             String pulse,
-            String comment) {
+            String comment,
+            String imageURL) {
         // Creamos un nuevo evento con los datos recibidos
         Map<String, Object> newEvent = new HashMap<>();
         newEvent.put("date", date);
@@ -104,6 +105,7 @@ public class EventRepository {
         newEvent.put("duration", duration);
         newEvent.put("pulse", pulse);
         newEvent.put("comment", comment);
+        newEvent.put("imageURL", null);
 
         // Añadimos el evento a la base de datos
         FirebaseUser user = mAuth.getCurrentUser();
@@ -112,7 +114,18 @@ public class EventRepository {
         // Obtener una referencia a la colección de eventos dentro del documento de usuario
         CollectionReference events = docRef.collection("events");
 
-        events.add(newEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        events.document(date).set(newEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d(TAG, "Nuevo evento agregado con ID: " + date);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG,"Error al agregar nuevo evento", e);
+            }
+        });
+        /*events.add(newEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d(TAG, "Nuevo evento agregado con ID: " + documentReference.getId());
@@ -122,7 +135,7 @@ public class EventRepository {
             public void onFailure(@NonNull Exception e) {
                 Log.w(TAG,"Error al agregar nuevo evento", e);
             }
-        });
+        });*/
     }
 
     /**
@@ -157,5 +170,11 @@ public class EventRepository {
                 }
             }
         });
+    }
+
+    public void updateCompletion(String field, String text) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        DocumentReference docRef = mDb.collection("users").document(user.getEmail());
+        docRef.update(field, text);
     }
 }

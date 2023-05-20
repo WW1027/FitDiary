@@ -8,6 +8,9 @@ public class Date {
     private int numYear; // Dia de la semana
 
 
+    public Date(){
+
+    }
     public Date(String numDate, String dayDate, int numMonth, int numYear) {
         this.numDate = numDate;
         this.dayDate = dayDate;

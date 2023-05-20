@@ -49,14 +49,6 @@
             app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
 
-        <ImageView
-            android:id="@+id/hideButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/remove"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

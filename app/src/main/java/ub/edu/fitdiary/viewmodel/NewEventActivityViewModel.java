@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -19,10 +20,13 @@ import java.util.List;
 import ub.edu.fitdiary.model.Event;
 import ub.edu.fitdiary.model.EventRepository;
 import ub.edu.fitdiary.model.SportRepository;
+import ub.edu.fitdiary.model.User;
+import ub.edu.fitdiary.model.UserRepository;
 
 public class NewEventActivityViewModel extends AndroidViewModel {
     private final static String TAG = "NewEventActivtyViewModel";
     private EventRepository eventRepository;
+    private UserRepository userRepository;
     private MutableLiveData<Event> mEventData;
 
     public NewEventActivityViewModel(Application application){
@@ -30,6 +34,9 @@ public class NewEventActivityViewModel extends AndroidViewModel {
 
         // Instacias generales
         eventRepository = EventRepository.getInstance();
+        userRepository = UserRepository.getInstance();
+
+        loadEventData(getEmail(), getDate());
     }
 
     public void addEvent(String date, String sport, String duration, String comment, String pulse) {
@@ -82,4 +89,36 @@ public class NewEventActivityViewModel extends AndroidViewModel {
 
     public void deleteEvent() {
     }
+
+    public LiveData<Event> getEventData() {
+        return mEventData;
+    }
+
+    private void loadEventData(String email, String date){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("users").document(email);
+        documentReference.collection("events").document(date).addSnapshotListener(new com.google.firebase.firestore.EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    mEventData.setValue(null);
+                    return;
+                }
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Event event = documentSnapshot.toObject(Event.class);
+                    mEventData.setValue(event);
+                } else {
+                    mEventData.setValue(null);
+                }
+            }
+        });
+
+    }
+
+    public String getEmail() {
+        return userRepository.getEmail();
+    }
+
+    public String getDate() { return eventRepository.getDate(); }
 }

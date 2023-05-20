@@ -1,5 +1,7 @@
 package ub.edu.fitdiary.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +15,14 @@ import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Event;
 
 public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.ViewHolder>{
 
+    private List<Event> eventsList;
 
     public void hideEvent(int position) {
         notifyItemRemoved(position);
@@ -43,10 +47,11 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
     private ArrayList<Event> mEvents;
     private OnClickHideListener mOnClickHideListener;
     private OnClickSelectListener mOnClickSelectListener;
-
+    private Context context;
     // Constructor
-    public EventCardAdapter(ArrayList<Event> eventList) {
+    public EventCardAdapter(ArrayList<Event> eventList, Context context) {
         this.mEvents = eventList; // no hace new (La lista la mantiene el ViewModel)
+        this.context = context;
     }
 
     // Sirve para poder esconder un evento al hacer click en la cruz desde calendar fragment
@@ -90,7 +95,6 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
         // Atributs de la classe ViewHolder que representen els atributs de la vista
         private final ImageView mCardPictureUrl;
         private final TextView mCardComment;
-        private final ImageView mHideButton;
         private final MaterialCardView mCard;
 
         public ViewHolder(@NonNull View itemView) {
@@ -98,7 +102,6 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
             mCard = itemView.findViewById(R.id.card2);
             mCardPictureUrl = itemView.findViewById(R.id.avatar);
             mCardComment = itemView.findViewById(R.id.comment);
-            mHideButton = itemView.findViewById(R.id.hideButton);
         }
 
         public void bind(final Event event, OnClickHideListener listener, OnClickSelectListener listener2) {
@@ -108,24 +111,15 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
             // Setea el listener onClick del botón de esconder (hide), que a la vez
             // llame el método OnClickHide que implementan nuestros propios
             // listeners de tipo OnClickHideListener.
-            mHideButton.setOnClickListener(new View.OnClickListener() {
-                @Override //el getAdapterPosition devuelve la posición de la caja user, 0 1 2 etc
-                public void onClick(View view) {listener.OnClickHide(getAdapterPosition());}
-            });
             mCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener2.OnClickSelect(getAdapterPosition());
                     //TODO Implementar cuando se le clica a un CardView de event
+                    Intent intent= new Intent(context, DetailedInformationActivity.class);
+                    context.startActivity(intent);
                 }
             });
-            /*** Nos interesa cuando se clicka nos muestre la info detallada ***/
-            /*
-            mCardPictureUrl.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {listener2.OnClickImageToast(event.toString());}
-            });
-            */
 
         }
     }

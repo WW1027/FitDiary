@@ -45,6 +45,10 @@ public class EventRepository {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    public String getDate() {
+        return mAuth.getCurrentUser().getEmail();
+    }
+
     /** Definición de listener (interfaz),
      * para escuchar cuando se hayan acabado de leer los usuarios de la BBDD */
     public interface OnLoadEventsListener {
@@ -112,7 +116,18 @@ public class EventRepository {
         // Obtener una referencia a la colección de eventos dentro del documento de usuario
         CollectionReference events = docRef.collection("events");
 
-        events.add(newEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        events.document(date).set(newEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d(TAG, "Nuevo evento agregado con ID: " + date);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG,"Error al agregar nuevo evento", e);
+            }
+        });
+        /*events.add(newEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d(TAG, "Nuevo evento agregado con ID: " + documentReference.getId());
@@ -122,7 +137,7 @@ public class EventRepository {
             public void onFailure(@NonNull Exception e) {
                 Log.w(TAG,"Error al agregar nuevo evento", e);
             }
-        });
+        });*/
     }
 
     /**

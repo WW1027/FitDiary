@@ -13,12 +13,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
+import ub.edu.fitdiary.model.User;
 import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 
 public class DetailedInformationActivity extends AppCompatActivity {
@@ -35,15 +37,16 @@ public class DetailedInformationActivity extends AppCompatActivity {
     private Button mDeleteButton;
 
     // Atributos del view model o model del view
-    private NewEventActivityViewModel newEventActivtyViewModel;
+    private NewEventActivityViewModel newEventActivityViewModel;
 
+    private boolean isInitialSelection = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_information);
 
         // Instanciamos su propio view model
-        newEventActivtyViewModel = new ViewModelProvider(this)
+        newEventActivityViewModel = new ViewModelProvider(this)
                 .get(NewEventActivityViewModel.class);
 
         getSupportActionBar().hide(); //hide the title bar
@@ -62,9 +65,22 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
         /* TODO: completar la información obtenida de la base de datos */
 
+        /*newEventActivityViewModel.getEventData().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    mSport.setText(user.getUsername());
+                    nameEditText.setText(user.getName());
+                    surnameEditText.setText(user.getSurname());
+                    dateEditText.setText(user.getBirthday());
+                    emailEditText.setText(newEventActivityViewModel.getEmail());
+                    sexSpinner.setSelection(adapter.getPosition(user.getSex()));
+                }
+            }
+        });*/
         // Inicializamos los valores de los campos
         // Recuperar lista de sports desde BBDD
-        newEventActivtyViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
+        newEventActivityViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
             @Override
             public void onSportsLoaded(List<String> sports) {
                 // Set up Spinner adapter with sports list
@@ -97,7 +113,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Delete Event
-                        newEventActivtyViewModel.deleteEvent();
+                        newEventActivityViewModel.deleteEvent();
                        finish();
                     }
                 });
@@ -116,7 +132,6 @@ public class DetailedInformationActivity extends AppCompatActivity {
                 finish();
             }
         });
-
 
     }
 
@@ -159,6 +174,6 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
     protected void updateCompletion(String field, String text) {
         // Como es cambio en la base de datos, se lo pedimos a viewmodel
-        newEventActivtyViewModel.updateCompletion(field, text);
+        newEventActivityViewModel.updateCompletion(field, text);
     }
 }

@@ -148,7 +148,7 @@ public class CalendarFragment extends Fragment {
         mEventsCardsRV.setLayoutManager(manager2);
 
         // 2. Initializar el RecyclerViewAdapter y asignarlo al RecyclerView
-        mEventCardAdapter = new EventCardAdapter(mCalendarFragmentViewModel.getEvents().getValue());
+        mEventCardAdapter = new EventCardAdapter(mCalendarFragmentViewModel.getEvents().getValue(), getContext());
         mEventCardAdapter.setOnClickHideListener(new EventCardAdapter.OnClickHideListener() {
             @Override
             public void OnClickHide(int position) {

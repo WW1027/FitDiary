@@ -17,21 +17,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
 import ub.edu.fitdiary.R;
-import ub.edu.fitdiary.model.UserRepository;
 import ub.edu.fitdiary.viewmodel.AuthenticationActivityViewModel;
 
 public class SignUpActivity extends AppCompatActivity {

@@ -15,7 +15,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Event;

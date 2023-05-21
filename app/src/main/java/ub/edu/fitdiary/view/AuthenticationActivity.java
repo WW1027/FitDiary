@@ -7,19 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.viewmodel.AuthenticationActivityViewModel;
-import ub.edu.fitdiary.viewmodel.NewRemainderActivityViewModel;
 
 public class AuthenticationActivity extends AppCompatActivity {
 

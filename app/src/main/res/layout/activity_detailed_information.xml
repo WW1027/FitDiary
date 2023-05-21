@@ -94,15 +94,17 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <Spinner
+                <TextView
                     android:id="@+id/detailedInformationSport"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:contentDescription="@string/app_name"
-                    tools:ignore="TouchTargetSizeCheck" />
-
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/recursive_medium"
+                    android:padding="5dp"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
             </TableRow>
             <TableRow>

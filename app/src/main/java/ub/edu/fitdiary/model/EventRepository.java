@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -168,11 +169,32 @@ public class EventRepository {
         });
     }
 
-    public void updateCompletion(String field, String text) {
+    public void updateCompletion(String field, String text, String id) {
         FirebaseUser user = mAuth.getCurrentUser();
-        DocumentReference docRef = mDb.collection("users").document(user.getEmail());
-        docRef.update(field, text);
+        DocumentReference docRef = mDb.collection("users").document(user.getEmail()).collection("events").document(id);
+        Map<String, Object> event = new HashMap<>();
+        event.put(field, text);
+        docRef.update(event);
     }
 
+    public void deleteEvent(String id){
+        FirebaseUser user = mAuth.getCurrentUser();
+        DocumentReference docRef = mDb.collection("users").document(user.getEmail()).collection("events").document(id);
+        docRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Document successfully deleted
+                        Log.d("TAG", "Document deleted successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error occurred while deleting the document
+                        Log.w("TAG", "Error deleting document", e);
+                    }
+                });
+    }
 
 }

@@ -5,9 +5,11 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -38,7 +40,7 @@ public class NewRemainderActivity extends AppCompatActivity {
     private Switch mRemainderSwitch;
     private Spinner mTimeBeforeSpinner;
     private Button mAcceptButton;
-
+    private ImageView mCancelButton;
 
 
     private NewRemainderActivityViewModel newRemainderActivityViewModel;
@@ -62,6 +64,7 @@ public class NewRemainderActivity extends AppCompatActivity {
         mRemainderSwitch = findViewById(R.id.newRemainderSwitch);
         mTimeBeforeSpinner = findViewById(R.id.newRemainderTimeBeforeSpinner);
         mAcceptButton= findViewById(R.id.newEventAcceptButton);
+        mCancelButton = findViewById(R.id.newEventCancelButton);
 
         // Setear el spinner de deportes
         // Recuperar lista de sports desde BBDD
@@ -108,6 +111,7 @@ public class NewRemainderActivity extends AppCompatActivity {
                         mDateText.setText(day + "/" + (month + 1) + "/" + year);
                     }
                 }, year, month, day);
+                datePickerDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
                 datePickerDialog.show();
             }
         });
@@ -124,7 +128,28 @@ public class NewRemainderActivity extends AppCompatActivity {
             }
         });
 
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Mostrar ventana para ver si de verdad quiere cancelar la acción
+                // Build the confirmation dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(NewRemainderActivity.this);
+                builder.setTitle("Confirm Cancel Adding a new Reminder");
+                builder.setMessage("Are you sure you want to cancel this action?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Volvemos a la página anterior
+                        onBackPressed();
+                    }
+                });
+                builder.setNegativeButton("No", null);
 
+                // Show the confirmation dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
     }
 

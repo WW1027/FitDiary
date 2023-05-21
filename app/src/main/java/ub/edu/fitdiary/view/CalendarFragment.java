@@ -127,7 +127,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Código para abrir la nueva actividad de añadir evento nuevo
-                Intent intent = new Intent(getActivity(), NewRemainderActivity.class);
+                Intent intent = new Intent(getActivity(), NewEventActivity.class);
                 startActivity(intent);
             }
         });

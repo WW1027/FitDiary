@@ -36,7 +36,6 @@ public class NewEventActivity extends AppCompatActivity {
     private ImageView mDateImage;
     private Spinner mSportSpinner;
     private EditText mDurationText;
-    private Spinner mDurationSpinner;
     private EditText mPulseText;
     private ImageView mEventImage;
     private EditText mCommentText;
@@ -69,7 +68,6 @@ public class NewEventActivity extends AppCompatActivity {
         mDateImage = findViewById(R.id.newEventDateImageSelector);
         mSportSpinner = findViewById(R.id.newEventSportSpinner);
         mDurationText = findViewById(R.id.newEventDurationTextRectangle);
-        mDurationSpinner = findViewById(R.id.newEventDurationSpinner);
         mPulseText = findViewById(R.id.newEventPulseTextRectangle);
         mEventImage = findViewById(R.id.newEventImageRectangle);
         mSaveButton = findViewById(R.id.newEventAcceptButton);
@@ -112,7 +110,6 @@ public class NewEventActivity extends AppCompatActivity {
         // Especificar el layout de uso cuando la lista de elecciones aparece
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Aplicar el adaptador al spinner
-        mDurationSpinner.setAdapter(adapter2);
 
         // Recuperar lista de sports desde BBDD
         newEventActivtyViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
@@ -135,6 +132,9 @@ public class NewEventActivity extends AppCompatActivity {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
+                /*SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                Date date = new Date();
+                String horaActual = dateFormat.format(date); // Hora actual en formato de cadena*/
 
                 //pick a date with android date picker dialog
                 DatePickerDialog datePickerDialog = new DatePickerDialog(NewEventActivity.this, new DatePickerDialog.OnDateSetListener() {
@@ -143,6 +143,7 @@ public class NewEventActivity extends AppCompatActivity {
                         mDateText.setText(day + "-" + (month + 1) + "-" + year);
                     }
                 }, year, month, day);
+                datePickerDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
                 datePickerDialog.show();
             }
         });

@@ -64,12 +64,11 @@ public class NewEventActivityViewModel extends AndroidViewModel {
                     }
                 });
     }
-    public void updateCompletion(String field, String text) {
-        eventRepository.updateCompletion(field, text);
+    public void updateCompletion(String field, String text, String id) {
+        eventRepository.updateCompletion(field, text, id);
     }
-
-    public void deleteEvent() {
-
+    public void deleteEvent(String id) {
+        eventRepository.deleteEvent(id);
     }
 
     public LiveData<Event> getEventData() {

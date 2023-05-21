@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import ub.edu.fitdiary.R;
@@ -30,7 +32,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
     // Atributos del layout
     private ImageView mBackButton;
     private ImageView mImage;
-    private Spinner mSport;
+    private TextView mSport;
     private TextView mDate;
     private TextView mDuration;
     private TextView mPulse;
@@ -73,32 +75,28 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
         /* TODO: completar la información obtenida de la base de datos */
 
-        newEventActivityViewModel.getEventData().observe(this, new Observer<Event>() {
+        // Inicializamos los valores de los campos
+        // Recuperar lista de sports desde BBDD
+        newEventActivityViewModel.getEventData().observe(DetailedInformationActivity.this, new Observer<Event>() {
             @Override
             public void onChanged(Event event) {
                 Log.d("TAG", "observed");
                 if (event != null) {
                     mDate.setText(event.getDate());
-                    //mSport.setSelection(adapter.getPosition(event.getSport()));
+                    mSport.setText(event.getSport());
                     mDuration.setText(event.getDuration());
                     mPulse.setText(event.getPulse());
                     mComment.setText(event.getComment());
                     mCalories.setText(String.valueOf(Integer.parseInt(event.getPulse()) * Integer.parseInt(event.getDuration())));
-                }
-            }
-        });
-        // Inicializamos los valores de los campos
-        // Recuperar lista de sports desde BBDD
-        newEventActivityViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
-            @Override
-            public void onSportsLoaded(List<String> sports) {
-                // Set up Spinner adapter with sports list
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(DetailedInformationActivity.this, android.R.layout.simple_spinner_item, sports);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                mSport.setAdapter(adapter);
+                    if (event.getImageURL()!=""){
+                        Picasso.get()
+                                .load(event.getImageURL())
+                                .resize(mImage.getWidth(), mImage.getHeight())
+                                .centerCrop()
+                                .into(mImage);}
 
-                // Set up the selected sport
-                updateCompletion("sport", mSport.getSelectedItem().toString());
+                    updateCompletion("sport", event.getSport(), event.getDate());
+                }
             }
         });
 
@@ -106,7 +104,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
         mEditDurationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modifyData(mDuration, "Modify Duration", "duration");
+                modifyData(mDuration, "Modify Duration", "duration", date);
             }
         });
 
@@ -122,7 +120,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Delete Event
-                        newEventActivityViewModel.deleteEvent();
+                        newEventActivityViewModel.deleteEvent(date);
                        finish();
                     }
                 });
@@ -144,7 +142,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
     }
 
-    private void modifyData(TextView textView, String text, String field){
+    private void modifyData(TextView textView, String text, String field, String id){
 
         // create a new AlertDialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -170,7 +168,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
                 /********************************************************
                  Modificar en la base de datos //Se tiene que pasar por parámetro qué campo se va a modificar
                  *********************************************************/
-                updateCompletion(field, message);
+                updateCompletion(field, message, id);
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -181,8 +179,8 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
     }
 
-    protected void updateCompletion(String field, String text) {
+    protected void updateCompletion(String field, String text, String id) {
         // Como es cambio en la base de datos, se lo pedimos a viewmodel
-        newEventActivityViewModel.updateCompletion(field, text);
+        newEventActivityViewModel.updateCompletion(field, text, id);
     }
 }

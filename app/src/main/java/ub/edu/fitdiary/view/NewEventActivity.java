@@ -1,13 +1,26 @@
 package ub.edu.fitdiary.view;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,6 +30,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,6 +56,10 @@ public class NewEventActivity extends AppCompatActivity {
     private Button mSaveButton;
     private ImageView mCancelButton;
     private ImageView mHintPulseImage;
+
+    private ImageView mcameraButton;
+
+    private Uri mPhotoUri;
 
     // Atributos del view model o model del view
     private NewEventActivityViewModel newEventActivtyViewModel;
@@ -66,6 +87,7 @@ public class NewEventActivity extends AppCompatActivity {
         mCancelButton = findViewById(R.id.newEventCancelButton);
         mCommentText = findViewById(R.id.newEventCommentRectangle);
         mHintPulseImage = findViewById(R.id.newEventDateImagePulse);
+        mcameraButton = findViewById(R.id.newEventCameraImageView);
 
         /* Añadimos listener al botón de añadir */
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -78,12 +100,15 @@ public class NewEventActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Campos de Date, Sport y Duration son obligatorios",
                             Toast.LENGTH_SHORT).show();
                 } else { // Si están los tres campos obligatorios rellenados, se añade el evento
+                    String URL="";
+                    if (mPhotoUri!=null){URL=mPhotoUri.toString();}
                     newEventActivtyViewModel.addEvent(
                             mDateText.getText().toString(),
                             mSportSpinner.getSelectedItem().toString(),
                             mDurationText.getText().toString(),
                             mPulseText.getText().toString(),
-                            mCommentText.getText().toString()
+                            mCommentText.getText().toString(),
+                            URL
                     );
                     finish();
                 }
@@ -174,5 +199,116 @@ public class NewEventActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+        setTakeCameraPictureListener(mcameraButton);
+        setChoosePictureListener(mEventImage);
+        final Observer<String> observerPictureUrl = new Observer<String>() {
+            @Override
+            public void onChanged(String pictureUrl) {
+                if (pictureUrl == "") System.out.println("pictureUrl is null");
+                else {
+                    Picasso.get()
+                            .load(pictureUrl)
+                            .resize(mEventImage.getWidth(), mEventImage.getHeight())
+                            .centerCrop()
+                            .into(mEventImage);
+                }
+            }
+        };
+        newEventActivtyViewModel.getPictureAux().observe(this, observerPictureUrl);
+
+        //newEventActivtyViewModel.loadPictureOfUser();
+
+
+
     }
+    private void setTakeCameraPictureListener(@NonNull View takePictureView) {
+        // Codi que s'encarrega de rebre el resultat de l'intent de fer foto des de càmera
+        // i que es llençarà des del listener que definirem a baix.
+        ActivityResultLauncher<Intent> takePictureLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            newEventActivtyViewModel.setPictureUrlOfUser(
+                                    mPhotoUri
+                            );
+                        }
+                    }
+                }
+        );
+
+        // Listener del botó de fer foto, que llençarà l'intent amb l'ActivityResultLauncher.
+        takePictureView.setOnClickListener(view -> {
+            // Crearem un nom de fitxer d'imatge temporal amb una data i hora i format JPEG
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            // Anem a buscar el directori extern (del sistema) especificat per la variable
+            // d'entorn Environment.DIRECTORY_PICTURES (pren per valor "Pictures").
+            // Se li afageix, com a sufix, el directori del sistema on es guarden els fitxers.
+            File storageDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+            // Creem el fitxer
+            File image = null;
+            try {
+                image = File.createTempFile(
+                        imageFileName,  /* Prefix */
+                        ".jpg",         /* Sufix */
+                        storageDir      /* Directori on es guarda la imatge */
+                );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Recuperem la Uri definitiva del fitxer amb FileProvider (obligatori per seguretat)
+            // Per a fer-ho:
+            // 1. Especifiquem a res>xml>paths.xml el directori on es guardarà la imatge
+            //    de manera definitiva.
+            // 2. Afegir al manifest un provider que apunti a paths.xml del pas 1
+            Uri photoUri = FileProvider.getUriForFile(this,
+                    "edu.ub.pis.fitdiary.fileprovider",
+                    image);
+
+            // Per tenir accés a la URI de la foto quan es llenci l'intent de la camara.
+            // Perquè encara que li passem la photoUri com a dades extra a l'intent, aquestes
+            // no tornen com a resultat de l'Intent.
+            mPhotoUri = photoUri;
+
+            // Llancem l'intent amb el launcher declarat al començament d'aquest mateix mètode
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mPhotoUri);
+            takePictureLauncher.launch(intent);
+        });
+    }
+
+    private void setChoosePictureListener(@NonNull View choosePicture) {
+        // Codi que s'encarrega de rebre el resultat de l'intent de seleccionar foto de galeria
+        // i que es llençarà des del listener que definirem a baix.
+        ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        Uri contentUri = data.getData(); // En aquest intent, sí que hi arriba la URI
+                        /*
+                         * [Exercici 2: Aquí hi manca 1 línia de codi]
+                         */
+                        newEventActivtyViewModel.setPictureUrlOfUser(
+                                contentUri);
+                    }
+                });
+
+        // Listener del botó de seleccionar imatge, que llençarà l'intent amb l'ActivityResultLauncher.
+        choosePicture.setOnClickListener(view -> {
+            Intent data = new Intent(Intent.ACTION_GET_CONTENT);
+            data.addCategory(Intent.CATEGORY_OPENABLE);
+            data.setType("image/*");
+            Intent intent = Intent.createChooser(data, "Choose a file");
+            /*
+             * [Exercici 2: Aquí hi manca 1 línia de codi]
+             */
+            startActivityForResult.launch(intent);
+        });
+    }
+
+
 }

@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import ub.edu.fitdiary.R;
@@ -84,6 +86,12 @@ public class DetailedInformationActivity extends AppCompatActivity {
                     mPulse.setText(event.getPulse());
                     mComment.setText(event.getComment());
                     mCalories.setText(String.valueOf(Integer.parseInt(event.getPulse()) * Integer.parseInt(event.getDuration())));
+                    if (event.getImageURL()!=""){
+                    Picasso.get()
+                            .load(event.getImageURL())
+                            .resize(mImage.getWidth(), mImage.getHeight())
+                            .centerCrop()
+                            .into(mImage);}
                 }
             }
         });

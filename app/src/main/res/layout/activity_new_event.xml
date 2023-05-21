@@ -180,13 +180,18 @@
             android:textAlignment="viewStart"
             tools:ignore="RtlCompat,TouchTargetSizeCheck" />
 
-        <Spinner
+        <TextView
             android:id="@+id/newEventDurationSpinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
-            android:contentDescription="@string/fab_transformation_sheet_behavior"
-            android:text="hello"
+            android:fontFamily="@font/recursive_medium"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rounded_rectangle_gray"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:text="per min"
             tools:ignore="TouchTargetSizeCheck" />
       </TableRow>
       <TableRow>

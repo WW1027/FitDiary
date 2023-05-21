@@ -22,6 +22,8 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import ub.edu.fitdiary.R;
@@ -34,7 +36,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
     // Atributos del layout
     private ImageView mBackButton;
     private ImageView mImage;
-    private Spinner mSport;
+    private TextView mSport;
     private TextView mDate;
     private TextView mDuration;
     private TextView mPulse;
@@ -82,7 +84,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
         // Recuperar lista de sports desde BBDD
 
         // Initialize the adapter in onCreate or onCreateView method
-        adapter = new ArrayAdapter<>(DetailedInformationActivity.this, android.R.layout.simple_spinner_item, new ArrayList<String>());
+        /*adapter = new ArrayAdapter<>(DetailedInformationActivity.this, android.R.layout.simple_spinner_item, new ArrayList<String>());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSport.setAdapter(adapter);
 
@@ -94,7 +96,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
                 adapter.addAll(sports);
                 adapter.notifyDataSetChanged();
             }
-        });
+        });*/
 
         /*newEventActivityViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
             @Override
@@ -109,13 +111,13 @@ public class DetailedInformationActivity extends AppCompatActivity {
             }
         });*/
 
-        /*newEventActivityViewModel.getEventData().observe(DetailedInformationActivity.this, new Observer<Event>() {
+        newEventActivityViewModel.getEventData().observe(DetailedInformationActivity.this, new Observer<Event>() {
             @Override
             public void onChanged(Event event) {
                 Log.d("TAG", "observed");
                 if (event != null) {
                     mDate.setText(event.getDate());
-                    mSport.setSelection(adapter.getPosition(event.getSport()));
+                    mSport.setText(event.getSport());
                     mDuration.setText(event.getDuration());
                     mPulse.setText(event.getPulse());
                     mComment.setText(event.getComment());
@@ -126,11 +128,13 @@ public class DetailedInformationActivity extends AppCompatActivity {
                             .resize(mImage.getWidth(), mImage.getHeight())
                             .centerCrop()
                             .into(mImage);}
+
+                    updateCompletion("sport", event.getSport(), event.getDate());
                 }
             }
-        });*/
+        });
 
-        mSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*mSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 newEventActivityViewModel.getEventData().observe(DetailedInformationActivity.this, new Observer<Event>() {
@@ -160,7 +164,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });*/
 
         // Botón para editar la duración
         mEditDurationButton.setOnClickListener(new View.OnClickListener() {

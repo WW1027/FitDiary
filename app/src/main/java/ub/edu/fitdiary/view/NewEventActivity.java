@@ -49,7 +49,6 @@ public class NewEventActivity extends AppCompatActivity {
     private ImageView mDateImage;
     private Spinner mSportSpinner;
     private EditText mDurationText;
-    private Spinner mDurationSpinner;
     private EditText mPulseText;
     private ImageView mEventImage;
     private EditText mCommentText;
@@ -80,7 +79,6 @@ public class NewEventActivity extends AppCompatActivity {
         mDateImage = findViewById(R.id.newEventDateImageSelector);
         mSportSpinner = findViewById(R.id.newEventSportSpinner);
         mDurationText = findViewById(R.id.newEventDurationTextRectangle);
-        mDurationSpinner = findViewById(R.id.newEventDurationSpinner);
         mPulseText = findViewById(R.id.newEventPulseTextRectangle);
         mEventImage = findViewById(R.id.newEventImageRectangle);
         mSaveButton = findViewById(R.id.newEventAcceptButton);
@@ -115,13 +113,13 @@ public class NewEventActivity extends AppCompatActivity {
             }
         });
 
-        /* Ajustar Spinner de tipo de configuración de tiempo */
+        /* //Ajustar Spinner de tipo de configuración de tiempo
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.time_array, android.R.layout.simple_spinner_item);
         // Especificar el layout de uso cuando la lista de elecciones aparece
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Aplicar el adaptador al spinner
-        mDurationSpinner.setAdapter(adapter2);
+        mDurationSpinner.setAdapter(adapter2);*/
 
         // Recuperar lista de sports desde BBDD
         newEventActivtyViewModel.getSports(new SportRepository.OnSportsLoadedListener() {

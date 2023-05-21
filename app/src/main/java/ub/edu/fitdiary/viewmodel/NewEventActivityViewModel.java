@@ -29,16 +29,16 @@ import java.util.List;
 import ub.edu.fitdiary.model.Event;
 import ub.edu.fitdiary.model.EventRepository;
 import ub.edu.fitdiary.model.SportRepository;
+import ub.edu.fitdiary.model.User;
 import ub.edu.fitdiary.model.UserRepository;
+import ub.edu.fitdiary.view.EventCardAdapter;
 
 public class NewEventActivityViewModel extends AndroidViewModel {
     private final static String TAG = "NewEventActivtyViewModel";
     private EventRepository eventRepository;
     private UserRepository userRepository;
     private MutableLiveData<Event> mEventData;
-
     private FirebaseStorage mStorage;
-
     private final MutableLiveData<String> mPictureAux;
 
   public NewEventActivityViewModel(Application application){
@@ -53,9 +53,9 @@ public class NewEventActivityViewModel extends AndroidViewModel {
 
     }
 
-    public void addEvent(String date, String sport, String duration, String comment, String pulse, String imageURL) {
+    public void addEvent(String date, String sport, String duration, String comment, String pulse) {
         // Llamar al método de guardar de model
-        eventRepository.addEvent(date, sport, duration, comment, pulse, imageURL);
+        eventRepository.addEvent(date, sport, duration, comment, pulse, null);
     }
 
     public void getSports(SportRepository.OnSportsLoadedListener listener) {
@@ -78,7 +78,6 @@ public class NewEventActivityViewModel extends AndroidViewModel {
     public void updateCompletion(String field, String text, String id) {
         eventRepository.updateCompletion(field, text, id);
     }
-
     public void deleteEvent(String id) {
         eventRepository.deleteEvent(id);
     }

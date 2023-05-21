@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,10 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -44,7 +40,6 @@ public class DetailedInformationActivity extends AppCompatActivity {
     private TextView mComment;
     private ImageView mEditDurationButton;
     private Button mDeleteButton;
-    private ArrayAdapter<String> adapter;
 
     // Atributos del view model o model del view
     private NewEventActivityViewModel newEventActivityViewModel;
@@ -80,15 +75,13 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
         /* TODO: completar la información obtenida de la base de datos */
 
-        // Inicializamos los valores de los campos
-        // Recuperar lista de sports desde BBDD
-        newEventActivityViewModel.getEventData().observe(DetailedInformationActivity.this, new Observer<Event>() {
+        newEventActivityViewModel.getEventData().observe(this, new Observer<Event>() {
             @Override
             public void onChanged(Event event) {
                 Log.d("TAG", "observed");
                 if (event != null) {
                     mDate.setText(event.getDate());
-                    mSport.setText(event.getSport());
+                    //mSport.setSelection(adapter.getPosition(event.getSport()));
                     mDuration.setText(event.getDuration());
                     mPulse.setText(event.getPulse());
                     mComment.setText(event.getComment());
@@ -98,8 +91,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
                                 .load(event.getImageURL())
                                 .resize(mImage.getWidth(), mImage.getHeight())
                                 .centerCrop()
-                                .into(mImage);
-                    }
+                                .into(mImage);}
 
                     updateCompletion("sport", event.getSport(), event.getDate());
                 }

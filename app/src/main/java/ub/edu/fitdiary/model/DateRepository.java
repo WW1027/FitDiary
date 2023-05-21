@@ -2,10 +2,9 @@ package ub.edu.fitdiary.model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import ub.edu.fitdiary.view.DateCardAdapter;
 
 public class DateRepository {
 
@@ -46,12 +45,8 @@ public class DateRepository {
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
 
-
         // Obtener último día del mes
         int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        System.out.println(month);
-        System.out.println(lastDay);
 
         // Crear objetos Date para cada día del mes
         for (int i = 1; i <= lastDay; i++) {

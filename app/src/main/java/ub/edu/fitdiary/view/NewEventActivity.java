@@ -30,10 +30,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +43,7 @@ import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
+import ub.edu.fitdiary.viewmodel.CalendarFragmentViewModel;
 import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 
 public class NewEventActivity extends AppCompatActivity {
@@ -87,6 +90,8 @@ public class NewEventActivity extends AppCompatActivity {
         mHintPulseImage = findViewById(R.id.newEventDateImagePulse);
         mcameraButton = findViewById(R.id.newEventCameraImageView);
 
+        mDateText.setText(DateCardAdapter.getIdDate());
+
         /* Añadimos listener al botón de añadir */
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,28 +103,28 @@ public class NewEventActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Campos de Date, Sport y Duration son obligatorios",
                             Toast.LENGTH_SHORT).show();
                 } else { // Si están los tres campos obligatorios rellenados, se añade el evento
-                    String URL="";
-                    if (mPhotoUri!=null){URL=mPhotoUri.toString();}
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    Date date = new Date();
+                    String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
                     newEventActivtyViewModel.addEvent(
-                            mDateText.getText().toString(),
+                            mDateText.getText().toString()+" "+horaActual,
                             mSportSpinner.getSelectedItem().toString(),
                             mDurationText.getText().toString(),
                             mPulseText.getText().toString(),
-                            mCommentText.getText().toString(),
-                            URL
+                            mCommentText.getText().toString()
                     );
                     finish();
+
                 }
             }
         });
 
-        /* //Ajustar Spinner de tipo de configuración de tiempo
+        /* Ajustar Spinner de tipo de configuración de tiempo */
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.time_array, android.R.layout.simple_spinner_item);
         // Especificar el layout de uso cuando la lista de elecciones aparece
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Aplicar el adaptador al spinner
-        mDurationSpinner.setAdapter(adapter2);*/
 
         // Recuperar lista de sports desde BBDD
         newEventActivtyViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
@@ -157,7 +162,6 @@ public class NewEventActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-
         /* Listener del hint de qué es el pulso */
         mHintPulseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +202,7 @@ public class NewEventActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
         setTakeCameraPictureListener(mcameraButton);
         final Observer<String> observerPictureUrl = new Observer<String>() {
             @Override
@@ -278,7 +283,4 @@ public class NewEventActivity extends AppCompatActivity {
             takePictureLauncher.launch(intent);
         });
     }
-
-
-
 }

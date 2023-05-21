@@ -63,10 +63,6 @@ public class CalendarFragmentViewModel extends AndroidViewModel {
 
     }
 
-    public void selectDate(int pos) {
-        //TODO
-        Date fecha = mDates.getValue().get(pos);
-    }
 
     /*
     MÉTODOS PARA LA CLASE EVENTOS
@@ -86,13 +82,12 @@ public class CalendarFragmentViewModel extends AndroidViewModel {
 
     /* Método que será invocado por la CalendarFragment para cargar los eventos del usuario
      * actual desde el repositorio */
-    public void loadEventsFromRepository() {
-        mEventRepository.loadEvents(mEvents.getValue());
+    public void loadEventsFromRepository(String id) {
+        mEventRepository.loadEvents(mEvents.getValue(), id);
     }
 
     public void removeFromRepository(int position) {
         mEvents.getValue().remove(position);
     }
-
 
 }

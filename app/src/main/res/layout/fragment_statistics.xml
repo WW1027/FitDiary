@@ -48,7 +48,7 @@
 
                     <View
                         android:id="@+id/statisticsHorizontalLine3"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:layout_height="3dp"
                         android:layout_gravity="center"
                         android:background="@color/dark_gray" />
@@ -70,11 +70,19 @@
                         android:gravity="center"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
-                        android:text="Goal: 45 min"
+                        android:text="Goal: 0 min"
                         android:textAlignment="center"
                         android:textColor="@color/orange"
                         android:textSize="20sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/goalEdit"
+                        android:layout_width="38dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        app:srcCompat="@drawable/edit" />
+
 
                     <ImageView
                         android:id="@+id/statisticsCircle2"
@@ -85,9 +93,10 @@
                         android:rotation="45"
                         app:srcCompat="@drawable/rhombus" />
 
+
                     <View
                         android:id="@+id/statisticsHorizontalLine4"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:layout_height="3dp"
                         android:layout_gravity="right|center"
                         android:background="@color/dark_gray" />
@@ -162,8 +171,6 @@
                 style="@style/CircularDeterminateProgressBar"
                 android:indeterminateOnly="false"
                 android:progressDrawable="@drawable/progress"
-                tools:progress="60"
-                android:progress="60"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 app:layout_constraintBottom_toTopOf="@+id/txtStats"

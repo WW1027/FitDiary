@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -19,8 +18,6 @@ import java.util.ArrayList;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Event;
-import ub.edu.fitdiary.model.EventRepository;
-import ub.edu.fitdiary.viewmodel.CalendarFragmentViewModel;
 
 public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.ViewHolder>{
 
@@ -112,7 +109,7 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
             mCardComment.setText(event.getComment());
             // Carga la imagen de la URL en el ImageView
             if(event.getImageURL()!=""){
-            Picasso.get().load(event.getImageURL()).into(mCardPictureUrl);}
+                Picasso.get().load(event.getImageURL()).into(mCardPictureUrl);}
             // Setea el listener onClick del botón de esconder (hide), que a la vez
             // llame el método OnClickHide que implementan nuestros propios
             // listeners de tipo OnClickHideListener.

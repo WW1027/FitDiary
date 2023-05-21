@@ -1,16 +1,11 @@
 package ub.edu.fitdiary.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 
 import ub.edu.fitdiary.R;

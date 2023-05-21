@@ -198,7 +198,6 @@ public class NewEventActivity extends AppCompatActivity {
             }
         });
         setTakeCameraPictureListener(mcameraButton);
-        setChoosePictureListener(mEventImage);
         final Observer<String> observerPictureUrl = new Observer<String>() {
             @Override
             public void onChanged(String pictureUrl) {
@@ -279,34 +278,6 @@ public class NewEventActivity extends AppCompatActivity {
         });
     }
 
-    private void setChoosePictureListener(@NonNull View choosePicture) {
-        // Codi que s'encarrega de rebre el resultat de l'intent de seleccionar foto de galeria
-        // i que es llençarà des del listener que definirem a baix.
-        ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(), result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        Uri contentUri = data.getData(); // En aquest intent, sí que hi arriba la URI
-                        /*
-                         * [Exercici 2: Aquí hi manca 1 línia de codi]
-                         */
-                        newEventActivtyViewModel.setPictureUrlOfUser(
-                                contentUri);
-                    }
-                });
-
-        // Listener del botó de seleccionar imatge, que llençarà l'intent amb l'ActivityResultLauncher.
-        choosePicture.setOnClickListener(view -> {
-            Intent data = new Intent(Intent.ACTION_GET_CONTENT);
-            data.addCategory(Intent.CATEGORY_OPENABLE);
-            data.setType("image/*");
-            Intent intent = Intent.createChooser(data, "Choose a file");
-            /*
-             * [Exercici 2: Aquí hi manca 1 línia de codi]
-             */
-            startActivityForResult.launch(intent);
-        });
-    }
 
 
 }

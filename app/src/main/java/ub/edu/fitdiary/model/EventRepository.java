@@ -16,6 +16,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -128,7 +130,7 @@ public class EventRepository {
     /**
      * Método para obtener todos los eventos de un usuario
      */
-    public void loadEvents(ArrayList<Event> events) {
+    public void loadEvents(ArrayList<Event> events, String id) {
         events.clear();
         FirebaseUser user = mAuth.getCurrentUser();
         DocumentReference docRef = mDb.collection("users").document(user.getEmail());
@@ -138,15 +140,22 @@ public class EventRepository {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
-                        Event user = new Event(
-                                document.getString("date"),
-                                document.getString("sport"),
-                                document.getString("duration"),
-                                document.getString("pulse"),
-                                document.getString("imageURL"),
-                                document.getString("comment")
-                        );
-                        events.add(user);
+
+                        // Obtener el ID del documento actual
+                        String documentId = document.getId();
+
+                        // Verificar si el ID del documento comienza igual que el valor de 'id'
+                        if (documentId.startsWith(id)) {
+                            Event event = new Event(
+                                    document.getString("date"),
+                                    document.getString("sport"),
+                                    document.getString("duration"),
+                                    document.getString("pulse"),
+                                    document.getString("imageURL"),
+                                    document.getString("comment")
+                            );
+                            events.add(event);
+                        }
                     }
                     /* Callback listeners */
                     for (OnLoadEventsListener l: mOnLoadEventsListeners) {
@@ -164,4 +173,6 @@ public class EventRepository {
         DocumentReference docRef = mDb.collection("users").document(user.getEmail());
         docRef.update(field, text);
     }
+
+
 }

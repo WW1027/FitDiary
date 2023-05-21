@@ -7,6 +7,21 @@ public class Date {
     private int numMonth; // Dia de la semana
     private int numYear; // Dia de la semana
 
+    public int getNumMonth() {
+        return numMonth;
+    }
+
+    public void setNumMonth(int numMonth) {
+        this.numMonth = numMonth;
+    }
+
+    public int getNumYear() {
+        return numYear;
+    }
+
+    public void setNumYear(int numYear) {
+        this.numYear = numYear;
+    }
 
     public Date(){
 

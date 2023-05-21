@@ -86,8 +86,8 @@ public class CalendarFragment extends Fragment {
             // dins de la recicler view.
             @Override
             public void OnClickSelect(int pos) {
-                mCalendarFragmentViewModel.selectDate(pos);
-
+                // Cargar los eventos del repositorio
+                mCalendarFragmentViewModel.loadEventsFromRepository(mDateCardRVAdapter.getIdDate());
             }
         });
 
@@ -101,9 +101,15 @@ public class CalendarFragment extends Fragment {
 
         mMonthYear.setText(dateFormat.format(calendar.getTime()));
 
+        int d = calendar.get(calendar.DAY_OF_MONTH);
         int m = calendar.get(calendar.MONTH);
         int y = calendar.get(calendar.YEAR);
+
+        DateCardAdapter.setSelectedItemIndex(d-1);
+        DateCardAdapter.scroll();
+
         mCalendarFragmentViewModel.loadDatesFromRepository(m, y);  // Internament pobla les dates
+
 
 
 
@@ -132,13 +138,14 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<Event> events) {
                 // Actualizar la UI
-                // ...
+                mEventCardAdapter.setmEvents(events);
+                //mEventCardAdapter.notifyDataSetChanged();
             }
         };
         mCalendarFragmentViewModel.getEvents().observe(getViewLifecycleOwner(), eventListObserver);
 
         // Cargar los eventos del repositorio
-        mCalendarFragmentViewModel.loadEventsFromRepository();
+        mCalendarFragmentViewModel.loadEventsFromRepository(mDateCardRVAdapter.getIdDate());
 
         // Vamos a buscar el RecyclerView y hacer dos cosas
         mEventsCardsRV = view.findViewById(R.id.eventCardEvent);
@@ -168,13 +175,13 @@ public class CalendarFragment extends Fragment {
 
         // Observer en CalendarFragment para ver si la lista de Event (observable MutableLiveData)
         // en CalendarFragmentViewModel ha cambiado.
-        final Observer<ArrayList<Event>> observerEvent = new Observer<ArrayList<Event>>() {
+        /*final Observer<ArrayList<Event>> observerEvent = new Observer<ArrayList<Event>>() {
             @Override
             public void onChanged(ArrayList<Event> events) {
                 mEventCardAdapter.notifyDataSetChanged();
             }
         };
-        mCalendarFragmentViewModel.getEvents().observe(getViewLifecycleOwner(), observerEvent);
+        mCalendarFragmentViewModel.getEvents().observe(getViewLifecycleOwner(), observerEvent);*/
 
         mEventCardAdapter.setOnClickSelectListener(new EventCardAdapter.OnClickSelectListener() {
             // Listener que escoltarà quan interactuem amb un item en una posició donada

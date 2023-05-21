@@ -17,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.text.SimpleDateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +27,7 @@ import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
+import ub.edu.fitdiary.viewmodel.CalendarFragmentViewModel;
 import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 
 public class NewEventActivity extends AppCompatActivity {
@@ -39,6 +43,8 @@ public class NewEventActivity extends AppCompatActivity {
     private Button mSaveButton;
     private ImageView mCancelButton;
     private ImageView mHintPulseImage;
+    private CalendarFragmentViewModel mCalendarFragmentViewModel;
+    private EventCardAdapter mEventCardAdapter;
 
     // Atributos del view model o model del view
     private NewEventActivityViewModel newEventActivtyViewModel;
@@ -52,7 +58,11 @@ public class NewEventActivity extends AppCompatActivity {
         newEventActivtyViewModel = new ViewModelProvider(this)
                 .get(NewEventActivityViewModel.class);
 
+        mCalendarFragmentViewModel = new ViewModelProvider(this)
+                .get(CalendarFragmentViewModel.class);
         getSupportActionBar().hide(); //hide the title bar
+
+        mEventCardAdapter = new EventCardAdapter(mCalendarFragmentViewModel.getEvents().getValue(), this);
 
         // Relacionamos el id con la variable para referirnos a ella
         mDateText = findViewById(R.id.newEventDateTextRectangle);
@@ -67,6 +77,8 @@ public class NewEventActivity extends AppCompatActivity {
         mCommentText = findViewById(R.id.newEventCommentRectangle);
         mHintPulseImage = findViewById(R.id.newEventDateImagePulse);
 
+        mDateText.setText(DateCardAdapter.getIdDate());
+
         /* Añadimos listener al botón de añadir */
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,14 +90,18 @@ public class NewEventActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Campos de Date, Sport y Duration son obligatorios",
                             Toast.LENGTH_SHORT).show();
                 } else { // Si están los tres campos obligatorios rellenados, se añade el evento
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    Date date = new Date();
+                    String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
                     newEventActivtyViewModel.addEvent(
-                            mDateText.getText().toString(),
+                            mDateText.getText().toString()+" "+horaActual,
                             mSportSpinner.getSelectedItem().toString(),
                             mDurationText.getText().toString(),
                             mPulseText.getText().toString(),
                             mCommentText.getText().toString()
                     );
                     finish();
+
                 }
             }
         });
@@ -119,21 +135,17 @@ public class NewEventActivity extends AppCompatActivity {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-                Date date = new Date();
-                String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
 
                 //pick a date with android date picker dialog
                 DatePickerDialog datePickerDialog = new DatePickerDialog(NewEventActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
-                        mDateText.setText(day + "-" + (month + 1) + "-" + year + " " + horaActual);
+                        mDateText.setText(day + "-" + (month + 1) + "-" + year);
                     }
                 }, year, month, day);
                 datePickerDialog.show();
             }
         });
-
         /* Listener del hint de qué es el pulso */
         mHintPulseImage.setOnClickListener(new View.OnClickListener() {
             @Override

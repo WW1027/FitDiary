@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -19,6 +20,8 @@ import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Event;
+import ub.edu.fitdiary.model.EventRepository;
+import ub.edu.fitdiary.viewmodel.CalendarFragmentViewModel;
 
 public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.ViewHolder>{
 
@@ -34,6 +37,7 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
     public void setOnClickSelectListener(OnClickSelectListener listener) {
         this.mOnClickSelectListener = listener;
     }
+
 
     /** Definición de listener (interfaz)
      * para cuando alguien quiera escuchar un evento de OnClickHide, es decir,
@@ -86,6 +90,9 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
         // El ViewHolder té el mètode que s'encarrega de llegir els atributs del User (1r parametre),
         // i assignar-los a les variables del ViewHolder.
         // Qualsevol listener que volguem posar a un item, ha d'entrar com a paràmetre extra (2n).
+
+
+
         holder.bind(mEvents.get(position), this.mOnClickHideListener, this.mOnClickSelectListener);
     }
 

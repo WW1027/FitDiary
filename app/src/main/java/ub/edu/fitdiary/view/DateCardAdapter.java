@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Date;
+import ub.edu.fitdiary.viewmodel.CalendarFragmentViewModel;
 
 public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHolder> {
 
@@ -23,6 +25,7 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
     private static int selectedItemIndex = -1;
     private static RecyclerView mDateCardsRV;
     private ArrayList<Date> mDates; // Referència a la llista de Dates
+    private static String idDate;
 
     /** Definició de listener (interficie)
      *  per a quan algú vulgui escoltar un event de OnClickSelect, és a dir,
@@ -32,10 +35,24 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
         void OnClickSelect(int position);
     }
 
+    Calendar calendar = Calendar.getInstance();
+    int d = calendar.get(calendar.DAY_OF_MONTH);
+    int m = calendar.get(calendar.MONTH);
+    int y = calendar.get(calendar.YEAR);
+
     //Constructor
     public DateCardAdapter(RecyclerView mDateCardsRV, ArrayList<Date> mDates) {
         this.mDateCardsRV = mDateCardsRV;
         this.mDates = mDates;
+        this.idDate = d+"-"+(m+1)+"-"+y;
+    }
+
+    public static String getIdDate() {
+        return idDate;
+    }
+
+    public static void setIdDate(String idDate) {
+        DateCardAdapter.idDate = idDate;
     }
 
     public static void setSelectedItemIndex(int selectedItemIndex) {
@@ -75,6 +92,7 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
             holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCard.getContext(), R.color.orange));
             holder.mCardNumDate.setTextColor(Color.WHITE);
             holder.mCardDayDate.setTextColor(Color.WHITE);
+
         } else {
             holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCard.getContext(), R.color.light_orange));
             holder.mCardNumDate.setTextColor(ContextCompat.getColor(holder.mCard.getContext(), R.color.orange));
@@ -135,6 +153,7 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
             mCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    DateCardAdapter.setIdDate(date.getNumDate()+"-"+(date.getNumMonth()+1)+"-"+date.getNumYear());
                     listener.OnClickSelect(getAdapterPosition());
 
                     int previousSelectedItemIndex = DateCardAdapter.selectedItemIndex;

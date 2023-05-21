@@ -11,6 +11,7 @@ public class User {
     private String birthday;
     private String sex;
     private String pictureURL; // Url d'Internet, no la foto en si
+    private int goal;
 
     // Constructor
 
@@ -49,6 +50,7 @@ public class User {
         return this.sex;
     }
     public String getURL() { return this.pictureURL; }
+    public int getGoal() { return goal;}
 
     // Setters
     public void setEmail (String email) { this.email = email;}
@@ -62,4 +64,5 @@ public class User {
         this.sex = sex;
     }
     public void setUrl(String pictureUrl) { this.pictureURL = pictureUrl; }
+    public void setGoal(int goal) { this.goal = goal; }
 }

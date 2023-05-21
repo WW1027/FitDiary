@@ -107,6 +107,7 @@ public class NewRemainderActivity extends AppCompatActivity {
                         mDateText.setText(day + "/" + (month + 1) + "/" + year);
                     }
                 }, year, month, day);
+                datePickerDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
                 datePickerDialog.show();
             }
         });

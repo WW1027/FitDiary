@@ -143,7 +143,12 @@ public class DetailedInformationActivity extends AppCompatActivity {
                             mPulse.setText(event.getPulse());
                             mComment.setText(event.getComment());
                             mCalories.setText(String.valueOf(Integer.parseInt(event.getPulse()) * Integer.parseInt(event.getDuration())));
-
+                            if (event.getImageURL()!=""){
+                                Picasso.get()
+                                        .load(event.getImageURL())
+                                        .resize(mImage.getWidth(), mImage.getHeight())
+                                        .centerCrop()
+                                        .into(mImage);}
                             System.out.println(event.getSport());
                             updateCompletion("sport", event.getSport(), event.getDate());
                         }

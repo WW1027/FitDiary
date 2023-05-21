@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_orange">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.DetailedInformationActivity">
+
+        <ImageView
+            android:id="@+id/detailedInformationBackButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/detailedInformationDate"
+            app:layout_constraintEnd_toStartOf="@+id/detailedInformationDate"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/detailedInformationDate"
+            app:srcCompat="@drawable/back_arrow" />
+
+        <TextView
+            android:id="@+id/detailedInformationDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/recursive_medium"
+            android:gravity="center"
+            android:text="Day"
+            android:textAlignment="center"
+            android:textColor="@color/brown"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/newEventHorizontalLine"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailedInformationDate" />
+
+
+        <ImageView
+            android:id="@+id/detailedInformationImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/newEventHorizontalLine"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rounded_rectangle"
+            android:fontFamily="@font/recursive_medium"
+            app:srcCompat="@drawable/image"
+            android:textAlignment="viewStart"
+            tools:ignore="RtlCompat,TouchTargetSizeCheck"
+            app:layout_constraintBottom_toTopOf="@id/newEventTableLayout"/>
+
+        <TableLayout
+            android:id="@+id/newEventTableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:stretchColumns="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailedInformationImage"
+            app:layout_constraintBottom_toTopOf="@id/newEventCommentRectangle"
+            tools:ignore="NotSibling">
+            <TableRow>
+                <TextView
+                    android:id="@+id/newEventSportText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="20sp"
+                    android:fontFamily="@font/recursive_medium"
+                    android:padding="5dp"
+                    android:text="Sport:"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/detailedInformationSport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/recursive_medium"
+                    android:padding="5dp"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="10sp"
+                    android:padding="3dp"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/newEventDurationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/recursive_medium"
+                    android:layout_marginLeft="20sp"
+                    android:text="Duration:"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:id="@+id/detailedInformationDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/recursive_medium"
+                    android:text=""
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:padding="5dp"/>
+
+                <ImageView
+                    android:id="@+id/detailedInformationEditDurationButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="right"
+                    app:srcCompat="@drawable/edit" />
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="10sp"
+                    android:padding="3dp"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/newEventPulseText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/recursive_medium"
+                    android:layout_marginLeft="20sp"
+                    android:text="Pulse:"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:id="@+id/detailedInformationPulse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/recursive_medium"
+                    android:text=""
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:padding="5dp"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="10sp"
+                    android:padding="3dp"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/newEventCaloriesText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/recursive_medium"
+                    android:layout_marginLeft="20sp"
+                    android:text="Total calories:"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:padding="5dp" />
+                <TextView
+                    android:id="@+id/detailedInformationCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/recursive_medium"
+                    android:text=""
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:padding="5dp" />
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/detailedInformationComment"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            android:paddingLeft="8dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/rectangle_box"
+            android:fontFamily="@font/recursive_medium"
+            android:hint="Comment box"
+            android:textSize="16sp"
+            android:textAlignment="viewStart"
+            app:layout_constraintTop_toBottomOf="@id/newEventTableLayout"
+            tools:ignore="RtlCompat,TouchTargetSizeCheck"
+            tools:layout_editor_absoluteX="50dp" />
+
+        <Button
+            android:id="@+id/detailedInformationDeleteButton"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/orange"
+            android:fontFamily="@font/recursive_medium"
+            android:text="DELETE"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailedInformationComment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="TextContrastCheck" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

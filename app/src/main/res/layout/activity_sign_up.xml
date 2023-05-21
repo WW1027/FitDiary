@@ -56,7 +56,8 @@
             android:hint="Enter your name"
             android:inputType="textPersonName"
             android:textColorHint="@color/gray"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/signUpSurnameTextView"
@@ -80,7 +81,8 @@
             android:hint="Enter your surname"
             android:inputType="textPersonName"
             android:textColorHint="@color/gray"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/signUpDateTextView"
@@ -111,7 +113,8 @@
                 android:focusable="false"
                 android:hint="dd/mm/yyyy"
                 android:inputType="date"
-                android:textColorHint="@color/gray" />
+                android:textColorHint="@color/gray"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <ImageView
                 android:id="@+id/signUpDateImageView"
@@ -143,7 +146,8 @@
                 android:layout_width="240dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="35dp"
-                android:background="@color/orange2" />
+                android:background="@color/orange2"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         </TableRow>
 
@@ -169,7 +173,8 @@
             android:hint="Enter your email"
             android:inputType="textPersonName"
             android:textColorHint="@color/gray"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/signUpPasswordTextView"
@@ -193,7 +198,8 @@
             android:hint="Enter your password"
             android:inputType="textPassword"
             android:textColorHint="@color/gray"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TableRow
             android:layout_width="match_parent"
@@ -205,7 +211,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
                 android:fontFamily="@font/recursive_medium"
-                android:text="I agree to the" />
+                android:text="I agree to the"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/signUpServiceTextView"
@@ -258,7 +265,8 @@
             android:hapticFeedbackEnabled="false"
             android:text="Accept"
             android:textAllCaps="false"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:ignore="TextContrastCheck" />
 
         <TableRow
             android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package ub.edu.fitdiary.view;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,53 +9,49 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+
+import java.util.ArrayList;
+
 import ub.edu.fitdiary.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StatisticsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class StatisticsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    /*
+    char
+    */
+    // variable for our bar chart
+    private BarChart barChart;
+
+    // variable for our bar data.
+    private BarData barData;
+
+    // variable for our bar data set.
+    private BarDataSet barDataSet;
+
+    // array list for storing entries.
+    private ArrayList barEntriesArrayList;
+    /*
+    char
+     */
+
 
     public StatisticsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StatisticsFragment newInstance(String param1, String param2) {
-        StatisticsFragment fragment = new StatisticsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -62,5 +59,86 @@ public class StatisticsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_statistics, container, false);
+
     }
+
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        initView(view);
+        chart();
+    }
+
+    private void initView(View view) {
+        //associete the views with the xml
+        barChart = view.findViewById(R.id.idBarChart);
+    }
+
+    private void chart(){
+        float[] colors = {(float) 234,(float) 0.5,(float) 0.7};
+        // calling method to get bar entries.
+        getBarEntries();
+
+        // creating a new bar data set.
+        barDataSet = new BarDataSet(barEntriesArrayList, "");
+
+        // creating a new bar data and
+        // passing our bar data set.
+        barData = new BarData(barDataSet);
+
+        // below line is to set data
+        // to our bar chart.
+        barChart.setData(barData);
+
+        // adding color to our bar data set.
+        barDataSet.setColors(Color.argb(255, 234, 127,13));
+
+        // setting text color.
+        barDataSet.setValueTextColor(Color.BLACK);
+
+        // setting text size
+        barDataSet.setValueTextSize(10f);
+        barChart.getDescription().setEnabled(false);
+        barChart.getLegend().setEnabled(false);
+
+
+        final ArrayList<String> xAxisLabel = new ArrayList<>();
+        xAxisLabel.add("Mon");
+        xAxisLabel.add("Tue");
+        xAxisLabel.add("Wed");
+        xAxisLabel.add("Thu");
+        xAxisLabel.add("Fri");
+        xAxisLabel.add("Sat");
+        xAxisLabel.add("Sun");
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return xAxisLabel.get((int) value % xAxisLabel.size());
+            }
+        });
+
+        YAxis rightAxis = barChart.getAxisRight();
+        rightAxis.setEnabled(false); // deshabilita el eje y en el lado derecho
+
+    }
+
+
+    private void getBarEntries() {
+        // creating a new array list
+        barEntriesArrayList = new ArrayList<>();
+
+        // adding new entry to our array list with bar
+        // entry and passing x and y axis value to it.
+        barEntriesArrayList.add(new BarEntry(1f, 40));
+        barEntriesArrayList.add(new BarEntry(2f, 60));
+        barEntriesArrayList.add(new BarEntry(3f, 10));
+        barEntriesArrayList.add(new BarEntry(4f, 25));
+        barEntriesArrayList.add(new BarEntry(5f, 45));
+        barEntriesArrayList.add(new BarEntry(6f, 15));
+        barEntriesArrayList.add(new BarEntry(7f, 15));
+    }
+
 }

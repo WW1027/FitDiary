@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATION" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,25 +18,51 @@
         tools:targetApi="31">
         <activity
             android:name="ub.edu.fitdiary.view.ResetPasswordActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="ub.edu.fitdiary.view.SignUpActivity"
             android:exported="false"/>
         <activity
             android:name="ub.edu.fitdiary.view.MainActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="ub.edu.fitdiary.view.NewEventActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="ub.edu.fitdiary.view.NewRemainderActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="ub.edu.fitdiary.view.AuthenticationActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="ub.edu.fitdiary.view.DetailedInformationActivity"
+            android:label="Detailed Information"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="edu.ub.pis.fitdiary.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/paths" />
+        </provider>
+
+
 
     </application>
 

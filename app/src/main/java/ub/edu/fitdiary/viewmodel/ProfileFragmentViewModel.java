@@ -4,33 +4,25 @@ import android.app.Application;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import ub.edu.fitdiary.model.SuggestionRepository;
 import ub.edu.fitdiary.model.User;
 import ub.edu.fitdiary.model.UserRepository;
@@ -103,42 +95,6 @@ public class ProfileFragmentViewModel extends AndroidViewModel {
         });
 
     }
-
-    /*
-    public void loadData() {
-        userRepository.getUser().observeForever(new Observer<User>() {
-            @Override
-            public void onChanged(User user) {
-                if (user != null) {
-                    mName.setValue(user.getName());
-                    mSurname.setValue(user.getSurname());
-                    mBirthday.setValue(user.getBirthday());
-                    mSex.setValue(user.getSex());
-                }
-            }
-        });
-    }
-
-    /*private void loadData() {
-        DocumentReference docRef = mDb.collection("users").document(email);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot document) {
-                if (document.exists()) {
-                    name.setValue(document.getString("name"));
-                    surname.setValue(document.getString("surname"));
-                    birthday.setValue(document.getString("birthday"));
-                    sex.setValue(document.getString("sex"));
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Manejar errores
-            }
-        });
-    }*/
-
 
     public void updateCompletion(String field, String text) {
         userRepository.updateCompletion(field, text);

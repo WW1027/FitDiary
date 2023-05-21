@@ -29,16 +29,13 @@ import java.util.List;
 import ub.edu.fitdiary.model.Event;
 import ub.edu.fitdiary.model.EventRepository;
 import ub.edu.fitdiary.model.SportRepository;
-import ub.edu.fitdiary.model.User;
 import ub.edu.fitdiary.model.UserRepository;
-import ub.edu.fitdiary.view.EventCardAdapter;
 
 public class NewEventActivityViewModel extends AndroidViewModel {
     private final static String TAG = "NewEventActivtyViewModel";
     private EventRepository eventRepository;
     private UserRepository userRepository;
     private MutableLiveData<Event> mEventData;
-    private EventCardAdapter eventCardAdapter;
 
     private FirebaseStorage mStorage;
 

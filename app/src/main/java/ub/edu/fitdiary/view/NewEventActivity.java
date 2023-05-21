@@ -142,15 +142,15 @@ public class NewEventActivity extends AppCompatActivity {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                /*SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 Date date = new Date();
-                String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
+                String horaActual = dateFormat.format(date); // Hora actual en formato de cadena*/
 
                 //pick a date with android date picker dialog
                 DatePickerDialog datePickerDialog = new DatePickerDialog(NewEventActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
-                        mDateText.setText(day + "-" + (month + 1) + "-" + year + " " + horaActual);
+                        mDateText.setText(day + "-" + (month + 1) + "-" + year);
                     }
                 }, year, month, day);
                 datePickerDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());

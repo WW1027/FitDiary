@@ -172,9 +172,31 @@ public class EventRepository {
         });
     }
 
-    public void updateCompletion(String field, String text) {
+    public void updateCompletion(String field, String text, String id) {
         FirebaseUser user = mAuth.getCurrentUser();
-        DocumentReference docRef = mDb.collection("users").document(user.getEmail());
-        docRef.update(field, text);
+        DocumentReference docRef = mDb.collection("users").document(user.getEmail()).collection("events").document(id);
+        Map<String, Object> event = new HashMap<>();
+        event.put(field, text);
+        docRef.update(event);
+    }
+
+    public void deleteEvent(String id){
+        FirebaseUser user = mAuth.getCurrentUser();
+        DocumentReference docRef = mDb.collection("users").document(user.getEmail()).collection("events").document(id);
+        docRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Document successfully deleted
+                        Log.d("TAG", "Document deleted successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error occurred while deleting the document
+                        Log.w("TAG", "Error deleting document", e);
+                    }
+                });
     }
 }

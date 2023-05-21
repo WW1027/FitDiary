@@ -22,8 +22,6 @@ import ub.edu.fitdiary.model.Event;
 
 public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.ViewHolder>{
 
-    private String date;
-
     public void hideEvent(int position) {
         notifyItemRemoved(position);
     }

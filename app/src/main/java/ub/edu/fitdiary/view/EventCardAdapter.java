@@ -105,7 +105,8 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
         public void bind(final Event event, OnClickHideListener listener, OnClickSelectListener listener2) {
             mCardComment.setText(event.getComment());
             // Carga la imagen de la URL en el ImageView
-            Picasso.get().load(event.getImageURL()).into(mCardPictureUrl);
+            if(event.getImageURL()!=""){
+            Picasso.get().load(event.getImageURL()).into(mCardPictureUrl);}
             // Setea el listener onClick del botón de esconder (hide), que a la vez
             // llame el método OnClickHide que implementan nuestros propios
             // listeners de tipo OnClickHideListener.

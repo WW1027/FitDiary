@@ -105,7 +105,7 @@ public class EventRepository {
         newEvent.put("duration", duration);
         newEvent.put("pulse", pulse);
         newEvent.put("comment", comment);
-        newEvent.put("imageURL", null);
+        newEvent.put("imageURL", imageURL);
 
         // Añadimos el evento a la base de datos
         FirebaseUser user = mAuth.getCurrentUser();

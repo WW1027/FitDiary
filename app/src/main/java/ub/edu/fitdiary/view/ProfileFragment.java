@@ -1,17 +1,26 @@
 package ub.edu.fitdiary.view;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +45,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,10 +72,12 @@ public class ProfileFragment extends Fragment {
     private EditText nameEditText, surnameEditText, dateEditText, emailEditText, suggestionsEditText;
     private Button   sendButton,logOutButton, themeButton;
     private Spinner sexSpinner;
-    private ImageView profileImageView, birthSelectorImageView, usernameButtonEdit,nameButtonEdit, surnameButtonEdit;
+    private ImageView profileImageView, birthSelectorImageView, usernameButtonEdit,nameButtonEdit, surnameButtonEdit, cameraImageView;
 
     //Esta variable sirve para que el primer onClickListener del sexspinner de editar no haga nada, para que no lo setea a "Man"
     private boolean isInitialSelection = true;
+
+    private Uri mPhotoUri;
 
     private ProfileFragmentViewModel profileFragmentViewModel;
     public ProfileFragment() {
@@ -113,8 +128,8 @@ public class ProfileFragment extends Fragment {
         themeButton= view.findViewById(R.id.profileThemeButton);
         sexSpinner= view.findViewById(R.id.profileSexSpinner);
         birthSelectorImageView= view.findViewById(R.id.profileBirthSelector);
+        cameraImageView = view.findViewById(R.id.profileCameraImageView);
 
-        themeButton = view.findViewById(R.id.profileThemeButton);
         profileImageView = view.findViewById(R.id.profileImageView);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.sex_array, android.R.layout.simple_spinner_item);
@@ -138,6 +153,14 @@ public class ProfileFragment extends Fragment {
                     emailEditText.setText(profileFragmentViewModel.getEmail());
                     sexSpinner.setSelection(adapter.getPosition(user.getSex()));
                 }
+            }
+        });
+
+        themeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
             }
         });
 
@@ -251,6 +274,28 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
+        setTakeCameraPictureListener(cameraImageView);
+        setChoosePictureListener(profileImageView);
+
+        final Observer<String> observerPictureUrl = new Observer<String>() {
+            @Override
+            public void onChanged(String pictureUrl) {
+                if (pictureUrl == "") System.out.println("pictureUrl is null");
+                    else {
+                    Picasso.get()
+                            .load(pictureUrl)
+                            .resize(profileImageView.getWidth(), profileImageView.getHeight())
+                            .centerCrop()
+                            .into(profileImageView);
+                }
+            }
+        };
+        profileFragmentViewModel.getPictureUrl().observe(getViewLifecycleOwner(), observerPictureUrl);
+
+        profileFragmentViewModel.loadPictureOfUser();
+
+
     }
 
     private void modifyData(TextView textView, String text, String field){
@@ -322,5 +367,100 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
             }});
     }*/
+
+
+
+    private void setTakeCameraPictureListener(@NonNull View takePictureView) {
+        // Codi que s'encarrega de rebre el resultat de l'intent de fer foto des de càmera
+        // i que es llençarà des del listener que definirem a baix.
+        ActivityResultLauncher<Intent> takePictureLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            profileFragmentViewModel.setPictureUrlOfUser(
+                                     mPhotoUri
+                            );
+                        }
+                    }
+                }
+        );
+
+        // Listener del botó de fer foto, que llençarà l'intent amb l'ActivityResultLauncher.
+        takePictureView.setOnClickListener(view -> {
+            // Crearem un nom de fitxer d'imatge temporal amb una data i hora i format JPEG
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            // Anem a buscar el directori extern (del sistema) especificat per la variable
+            // d'entorn Environment.DIRECTORY_PICTURES (pren per valor "Pictures").
+            // Se li afageix, com a sufix, el directori del sistema on es guarden els fitxers.
+            File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+            // Creem el fitxer
+            File image = null;
+            try {
+                image = File.createTempFile(
+                        imageFileName,  /* Prefix */
+                        ".jpg",         /* Sufix */
+                        storageDir      /* Directori on es guarda la imatge */
+                );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Recuperem la Uri definitiva del fitxer amb FileProvider (obligatori per seguretat)
+            // Per a fer-ho:
+            // 1. Especifiquem a res>xml>paths.xml el directori on es guardarà la imatge
+            //    de manera definitiva.
+            // 2. Afegir al manifest un provider que apunti a paths.xml del pas 1
+            Uri photoUri = FileProvider.getUriForFile(getContext(),
+                    "edu.ub.pis.fitdiary.fileprovider",
+                    image);
+
+            // Per tenir accés a la URI de la foto quan es llenci l'intent de la camara.
+            // Perquè encara que li passem la photoUri com a dades extra a l'intent, aquestes
+            // no tornen com a resultat de l'Intent.
+            mPhotoUri = photoUri;
+
+            // Llancem l'intent amb el launcher declarat al començament d'aquest mateix mètode
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mPhotoUri);
+            takePictureLauncher.launch(intent);
+        });
+    }
+
+    private void setChoosePictureListener(@NonNull View choosePicture) {
+        // Codi que s'encarrega de rebre el resultat de l'intent de seleccionar foto de galeria
+        // i que es llençarà des del listener que definirem a baix.
+        ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        Uri contentUri = data.getData(); // En aquest intent, sí que hi arriba la URI
+                        /*
+                         * [Exercici 2: Aquí hi manca 1 línia de codi]
+                         */
+                        profileFragmentViewModel.setPictureUrlOfUser(
+                                contentUri);
+                    }
+                });
+
+        // Listener del botó de seleccionar imatge, que llençarà l'intent amb l'ActivityResultLauncher.
+        choosePicture.setOnClickListener(view -> {
+            Intent data = new Intent(Intent.ACTION_GET_CONTENT);
+            data.addCategory(Intent.CATEGORY_OPENABLE);
+            data.setType("image/*");
+            Intent intent = Intent.createChooser(data, "Choose a file");
+            /*
+             * [Exercici 2: Aquí hi manca 1 línia de codi]
+             */
+            startActivityForResult.launch(intent);
+        });
+    }
+
+
+
+
 
 }

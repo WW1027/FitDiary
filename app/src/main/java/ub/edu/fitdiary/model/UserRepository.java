@@ -114,7 +114,8 @@ public class UserRepository {
      * email. Vendrá llamado desde fuera y cuando acabe, avisará siempre al listener,
      * invocando su OnLoadUserPictureUrl.
      */
-    public void loadPictureOfUser(String email) {
+    public void loadPictureOfUser() {
+        String email= mAuth.getCurrentUser().getEmail();
         mDb.collection("users")
                 .document(email)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

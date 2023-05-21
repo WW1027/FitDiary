@@ -269,8 +269,10 @@ public class StatisticsFragmentViewModel extends AndroidViewModel {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
-                    Integer goal = documentSnapshot.getLong("goal").intValue();
-                    goalLiveData.setValue(goal);
+                    if(documentSnapshot.contains("goal")){
+                        Integer goal = documentSnapshot.getLong("goal").intValue();
+                        goalLiveData.setValue(goal);
+                    }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

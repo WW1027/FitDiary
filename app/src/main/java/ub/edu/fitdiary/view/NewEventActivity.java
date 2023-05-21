@@ -106,12 +106,15 @@ public class NewEventActivity extends AppCompatActivity {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                     Date date = new Date();
                     String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
+                    String URL="";
+                    if (mPhotoUri!=null){URL=mPhotoUri.toString();}
                     newEventActivtyViewModel.addEvent(
                             mDateText.getText().toString()+" "+horaActual,
                             mSportSpinner.getSelectedItem().toString(),
                             mDurationText.getText().toString(),
                             mPulseText.getText().toString(),
-                            mCommentText.getText().toString()
+                            mCommentText.getText().toString(),
+                            URL
                     );
                     finish();
 

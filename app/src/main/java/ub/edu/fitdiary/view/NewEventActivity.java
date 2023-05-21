@@ -153,6 +153,7 @@ public class NewEventActivity extends AppCompatActivity {
                         mDateText.setText(day + "-" + (month + 1) + "-" + year + " " + horaActual);
                     }
                 }, year, month, day);
+                datePickerDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
                 datePickerDialog.show();
             }
         });

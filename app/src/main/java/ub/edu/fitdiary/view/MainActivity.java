@@ -1,13 +1,11 @@
 package ub.edu.fitdiary.view;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -16,24 +14,22 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import ub.edu.fitdiary.R;
 
 public class MainActivity extends AppCompatActivity {
-
-    BottomNavigationView bottomNavigationView;
-
-
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().hide(); //hide the title bar
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        ActionBar actionBar = getSupportActionBar();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.homeFragment:
-                        loadFragment(new HomeFragment(),false);
+                    case R.id.statisticsFragment:
+                        loadFragment(new StatisticsFragment(),false);
                         break;
                     case R.id.calendarFragment:
                         loadFragment(new CalendarFragment(),true);

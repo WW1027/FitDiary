@@ -1,16 +1,11 @@
 package ub.edu.fitdiary.view;
 
-import static java.security.AccessController.getContext;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.text.Edits;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,27 +17,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import ub.edu.fitdiary.R;
-import ub.edu.fitdiary.model.UserRepository;
+import ub.edu.fitdiary.viewmodel.AuthenticationActivityViewModel;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private final String TAG = "SignUpActivity";
-
-    private FirebaseAuth mAuth;
 
     private ImageView mCancelButton;
     private EditText mNameEditText;
@@ -58,17 +45,17 @@ public class SignUpActivity extends AppCompatActivity {
     private Button mAcceptButton;
     private TextView mSignInClickText;
 
-    private UserRepository mRepository;
+    private AuthenticationActivityViewModel authenticationActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        getSupportActionBar().hide(); //hide ActionBar
+        getSupportActionBar().hide(); //hide the title bar
 
-        mAuth = FirebaseAuth.getInstance();
-        mRepository = UserRepository.getInstance();
+        authenticationActivityViewModel =  new ViewModelProvider(this)
+                .get(AuthenticationActivityViewModel.class);
 
         mCancelButton = findViewById(R.id.signUpbtnCancel);
         mNameEditText = findViewById(R.id.signUpNameEditText);
@@ -79,18 +66,16 @@ public class SignUpActivity extends AppCompatActivity {
         mEmailEditText = findViewById(R.id.signUpEmailEditText);
         mPasswordEditText = findViewById(R.id.signUpPasswordEditText);
         mAgreeCheckBox = findViewById(R.id.signUpAgreeCheckBox);
-        mServiceText = findViewById(R.id.signUpServiceTextView);
-        mPrivacyText = findViewById(R.id.signUpPrivacyTextView);
+        //mServiceText = findViewById(R.id.signUpServiceTextView);
+        //mPrivacyText = findViewById(R.id.signUpPrivacyTextView);
         mAcceptButton = findViewById(R.id.signUpAcceptButton);
         mSignInClickText = findViewById(R.id.signUpSignInClickText);
 
         mAcceptButton.setOnClickListener(view -> {
-
             if(!mAgreeCheckBox.isChecked()){
                 Toast.makeText(getApplicationContext(), "You must agree the conditions",
                         Toast.LENGTH_SHORT).show();
-            }
-            if(!isDataEmpty(new ArrayList<>(Arrays.asList(mNameEditText, mSurnameEditText, mDateEditText)))) {
+            }else if(!isDataEmpty(new ArrayList<>(Arrays.asList(mNameEditText, mSurnameEditText, mDateEditText)))) {
                 try{
                     signUp(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());}
                 catch(Exception e){
@@ -133,38 +118,48 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        mCancelButton.setOnClickListener(view -> {
-            Intent intent = new Intent(SignUpActivity.this, AuthenticationActivity.class);
-            startActivity(intent);
+        // Calcelar acción
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Mostrar ventana para ver si de verdad quiere cancelar la acción
+                // Build the confirmation dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                builder.setTitle("Confirm Cancel Signing Up");
+                builder.setMessage("Are you sure you want to cancel this action?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Volvemos a la página anterior
+                        onBackPressed();
+                    }
+                });
+                builder.setNegativeButton("No", null);
+
+                // Show the confirmation dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         });
 
     }
 
     protected void signUp(String email, String password) {
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            mRepository.addUser(
-                                email,
-                                email,
-                                mNameEditText.getText().toString(),
-                                mSurnameEditText.getText().toString(),
-                                mDateEditText.getText().toString(),
-                                mSexSpinner.getSelectedItem().toString()
-                            );
-                            // Anar a la pantalla home de l'usuari autenticat
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            //Log.d(TAG, "Sign up create user succeeded");
-                            Toast.makeText(getApplicationContext(), task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        authenticationActivityViewModel.signUp(
+                email,
+                password,
+                mNameEditText.getText().toString(),
+                mSurnameEditText.getText().toString(),
+                mDateEditText.getText().toString(),
+                mSexSpinner.getSelectedItem().toString()).observe(this, result -> {
+            if (result) {
+                Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Account creation failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     protected boolean isEmpty(EditText text){

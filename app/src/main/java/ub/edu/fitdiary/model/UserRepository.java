@@ -4,9 +4,17 @@ package ub.edu.fitdiary.model;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -21,13 +29,16 @@ import java.util.Map;
  * Sigue el patrón de diseño Singleton.
  */
 public class UserRepository {
-    private static final String TAG = "Repository";
+    private static final String TAG = "UserRepository";
 
     /** Autoinstancia, por el patrón singleton */
     private static final UserRepository mInstance = new UserRepository();
 
     /** Referencia a la Base de Datos */
     private FirebaseFirestore mDb;
+    private FirebaseAuth mAuth;
+
+
 
     /** Definición de listener (interfaz),
      *  para escuchar cuando se hayan acabado de leer los usuarios de la BBDD  */
@@ -35,7 +46,7 @@ public class UserRepository {
         void onLoadUsers(ArrayList<User> users);
     }
 
-    public ArrayList<OnLoadUsersListener> mOnLoadUsersListeners = new ArrayList<>();
+    private ArrayList<OnLoadUsersListener> mOnLoadUsersListeners = new ArrayList<>();
 
     /** Definición de listener (interfaz)
      * para poder escuchar cuando se haya terminado de leer la Url de la foto de perfil
@@ -44,14 +55,23 @@ public class UserRepository {
         void OnLoadUserPictureUrl(String pictureUrl);
     }
 
-    public OnLoadUserPictureUrlListener mOnLoadUserPictureUrlListener;
+    private OnLoadUserPictureUrlListener mOnLoadUserPictureUrlListener;
 
     /**
      * Constructor privado para forzar la instanciación con getInstance(),
      * como marca el patrón de diseño Singleton class
      */
     private UserRepository() {
+        mAuth = FirebaseAuth.getInstance();
         mDb = FirebaseFirestore.getInstance();
+    }
+    public void signOut() {
+        mAuth.signOut();
+    }
+
+    public String getEmail() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        return user.getEmail();
     }
 
     /**
@@ -82,48 +102,20 @@ public class UserRepository {
         mOnLoadUserPictureUrlListener = listener;
     }
 
-    /**
-     * Método que lee los usuarios. Vendrá llamado desde fuera y cuando acabe,
-     * avisará siempre a los listeners, invocando su OnLoadUsers.
-     */
-    public void loadUsers(ArrayList<User> users){
-        users.clear();
-        mDb.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                User user = new User(
-                                        document.toString(), // ID = Email
-                                        document.toString(),
-                                        document.getString("name"),
-                                        document.getString("surname"),
-                                        document.getString("birthday"),
-                                        document.getString("sex"),
-                                        document.getString("picture_url")
-                                );
-                                users.add(user);
-                            }
-                            // Callback listeners
-                            for (OnLoadUsersListener l: mOnLoadUsersListeners) {
-                                l.onLoadUsers(users);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+    /**/
+    public void authenticateUser(String email, String password, OnCompleteListener<AuthResult> listener) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(listener);
     }
+
 
     /**
      * Método que lee la Url de una foto de perfil de un usuario indicado por su
      * email. Vendrá llamado desde fuera y cuando acabe, avisará siempre al listener,
      * invocando su OnLoadUserPictureUrl.
      */
-    public void loadPictureOfUser(String email) {
+    public void loadPictureOfUser() {
+        String email= mAuth.getCurrentUser().getEmail();
         mDb.collection("users")
                 .document(email)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -201,5 +193,15 @@ public class UserRepository {
                 .addOnFailureListener(exception -> {
                     Log.d(TAG, "Photo upload failed: " + pictureUrl);
                 });
+    }
+
+    public void updateCompletion(String field, String text) {
+        // Obtenir informació personal de l'usuari
+        String email=mAuth.getCurrentUser().getEmail();
+        Map<String, Object> signedUpUser = new HashMap<>();
+        signedUpUser.put(field, text);
+
+        // Actualitzar-la a la base de dades
+        mDb.collection("users").document(email).update(signedUpUser);
     }
 }

@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,15 +35,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -52,22 +42,15 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.User;
-import ub.edu.fitdiary.viewmodel.NewRemainderActivityViewModel;
 import ub.edu.fitdiary.viewmodel.ProfileFragmentViewModel;
 
 public class ProfileFragment extends Fragment {
 
     //Get all the views in the fragment_profile.xml
 
-    //private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-    //private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
-    //private FirebaseUser user = mAuth.getCurrentUser();
     private TextView usernameTextView;
     private EditText nameEditText, surnameEditText, dateEditText, emailEditText, suggestionsEditText;
     private Button   sendButton,logOutButton, themeButton;
@@ -341,35 +324,6 @@ public class ProfileFragment extends Fragment {
         profileFragmentViewModel.updateCompletion(field, text);
     }
 
-    /*public void initData(){
-        String email = this.user.getEmail();
-        DocumentReference docRef = mDb.collection("users").document(email);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot document) {
-                if (document.exists()) {
-                    emailEditText.setText(email);
-                    usernameTextView.setText(email);
-                    nameEditText.setText(document.getString("name"));
-                    surnameEditText.setText(document.getString("surname"));
-                    dateEditText.setText(document.getString("birthday"));
-                    if(document.getString("sex").equals("Man")) {
-                        sexSpinner.setSelection(0);}
-                    else{
-                        sexSpinner.setSelection(1);}
-                } else {
-                    Toast.makeText(getContext(),"No document",Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-            }});
-    }*/
-
-
-
     private void setTakeCameraPictureListener(@NonNull View takePictureView) {
         // Codi que s'encarrega de rebre el resultat de l'intent de fer foto des de càmera
         // i que es llençarà des del listener que definirem a baix.
@@ -458,9 +412,5 @@ public class ProfileFragment extends Fragment {
             startActivityForResult.launch(intent);
         });
     }
-
-
-
-
 
 }

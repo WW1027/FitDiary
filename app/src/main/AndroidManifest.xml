@@ -32,7 +32,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name="ub.edu.fitdiary.view.NewRemainderActivity"
+            android:name="ub.edu.fitdiary.view.NewReminderActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
         <activity

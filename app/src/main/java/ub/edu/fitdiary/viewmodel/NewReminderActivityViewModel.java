@@ -13,11 +13,11 @@ import java.util.List;
 import ub.edu.fitdiary.model.EventRepository;
 import ub.edu.fitdiary.model.SportRepository;
 
-public class NewRemainderActivityViewModel extends AndroidViewModel {
+public class NewReminderActivityViewModel extends AndroidViewModel {
     private final static String TAG = "NewRemainderActivityViewModel";
     private EventRepository eventRepository;
 
-    public NewRemainderActivityViewModel(Application application){
+    public NewReminderActivityViewModel(Application application){
         super(new Application());
 
         // Instacias generales

@@ -219,7 +219,7 @@ public class CalendarFragment extends Fragment {
                             startActivity(intent);
                         }else{
                             // Código para abrir la nueva actividad de añadir recordatorio nuevo
-                            Intent intent = new Intent(getActivity(), NewRemainderActivity.class);
+                            Intent intent = new Intent(getActivity(), NewReminderActivity.class);
                             startActivity(intent);
                         }
                         dialogInterface.dismiss();

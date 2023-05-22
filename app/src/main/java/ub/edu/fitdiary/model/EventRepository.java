@@ -49,7 +49,7 @@ public class EventRepository {
     /** Definición de listener (interfaz),
      * para escuchar cuando se hayan acabado de leer los usuarios de la BBDD */
     public interface OnLoadEventsListener {
-        void onLoadUsers(ArrayList<Event> events);
+        void onLoadEvents(ArrayList<Event> events);
     }
 
     private ArrayList<OnLoadEventsListener> mOnLoadEventsListeners = new ArrayList<>();
@@ -160,7 +160,7 @@ public class EventRepository {
                     }
                     /* Callback listeners */
                     for (OnLoadEventsListener l: mOnLoadEventsListeners) {
-                        l.onLoadUsers(events);
+                        l.onLoadEvents(events);
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());

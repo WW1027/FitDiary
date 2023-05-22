@@ -75,8 +75,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
         /* TODO: completar la información obtenida de la base de datos */
 
-        // Inicializamos los valores de los campos
-        // Recuperar lista de sports desde BBDD
+        // Cargar los datos del evento
         newEventActivityViewModel.getEventData().observe(DetailedInformationActivity.this, new Observer<Event>() {
             @Override
             public void onChanged(Event event) {
@@ -179,6 +178,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
     }
 
+    //Update los datos del Firebase
     protected void updateCompletion(String field, String text, String id) {
         // Como es cambio en la base de datos, se lo pedimos a viewmodel
         newEventActivityViewModel.updateCompletion(field, text, id);

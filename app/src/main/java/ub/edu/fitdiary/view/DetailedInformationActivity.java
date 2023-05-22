@@ -75,13 +75,14 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
         /* TODO: completar la información obtenida de la base de datos */
 
-        newEventActivityViewModel.getEventData().observe(this, new Observer<Event>() {
+        // Cargar los datos del evento
+        newEventActivityViewModel.getEventData().observe(DetailedInformationActivity.this, new Observer<Event>() {
             @Override
             public void onChanged(Event event) {
                 Log.d("TAG", "observed");
                 if (event != null) {
                     mDate.setText(event.getDate());
-                    //mSport.setSelection(adapter.getPosition(event.getSport()));
+                    mSport.setText(event.getSport());
                     mDuration.setText(event.getDuration());
                     mPulse.setText(event.getPulse());
                     mComment.setText(event.getComment());
@@ -177,6 +178,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
     }
 
+    //Update los datos del Firebase
     protected void updateCompletion(String field, String text, String id) {
         // Como es cambio en la base de datos, se lo pedimos a viewmodel
         newEventActivityViewModel.updateCompletion(field, text, id);

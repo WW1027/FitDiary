@@ -1,6 +1,8 @@
 package ub.edu.fitdiary.view;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -111,8 +113,6 @@ public class CalendarFragment extends Fragment {
         mCalendarFragmentViewModel.loadDatesFromRepository(m, y);  // Internament pobla les dates
 
 
-
-
         /*
         MÉTODOS PARA EVENTOS
          */
@@ -126,9 +126,7 @@ public class CalendarFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Código para abrir la nueva actividad de añadir evento nuevo
-                Intent intent = new Intent(getActivity(), NewEventActivity.class);
-                startActivity(intent);
+                showOptionsDialog();
             }
         });
 
@@ -165,23 +163,6 @@ public class CalendarFragment extends Fragment {
             }
         });
         mEventsCardsRV.setAdapter(mEventCardAdapter);
-
-        /*mEventCardAdapter.setOnClickSelectListener(new EventCardAdapter.OnClickSelectListener() {
-            @Override
-            public void OnClickSelect(int position) {
-                System.out.println("position " + position);
-            }
-        });*/
-
-        // Observer en CalendarFragment para ver si la lista de Event (observable MutableLiveData)
-        // en CalendarFragmentViewModel ha cambiado.
-        /*final Observer<ArrayList<Event>> observerEvent = new Observer<ArrayList<Event>>() {
-            @Override
-            public void onChanged(ArrayList<Event> events) {
-                mEventCardAdapter.notifyDataSetChanged();
-            }
-        };
-        mCalendarFragmentViewModel.getEvents().observe(getViewLifecycleOwner(), observerEvent);*/
 
         mEventCardAdapter.setOnClickSelectListener(new EventCardAdapter.OnClickSelectListener() {
             // Listener que escoltarà quan interactuem amb un item en una posició donada
@@ -221,28 +202,31 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        // A partir d'aquí, en cas que es faci cap canvi a la llista d'usuaris, HomeActivity ho sabrá
-        //mCalendarFragmentViewModel.loadEventsFromRepository();  // Internament pobla els usuaris de la BBDD
+    }
 
-        // Si hi ha usuari logat i seteja una foto de perfil, mostra-la.
-        /*if (mAuth.getCurrentUser() != null) {
-            final Observer<String> observerPictureUrl = new Observer<String>() {
-                @Override
-                public void onChanged(String pictureUrl) { //Con Picasso es poner la imagen
-                    Picasso.get()
-                            .load(pictureUrl)
-                            .resize(mLoggedPictureImageView.getWidth(), mLoggedPictureImageView.getHeight())
-                            .centerCrop()
-                            .into(mLoggedPictureImageView);
-                }
-            };
-            mCalendarFragmentViewModel.getPictureUrl().observe(this, observerPictureUrl);
+    private void showOptionsDialog(){
+        final String[] options = {"Add New Event", "Add New Reminder"};
 
-            mCalendarFragmentViewModel.loadPictureOfUser(mAuth.getCurrentUser().getEmail());
-        }*/
-
-
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Choose an option")
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String selectedOption = options[i];
+                        if(selectedOption.equals(options[0])){
+                            // Código para abrir la nueva actividad de añadir evento nuevo
+                            Intent intent = new Intent(getActivity(), NewEventActivity.class);
+                            startActivity(intent);
+                        }else{
+                            // Código para abrir la nueva actividad de añadir recordatorio nuevo
+                            Intent intent = new Intent(getActivity(), NewRemainderActivity.class);
+                            startActivity(intent);
+                        }
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 

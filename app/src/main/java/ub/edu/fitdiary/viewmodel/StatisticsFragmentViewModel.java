@@ -79,7 +79,7 @@ public class StatisticsFragmentViewModel extends AndroidViewModel {
 
         eventRepository.addOnLoadEventsListener(new EventRepository.OnLoadEventsListener() {
             @Override
-            public void onLoadUsers(ArrayList<Event> events) {
+            public void onLoadEvents(ArrayList<Event> events) {
                 StatisticsFragmentViewModel.this.duracionDiaria(events);
             }
         });

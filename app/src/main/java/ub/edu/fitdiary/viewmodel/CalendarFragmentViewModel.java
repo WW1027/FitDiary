@@ -33,7 +33,7 @@ public class CalendarFragmentViewModel extends AndroidViewModel {
 
         mEventRepository.addOnLoadEventsListener(new EventRepository.OnLoadEventsListener() {
             @Override
-            public void onLoadUsers(ArrayList<Event> events) {
+            public void onLoadEvents(ArrayList<Event> events) {
                 CalendarFragmentViewModel.this.setEvents(events);
             }
         });

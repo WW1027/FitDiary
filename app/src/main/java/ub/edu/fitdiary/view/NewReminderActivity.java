@@ -10,7 +10,7 @@ import android.os.Bundle;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
-import ub.edu.fitdiary.viewmodel.NewRemainderActivityViewModel;
+import ub.edu.fitdiary.viewmodel.NewReminderActivityViewModel;
 
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,7 +24,7 @@ import android.widget.Switch;
 import java.util.Calendar;
 import java.util.List;
 
-public class NewRemainderActivity extends AppCompatActivity {
+public class NewReminderActivity extends AppCompatActivity {
     private final String TAG = "NewRecordatorioActivity";
     // Atributos de la clase
     private EditText mDateText;
@@ -32,42 +32,42 @@ public class NewRemainderActivity extends AppCompatActivity {
     private Spinner mSportSpinner;
     private EditText mDurationText;
     private Spinner mDurationSpinner;
-    private Switch mRemainderSwitch;
+    private Switch mReminderSwitch;
     private Spinner mTimeBeforeSpinner;
     private Button mAcceptButton;
     private ImageView mCancelButton;
 
 
-    private NewRemainderActivityViewModel newRemainderActivityViewModel;
+    private NewReminderActivityViewModel newReminderActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_remainder);
+        setContentView(R.layout.activity_new_reminder);
 
         getSupportActionBar().hide(); //hide the title bar
 
-        newRemainderActivityViewModel = new ViewModelProvider(this)
-                .get(NewRemainderActivityViewModel.class);
+        newReminderActivityViewModel = new ViewModelProvider(this)
+                .get(NewReminderActivityViewModel.class);
 
         // Instanciar los atributos, buscando en el layout
-        mDateText = findViewById(R.id.newRemainderDateTextRectangle);
-        mDateSelectImage = findViewById(R.id.newRemainderDateImageSelector);
-        mSportSpinner = findViewById(R.id.newRemainderSportSpinner);
-        mDurationText = findViewById(R.id.newRemainderDurationTextRectangle);
-        mDurationSpinner = findViewById(R.id.newRemainderDurationSpinner);
-        mRemainderSwitch = findViewById(R.id.newRemainderSwitch);
-        mTimeBeforeSpinner = findViewById(R.id.newRemainderTimeBeforeSpinner);
+        mDateText = findViewById(R.id.newReminderDateTextRectangle);
+        mDateSelectImage = findViewById(R.id.newReminderDateImageSelector);
+        mSportSpinner = findViewById(R.id.newReminderSportSpinner);
+        mDurationText = findViewById(R.id.newReminderDurationTextRectangle);
+        mDurationSpinner = findViewById(R.id.newReminderDurationSpinner);
+        mReminderSwitch = findViewById(R.id.newReminderSwitch);
+        mTimeBeforeSpinner = findViewById(R.id.newReminderTimeBeforeSpinner);
         mAcceptButton= findViewById(R.id.newEventAcceptButton);
         mCancelButton = findViewById(R.id.newEventCancelButton);
 
         // Setear el spinner de deportes
         // Recuperar lista de sports desde BBDD
-        newRemainderActivityViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
+        newReminderActivityViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
             @Override
             public void onSportsLoaded(List<String> sports) {
                 // Set up Spinner adapter with sports list
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(NewRemainderActivity.this, android.R.layout.simple_spinner_item, sports);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(NewReminderActivity.this, android.R.layout.simple_spinner_item, sports);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 mSportSpinner.setAdapter(adapter);
             }
@@ -88,6 +88,7 @@ public class NewRemainderActivity extends AppCompatActivity {
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Aplicar el adaptador al spinner
         mTimeBeforeSpinner.setAdapter(adapter3);
+        mTimeBeforeSpinner.setEnabled(false);
 
         /* Listener del selector de calendario fecha */
         mDateSelectImage.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +101,7 @@ public class NewRemainderActivity extends AppCompatActivity {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 //pick a date with android date picker dialog
-                DatePickerDialog datePickerDialog = new DatePickerDialog(NewRemainderActivity.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(NewReminderActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         mDateText.setText(day + "/" + (month + 1) + "/" + year);
@@ -112,10 +113,10 @@ public class NewRemainderActivity extends AppCompatActivity {
         });
 
         // Listener del switch de notificación
-        mRemainderSwitch.setOnClickListener(new View.OnClickListener() {
+        mReminderSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mRemainderSwitch.isChecked()) {
+                if (mReminderSwitch.isChecked()) {
                     mTimeBeforeSpinner.setEnabled(true);
                 } else {
                     mTimeBeforeSpinner.setEnabled(false);
@@ -128,7 +129,7 @@ public class NewRemainderActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Mostrar ventana para ver si de verdad quiere cancelar la acción
                 // Build the confirmation dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(NewRemainderActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(NewReminderActivity.this);
                 builder.setTitle("Confirm Cancel Adding a new Reminder");
                 builder.setMessage("Are you sure you want to cancel this action?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

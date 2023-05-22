@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +47,7 @@ public class ReminderRepository {
     /** Definición de listener (interfaz),
      * para escuchar cuando se hayan acabado de leer los usuarios de la BBDD */
     public interface OnLoadRemindersListener {
-        void onLoadReminders(ArrayList<Event> events);
+        void onLoadReminders(ArrayList<Reminder> reminders);
     }
 
     private ArrayList<ReminderRepository.OnLoadRemindersListener> mOnLoadRemindersListeners = new ArrayList<>();
@@ -100,12 +102,51 @@ public class ReminderRepository {
         });
     }
 
+    /**
+     * Método para obtener todos los recordatorios de un usuario
+     */
+    public void loadReminders(ArrayList<Reminder> reminders, String id) {
+        reminders.clear();
+        FirebaseUser user = mAuth.getCurrentUser();
+        DocumentReference docRef = mDb.collection("users").document(user.getEmail());
+        docRef.collection("reminders").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                        // Obtener el ID del documento actual
+                        String documentId = document.getId();
+
+                        // Verificar si el ID del documento comienza igual que el valor de 'id'
+                        if (documentId.startsWith(id)) {
+                            Reminder reminder = new Reminder(
+                                    document.getString("date"),
+                                    document.getString("sport"),
+                                    document.getString("duration"),
+                                    document.getString("timeBefore")
+                            );
+                            reminders.add(reminder);
+                        }
+                    }
+                    /* Callback listeners */
+                    for (ReminderRepository.OnLoadRemindersListener l: mOnLoadRemindersListeners) {
+                        l.onLoadReminders(reminders);
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
     public void updateCompletion(String field, String text, String id) {
         FirebaseUser user = mAuth.getCurrentUser();
         DocumentReference docRef = mDb.collection("users").document(user.getEmail()).collection("reminders").document(id);
-        Map<String, Object> event = new HashMap<>();
-        event.put(field, text);
-        docRef.update(event);
+        Map<String, Object> reminder = new HashMap<>();
+        reminder.put(field, text);
+        docRef.update(reminder);
     }
 
     public void deleteReminder(String id){

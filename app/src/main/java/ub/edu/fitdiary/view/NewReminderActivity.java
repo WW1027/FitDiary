@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class NewReminderActivity extends AppCompatActivity {
-    private final String TAG = "NewRecordatorioActivity";
+    private final String TAG = "NewReminderActivity";
     // Atributos de la clase
     private EditText mDateText;
     private ImageView mDateSelectImage;
@@ -104,7 +104,7 @@ public class NewReminderActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(NewReminderActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
-                        mDateText.setText(day + "/" + (month + 1) + "/" + year);
+                        mDateText.setText(day + "-" + (month + 1) + "-" + year);
                     }
                 }, year, month, day);
                 datePickerDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());

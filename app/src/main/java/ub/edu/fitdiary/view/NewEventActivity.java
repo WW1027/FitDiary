@@ -30,12 +30,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,7 +41,6 @@ import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
-import ub.edu.fitdiary.viewmodel.CalendarFragmentViewModel;
 import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 
 public class NewEventActivity extends AppCompatActivity {
@@ -90,22 +87,21 @@ public class NewEventActivity extends AppCompatActivity {
         mHintPulseImage = findViewById(R.id.newEventDateImagePulse);
         mcameraButton = findViewById(R.id.newEventCameraImageView);
 
-        mDateText.setText(DateCardAdapter.getIdDate());
-
         /* Añadimos listener al botón de añadir */
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // En caso de que los campos de Date, Sport y Duration estén vacíos, no se puede añadir evento
+                // En caso de que los campos de Date, Sport, Duration y pulsaciones estén vacíos, no se puede añadir evento
                 if (mDateText.getText().toString().isEmpty() ||
                         mSportSpinner.getSelectedItem().toString().isEmpty() ||
-                        mDurationText.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Campos de Date, Sport y Duration son obligatorios",
+                        mDurationText.getText().toString().isEmpty() ||
+                        mPulseText.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Fields of Date, Sport, Duration and Pulse are compulsory",
                             Toast.LENGTH_SHORT).show();
-                }else if (mDurationText.getText().toString().matches("\\d+")==false ||
+                }/*else if (mDurationText.getText().toString().matches("\\d+")==false ||
                             mPulseText.getText().toString().matches("\\d+")==false){ //Para comprobar que sean números
                     Toast.makeText(getApplicationContext(), "Durantion and Pulse must be numbers",
-                            Toast.LENGTH_SHORT).show();}
+                            Toast.LENGTH_SHORT).show();}*/
                 else if (Integer.parseInt(mPulseText.getText().toString())<=50 ||
                         Integer.parseInt(mPulseText.getText().toString())>=300){ //Test de rango
                     Toast.makeText(getApplicationContext(), "Pulse should be between 50 and 300",

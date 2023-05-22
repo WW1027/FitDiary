@@ -175,8 +175,9 @@
             android:background="@drawable/rounded_rectangle"
             android:fontFamily="@font/recursive_medium"
             android:gravity="center"
-            android:paddingLeft="8dp"
             android:hint="30"
+            android:inputType="number"
+            android:paddingLeft="8dp"
             android:textAlignment="viewStart"
             tools:ignore="RtlCompat,TouchTargetSizeCheck" />
 
@@ -238,6 +239,7 @@
             android:fontFamily="@font/recursive_medium"
             android:gravity="center"
             android:hint="120"
+            android:inputType="number"
             android:paddingLeft="8dp"
             android:textAlignment="viewStart"
             tools:ignore="RtlCompat,TouchTargetSizeCheck" />
@@ -312,12 +314,11 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="30sp"
-        android:layout_marginRight="30sp"
-        android:paddingLeft="8dp"
         android:background="@drawable/rounded_rectangle"
         android:fontFamily="@font/recursive_medium"
         android:hint="Some comment..."
+        android:inputType="textLongMessage"
+        android:paddingLeft="8dp"
         android:textAlignment="viewStart"
         app:layout_constraintTop_toBottomOf="@id/newEventCommentText"
         tools:ignore="RtlCompat,TouchTargetSizeCheck"

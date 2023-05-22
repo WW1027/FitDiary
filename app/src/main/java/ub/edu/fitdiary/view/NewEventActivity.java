@@ -102,7 +102,15 @@ public class NewEventActivity extends AppCompatActivity {
                         mDurationText.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Campos de Date, Sport y Duration son obligatorios",
                             Toast.LENGTH_SHORT).show();
-                } else { // Si están los tres campos obligatorios rellenados, se añade el evento
+                }else if (mDurationText.getText().toString().matches("\\d+")==false ||
+                            mPulseText.getText().toString().matches("\\d+")==false){ //Para comprobar que sean números
+                    Toast.makeText(getApplicationContext(), "Durantion and Pulse must be numbers",
+                            Toast.LENGTH_SHORT).show();}
+                else if (Integer.parseInt(mPulseText.getText().toString())<=50 ||
+                        Integer.parseInt(mPulseText.getText().toString())>=300){ //Test de rango
+                    Toast.makeText(getApplicationContext(), "Pulse should be between 50 and 300",
+                            Toast.LENGTH_SHORT).show();}
+                else { // Si están los tres campos obligatorios rellenados, se añade el evento
                     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                     Date date = new Date();
                     String horaActual = dateFormat.format(date); // Hora actual en formato de cadena

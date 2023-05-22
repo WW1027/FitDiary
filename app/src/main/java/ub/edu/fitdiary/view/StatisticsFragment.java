@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -164,12 +165,41 @@ public class StatisticsFragment extends Fragment {
                         // retrieve the user's message from the EditText view
 
                         String message = editText.getText().toString();
-                        minGoal = Integer.parseInt(message);
-                        statisticsFragmentViewModel.saveGoalValue(minGoal);
-                        txtGoal.setText("Goal: "+ message+" min");
+                        if (message.matches("\\d+")==false){
+                            Toast.makeText(getContext(), "Please enter a valid number", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(Integer.parseInt(message)<=0){
+                            Toast.makeText(getContext(), "Please enter a positive number", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(Integer.parseInt(message)>=8000){
+                            Toast.makeText(getContext(), "You can't reach that goal, please enter a goal again", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (Integer.parseInt(message)<=30){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("Are you sure to set the goal below 30 minutes?");
+                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    minGoal = Integer.parseInt(message);
+                                    statisticsFragmentViewModel.saveGoalValue(minGoal);
+                                    txtGoal.setText("Goal: " + message + " min");
 
-                        updateProgress();
+                                    updateProgress();
+                                }
+                            });
+                            builder.setNegativeButton("No", null);
 
+                            // Show the confirmation dialog
+                            AlertDialog di = builder.create();
+                            di.show();
+                        }
+                        else {
+                            minGoal = Integer.parseInt(message);
+                            statisticsFragmentViewModel.saveGoalValue(minGoal);
+                            txtGoal.setText("Goal: " + message + " min");
+
+                            updateProgress();
+                        }
 
                     }
                 });

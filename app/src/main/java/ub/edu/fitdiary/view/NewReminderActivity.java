@@ -20,8 +20,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class NewReminderActivity extends AppCompatActivity {
@@ -144,6 +147,36 @@ public class NewReminderActivity extends AppCompatActivity {
                 // Show the confirmation dialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+
+        mAcceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // En caso de que los campos de Date, Sport, Duration y pulsaciones estén vacíos, no se puede añadir evento
+                if (mDateText.getText().toString().isEmpty() ||
+                        mSportSpinner.getSelectedItem().toString().isEmpty() ||
+                        mDurationText.getText().toString().isEmpty() ) {
+                    Toast.makeText(getApplicationContext(), "Fields of Date, Sport, Duration and Pulse are compulsory",
+                            Toast.LENGTH_SHORT).show();
+                } else if (mReminderSwitch.isChecked() && mTimeBeforeSpinner.getSelectedItem().toString().isEmpty()){ //Test de rango
+                    Toast.makeText(getApplicationContext(), "You must choose a time before",
+                            Toast.LENGTH_SHORT).show();}
+                else { // Si están los tres campos obligatorios rellenados, se añade el recordatorio
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    Date date = new Date();
+                    String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
+                    String timeBefore = "";
+                    if(!mTimeBeforeSpinner.getSelectedItem().toString().isEmpty()){
+                        timeBefore=mTimeBeforeSpinner.getSelectedItem().toString(); }
+                    newReminderActivityViewModel.addReminder(
+                            mDateText.getText().toString()+ " " +horaActual,
+                            mSportSpinner.getSelectedItem().toString(),
+                            mDurationText.getText().toString(),
+                            timeBefore
+                    );
+                    finish();
+                }
             }
         });
 

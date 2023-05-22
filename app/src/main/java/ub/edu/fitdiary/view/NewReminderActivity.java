@@ -104,7 +104,7 @@ public class NewReminderActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(NewReminderActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
-                        mDateText.setText(day + "/" + (month + 1) + "/" + year);
+                        mDateText.setText(day + "-" + (month + 1) + "-" + year);
                     }
                 }, year, month, day);
                 datePickerDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());

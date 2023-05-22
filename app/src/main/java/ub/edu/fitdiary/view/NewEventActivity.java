@@ -36,14 +36,12 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
-import ub.edu.fitdiary.viewmodel.CalendarFragmentViewModel;
 import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 
 public class NewEventActivity extends AppCompatActivity {

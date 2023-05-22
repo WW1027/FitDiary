@@ -184,6 +184,7 @@
                 android:fontFamily="@font/recursive_medium"
                 android:gravity="center"
                 android:hint="  30"
+                android:inputType="number"
                 android:textAlignment="viewStart"
                 tools:ignore="RtlCompat,TouchTargetSizeCheck" />
 

@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,12 +18,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Event;
-import ub.edu.fitdiary.model.SportRepository;
-import ub.edu.fitdiary.model.User;
 import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 
 public class DetailedInformationActivity extends AppCompatActivity {
@@ -44,7 +38,6 @@ public class DetailedInformationActivity extends AppCompatActivity {
     // Atributos del view model o model del view
     private NewEventActivityViewModel newEventActivityViewModel;
 
-    private boolean isInitialSelection = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

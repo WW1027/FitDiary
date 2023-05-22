@@ -17,7 +17,6 @@ import java.util.Calendar;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Date;
-import ub.edu.fitdiary.viewmodel.CalendarFragmentViewModel;
 
 public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHolder> {
 

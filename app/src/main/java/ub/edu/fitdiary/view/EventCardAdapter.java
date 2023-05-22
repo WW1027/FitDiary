@@ -100,7 +100,7 @@ public class EventCardAdapter extends RecyclerView.Adapter<EventCardAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mCard = itemView.findViewById(R.id.card2);
+            mCard = itemView.findViewById(R.id.card3);
             mCardPictureUrl = itemView.findViewById(R.id.avatar);
             mCardComment = itemView.findViewById(R.id.comment);
         }

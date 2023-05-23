@@ -34,6 +34,8 @@ public class DetailedInformationActivity extends AppCompatActivity {
     private TextView mCalories;
     private TextView mComment;
     private ImageView mEditDurationButton;
+    private ImageView mEditPulseButton;
+    private ImageView mEditCommentButton;
     private Button mDeleteButton;
 
     // Atributos del view model o model del view
@@ -67,6 +69,8 @@ public class DetailedInformationActivity extends AppCompatActivity {
         mComment = findViewById(R.id.detailedInformationComment);
         mEditDurationButton = findViewById(R.id.detailedInformationEditDurationButton);
         mDeleteButton = findViewById(R.id.detailedInformationDeleteButton);
+        mEditPulseButton = findViewById(R.id.detailedInformationEditPulseButton);
+        mEditCommentButton = findViewById(R.id.detailedInformationEditCommentButton);
 
         /* TODO: completar la información obtenida de la base de datos */
 
@@ -95,6 +99,22 @@ public class DetailedInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 modifyData(mDuration, "Modify Duration", "duration", date);
+            }
+        });
+
+        //Botón para editar la pulsación
+        mEditPulseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modifyData(mPulse, "Modify Pulse", "pulse", date);
+            }
+        });
+
+        //Botón para editar el commentario
+        mEditCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modifyData(mComment, "Modify Comment", "comment", date);
             }
         });
 

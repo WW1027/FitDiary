@@ -163,42 +163,44 @@ public class StatisticsFragmentViewModel extends AndroidViewModel {
 
         // Calcular la duración total de los eventos del día actual
         for (Event event : eventosDiaActual.getValue()) {
-            String duracionStr = event.getDuration();
-            String date = event.getDate();
-            int time = Integer.parseInt(duracionStr);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-            Date fecha = null;
-            try {
-                fecha = sdf.parse(date);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(fecha);
-            int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
-            duracionDiaria.setValue(time);
-            switch (diaSemana) {
-                case Calendar.MONDAY:
-                    duracionLunes.setValue(duracionLunes.getValue() + duracionDiaria.getValue());
-                    break;
-                case Calendar.TUESDAY:
-                    duracionMartes.setValue(duracionMartes.getValue() + duracionDiaria.getValue());
-                    break;
-                case Calendar.WEDNESDAY:
-                    duracionMiercoles.setValue(duracionMiercoles.getValue() + duracionDiaria.getValue());
-                    break;
-                case Calendar.THURSDAY:
-                    duracionJueves.setValue(duracionJueves.getValue() + duracionDiaria.getValue());
-                    break;
-                case Calendar.FRIDAY:
-                    duracionViernes.setValue(duracionViernes.getValue() + duracionDiaria.getValue());
-                    break;
-                case Calendar.SATURDAY:
-                    duracionSabado.setValue(duracionSabado.getValue() + duracionDiaria.getValue());
-                    break;
-                case Calendar.SUNDAY:
-                    duracionDomingo.setValue(duracionDomingo.getValue() + duracionDiaria.getValue());
-                    break;
+            if(!isDateInFuture(event.getDate())){
+                String duracionStr = event.getDuration();
+                String date = event.getDate();
+                int time = Integer.parseInt(duracionStr);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                Date fecha = null;
+                try {
+                    fecha = sdf.parse(date);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(fecha);
+                int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
+                duracionDiaria.setValue(time);
+                switch (diaSemana) {
+                    case Calendar.MONDAY:
+                        duracionLunes.setValue(duracionLunes.getValue() + duracionDiaria.getValue());
+                        break;
+                    case Calendar.TUESDAY:
+                        duracionMartes.setValue(duracionMartes.getValue() + duracionDiaria.getValue());
+                        break;
+                    case Calendar.WEDNESDAY:
+                        duracionMiercoles.setValue(duracionMiercoles.getValue() + duracionDiaria.getValue());
+                        break;
+                    case Calendar.THURSDAY:
+                        duracionJueves.setValue(duracionJueves.getValue() + duracionDiaria.getValue());
+                        break;
+                    case Calendar.FRIDAY:
+                        duracionViernes.setValue(duracionViernes.getValue() + duracionDiaria.getValue());
+                        break;
+                    case Calendar.SATURDAY:
+                        duracionSabado.setValue(duracionSabado.getValue() + duracionDiaria.getValue());
+                        break;
+                    case Calendar.SUNDAY:
+                        duracionDomingo.setValue(duracionDomingo.getValue() + duracionDiaria.getValue());
+                        break;
+                }
             }
         }
 
@@ -230,7 +232,9 @@ public class StatisticsFragmentViewModel extends AndroidViewModel {
         id = day + "-" + mes + "-" + anio;
 
         // Obtener los eventos del día y agregarlos a la lista
-        eventRepository.loadEvents(eventosDiaActual.getValue(), id);
+        if(!isDateInFuture(id)){
+            eventRepository.loadEvents(eventosDiaActual.getValue(), id);
+        }
 
     }
 
@@ -261,7 +265,6 @@ public class StatisticsFragmentViewModel extends AndroidViewModel {
                 });
     }
 
-
     public void loadGoal() {
         String userId = auth.getCurrentUser().getEmail();
         DocumentReference userRef = db.collection("users").document(userId);
@@ -281,6 +284,32 @@ public class StatisticsFragmentViewModel extends AndroidViewModel {
                 // Manejar el error de carga del campo "goal"
             }
         });
+    }
+
+
+    private boolean isDateInFuture(String dateString) {
+        // Create a SimpleDateFormat object to parse the date string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy HH:mm");
+
+        try {
+            // Parse the date string into a Date object
+            Date date = dateFormat.parse(dateString);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Compare the dates
+            if (date.after(currentDate)) {
+                // Date is in the future
+                return true;
+            } else {
+                // Date is in the past or equal to the current date
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false; // Return false if there's an error parsing the date string
+        }
     }
 
 

@@ -34,8 +34,6 @@ public class NewReminderActivity extends AppCompatActivity {
     private EditText mDateText;
     private ImageView mDateSelectImage;
     private Spinner mSportSpinner;
-    private EditText mDurationText;
-    private EditText mPulseText;
     private Button mAcceptButton;
     private ImageView mCancelButton;
 
@@ -54,8 +52,6 @@ public class NewReminderActivity extends AppCompatActivity {
         mDateText = findViewById(R.id.newReminderDateTextRectangle);
         mDateSelectImage = findViewById(R.id.newReminderDateImageSelector);
         mSportSpinner = findViewById(R.id.newReminderSportSpinner);
-        mDurationText = findViewById(R.id.newReminderDurationTextRectangle);
-        mPulseText = findViewById(R.id.newReminderPulseTextRectangle);
         mAcceptButton= findViewById(R.id.newReminderAcceptButton);
         mCancelButton = findViewById(R.id.newReminderCancelButton);
 
@@ -125,15 +121,10 @@ public class NewReminderActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // En caso de que los campos de Date, Sport, Duration y pulsaciones estén vacíos, no se puede añadir evento
                 if (mDateText.getText().toString().isEmpty() ||
-                        mSportSpinner.getSelectedItem().toString().isEmpty() ||
-                        mDurationText.getText().toString().isEmpty() ||
-                        mPulseText.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Fields of Date, Sport, Duration and Pulse are compulsory",
+                        mSportSpinner.getSelectedItem().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Fields of Date and Sport are compulsory",
                             Toast.LENGTH_SHORT).show();
-                } else if (Integer.parseInt(mPulseText.getText().toString())<=50 ||
-                        Integer.parseInt(mPulseText.getText().toString())>=300){ //Test de rango
-                    Toast.makeText(getApplicationContext(), "Pulse should be between 50 and 300",
-                            Toast.LENGTH_SHORT).show();}
+                }
                 else { // Si están los tres campos obligatorios rellenados, se añade el recordatorio
                     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                     Date date = new Date();
@@ -141,8 +132,8 @@ public class NewReminderActivity extends AppCompatActivity {
                     newEventActivityViewModel.addEvent(
                             mDateText.getText().toString()+" "+horaActual,
                             mSportSpinner.getSelectedItem().toString(),
-                            mDurationText.getText().toString(),
-                            mPulseText.getText().toString(),
+                            null,
+                            null,
                             mSportSpinner.getSelectedItem().toString(),
                             null
                     );

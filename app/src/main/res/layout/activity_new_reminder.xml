@@ -48,7 +48,7 @@
     <TableLayout
         android:id="@+id/newEventTableLayout"
         android:layout_width="412dp"
-        android:layout_height="205dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:stretchColumns="1"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -113,28 +113,29 @@
         </TableRow>
 
         <TableRow>
+
             <TextView
                 android:id="@+id/newEventSportText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="40sp"
                 android:fontFamily="@font/recursive_medium"
                 android:gravity="center"
-                android:layout_marginLeft="40sp"
+                android:padding="5dp"
                 android:text="Sport:"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:padding="5dp"/>
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/newReminderSportSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:contentDescription="@string/app_name"
+                android:gravity="center"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
@@ -160,127 +161,6 @@
                 android:textSize="10sp" />
         </TableRow>
 
-        <TableRow>
-
-            <TextView
-                android:id="@+id/newEventDurationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="15sp"
-                android:fontFamily="@font/recursive_medium"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Duration:"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/newReminderDurationTextRectangle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/rounded_rectangle"
-                android:fontFamily="@font/recursive_medium"
-                android:gravity="center"
-                android:hint="30"
-                android:paddingLeft="8dp"
-                android:inputType="number"
-                android:textAlignment="viewStart"
-                tools:ignore="RtlCompat,TouchTargetSizeCheck" />
-
-            <TextView
-                android:id="@+id/newReminderDuration"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/recursive_medium"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/rounded_rectangle_gray"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:padding="8dp"
-                android:text="per min"
-                tools:ignore="TouchTargetSizeCheck" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text=""
-                android:textSize="10sp" />
-        </TableRow>
-
-        <TableRow>
-            <TableRow>
-                <TextView
-                    android:id="@+id/newReminderPulseText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/recursive_medium"
-                    android:gravity="center"
-                    android:layout_marginLeft="15sp"
-                    android:text="Pulse:"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:padding="5dp" />
-
-                <ImageView
-                    android:id="@+id/newReminderDateImagePulse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/pulseHint"
-                    android:gravity="center"
-                    app:srcCompat="@drawable/help_hint" />
-            </TableRow>
-
-
-            <EditText
-                android:id="@+id/newReminderPulseTextRectangle"
-                android:layout_width="126dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/rounded_rectangle"
-                android:fontFamily="@font/recursive_medium"
-                android:gravity="center"
-                android:hint="120"
-                android:inputType="number"
-                android:paddingLeft="8dp"
-                android:textAlignment="viewStart"
-                tools:ignore="RtlCompat,TouchTargetSizeCheck" />
-
-            <TextView
-                android:id="@+id/newReminderPulse"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/recursive_medium"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/rounded_rectangle_gray"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:padding="8dp"
-                android:text="per min"
-                tools:ignore="TouchTargetSizeCheck" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text=""
-                android:textSize="10sp" />
-        </TableRow>
     </TableLayout>
 
 
@@ -294,7 +174,6 @@
         android:textColor="@color/white"
         android:textSize="18dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newEventTableLayout"

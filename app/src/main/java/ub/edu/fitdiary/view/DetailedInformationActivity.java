@@ -19,6 +19,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.Event;
 import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
@@ -74,6 +78,17 @@ public class DetailedInformationActivity extends AppCompatActivity {
 
         /* TODO: completar la información obtenida de la base de datos */
 
+        boolean isFuture = isDateInFuture(date);
+        if (isFuture) {
+            // Date is in the future
+            // Disable and hide the Edit buttons
+            EnableEditButtons(false, View.GONE);
+        } else {
+            // Date is in the past or equal to the current date
+            // Enable and show the Edit buttons
+            EnableEditButtons(true, View.VISIBLE);
+        }
+
         // Cargar los datos del evento
         newEventActivityViewModel.getEventData().observe(DetailedInformationActivity.this, new Observer<Event>() {
             @Override
@@ -84,8 +99,13 @@ public class DetailedInformationActivity extends AppCompatActivity {
                     mSport.setText(event.getSport());
                     mDuration.setText(event.getDuration());
                     mPulse.setText(event.getPulse());
-                    mComment.setText(event.getComment());
-                    mCalories.setText(String.valueOf(Integer.parseInt(event.getPulse()) * Integer.parseInt(event.getDuration())));
+                    if(isFuture){ mComment.setText(null); }
+                    else { mComment.setText(event.getComment());}
+                    if(!mDuration.getText().toString().isEmpty() && !mPulse.getText().toString().isEmpty()){
+                        mCalories.setText(String.valueOf(Integer.parseInt(event.getPulse()) * Integer.parseInt(event.getDuration())));}
+                    else{
+                        mCalories.setText(null);
+                    }
                     if (event.getImageURL()!=""){
                         Picasso.get().load(event.getImageURL()).into(mImage);}
 
@@ -193,5 +213,40 @@ public class DetailedInformationActivity extends AppCompatActivity {
     protected void updateCompletion(String field, String text, String id) {
         // Como es cambio en la base de datos, se lo pedimos a viewmodel
         newEventActivityViewModel.updateCompletion(field, text, id);
+    }
+
+    //Comprobar si el date es futuro
+    private boolean isDateInFuture(String dateString) {
+        // Create a SimpleDateFormat object to parse the date string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy HH:mm");
+
+        try {
+            // Parse the date string into a Date object
+            Date date = dateFormat.parse(dateString);
+
+            // Get the current date and time
+            Date currentDate = new Date();
+
+            // Compare the dates
+            if (date.after(currentDate)) {
+                // Date is in the future
+                return true;
+            } else {
+                // Date is in the past or equal to the current date
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false; // Return false if there's an error parsing the date string
+        }
+    }
+
+    private void EnableEditButtons(boolean enabled, int view){
+        mEditDurationButton.setEnabled(enabled);
+        mEditDurationButton.setVisibility(view);
+        mEditPulseButton.setEnabled(enabled);
+        mEditPulseButton.setVisibility(view);
+        mEditCommentButton.setEnabled(enabled);
+        mEditCommentButton.setVisibility(view);
     }
 }

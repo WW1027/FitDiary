@@ -53,9 +53,9 @@ public class NewEventActivityViewModel extends AndroidViewModel {
 
     }
 
-    public void addEvent(String date, String sport, String duration, String comment, String pulse,String imageURL) {
+    public void addEvent(String date, String sport, String duration, String pulse, String comment,String imageURL) {
         // Llamar al método de guardar de model
-        eventRepository.addEvent(date, sport, duration, comment, pulse, imageURL);
+        eventRepository.addEvent(date, sport, duration, pulse, comment, imageURL);
     }
 
     public void getSports(SportRepository.OnSportsLoadedListener listener) {

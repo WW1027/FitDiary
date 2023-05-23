@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import ub.edu.fitdiary.R;
 import ub.edu.fitdiary.model.SportRepository;
+import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 import ub.edu.fitdiary.viewmodel.NewReminderActivityViewModel;
 
 import android.view.View;
@@ -20,8 +21,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class NewReminderActivity extends AppCompatActivity {
@@ -31,14 +35,11 @@ public class NewReminderActivity extends AppCompatActivity {
     private ImageView mDateSelectImage;
     private Spinner mSportSpinner;
     private EditText mDurationText;
-    private Spinner mDurationSpinner;
-    private Switch mReminderSwitch;
-    private Spinner mTimeBeforeSpinner;
+    private EditText mPulseText;
     private Button mAcceptButton;
     private ImageView mCancelButton;
 
-
-    private NewReminderActivityViewModel newReminderActivityViewModel;
+    private NewEventActivityViewModel newEventActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +47,21 @@ public class NewReminderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_reminder);
 
         getSupportActionBar().hide(); //hide the title bar
-
-        newReminderActivityViewModel = new ViewModelProvider(this)
-                .get(NewReminderActivityViewModel.class);
+        newEventActivityViewModel = new ViewModelProvider(this)
+                .get(NewEventActivityViewModel.class);
 
         // Instanciar los atributos, buscando en el layout
         mDateText = findViewById(R.id.newReminderDateTextRectangle);
         mDateSelectImage = findViewById(R.id.newReminderDateImageSelector);
         mSportSpinner = findViewById(R.id.newReminderSportSpinner);
         mDurationText = findViewById(R.id.newReminderDurationTextRectangle);
-        mDurationSpinner = findViewById(R.id.newReminderDurationSpinner);
-        mReminderSwitch = findViewById(R.id.newReminderSwitch);
-        mTimeBeforeSpinner = findViewById(R.id.newReminderTimeBeforeSpinner);
-        mAcceptButton= findViewById(R.id.newEventAcceptButton);
-        mCancelButton = findViewById(R.id.newEventCancelButton);
+        mPulseText = findViewById(R.id.newReminderPulseTextRectangle);
+        mAcceptButton= findViewById(R.id.newReminderAcceptButton);
+        mCancelButton = findViewById(R.id.newReminderCancelButton);
 
         // Setear el spinner de deportes
         // Recuperar lista de sports desde BBDD
-        newReminderActivityViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
+        newEventActivityViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
             @Override
             public void onSportsLoaded(List<String> sports) {
                 // Set up Spinner adapter with sports list
@@ -72,23 +70,6 @@ public class NewReminderActivity extends AppCompatActivity {
                 mSportSpinner.setAdapter(adapter);
             }
         });
-
-        /* Ajustar Spinner de tipo de configuración de tiempo */
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
-                R.array.time_array, android.R.layout.simple_spinner_item);
-        // Especificar el layout de uso cuando la lista de elecciones aparece
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Aplicar el adaptador al spinner
-        mDurationSpinner.setAdapter(adapter2);
-
-        /* Ajustar Spinner de tiempo de notificación con antelación */
-        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this,
-                R.array.time_before_array, android.R.layout.simple_spinner_item);
-        // Especificar el layout de uso cuando la lista de elecciones aparece
-        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Aplicar el adaptador al spinner
-        mTimeBeforeSpinner.setAdapter(adapter3);
-        mTimeBeforeSpinner.setEnabled(false);
 
         /* Listener del selector de calendario fecha */
         mDateSelectImage.setOnClickListener(new View.OnClickListener() {
@@ -107,20 +88,12 @@ public class NewReminderActivity extends AppCompatActivity {
                         mDateText.setText(day + "-" + (month + 1) + "-" + year);
                     }
                 }, year, month, day);
-                datePickerDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
-                datePickerDialog.show();
-            }
-        });
 
-        // Listener del switch de notificación
-        mReminderSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mReminderSwitch.isChecked()) {
-                    mTimeBeforeSpinner.setEnabled(true);
-                } else {
-                    mTimeBeforeSpinner.setEnabled(false);
-                }
+                // Add 1 day to the current date
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+
+                datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+                datePickerDialog.show();
             }
         });
 
@@ -144,6 +117,37 @@ public class NewReminderActivity extends AppCompatActivity {
                 // Show the confirmation dialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+
+        mAcceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // En caso de que los campos de Date, Sport, Duration y pulsaciones estén vacíos, no se puede añadir evento
+                if (mDateText.getText().toString().isEmpty() ||
+                        mSportSpinner.getSelectedItem().toString().isEmpty() ||
+                        mDurationText.getText().toString().isEmpty() ||
+                        mPulseText.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Fields of Date, Sport, Duration and Pulse are compulsory",
+                            Toast.LENGTH_SHORT).show();
+                } else if (Integer.parseInt(mPulseText.getText().toString())<=50 ||
+                        Integer.parseInt(mPulseText.getText().toString())>=300){ //Test de rango
+                    Toast.makeText(getApplicationContext(), "Pulse should be between 50 and 300",
+                            Toast.LENGTH_SHORT).show();}
+                else { // Si están los tres campos obligatorios rellenados, se añade el recordatorio
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    Date date = new Date();
+                    String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
+                    newEventActivityViewModel.addEvent(
+                            mDateText.getText().toString()+" "+horaActual,
+                            mSportSpinner.getSelectedItem().toString(),
+                            mDurationText.getText().toString(),
+                            mPulseText.getText().toString(),
+                            mSportSpinner.getSelectedItem().toString(),
+                            null
+                    );
+                    finish();
+                }
             }
         });
 

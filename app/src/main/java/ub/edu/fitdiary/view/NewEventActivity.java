@@ -59,6 +59,10 @@ public class NewEventActivity extends AppCompatActivity {
     private ImageView mcameraButton;
 
     private Uri mPhotoUri;
+    private Uri auxiliarA;
+    private Uri auxiliarB;
+
+
 
     // Atributos del view model o model del view
     private NewEventActivityViewModel newEventActivtyViewModel;
@@ -86,6 +90,8 @@ public class NewEventActivity extends AppCompatActivity {
         mCommentText = findViewById(R.id.newEventCommentRectangle);
         mHintPulseImage = findViewById(R.id.newEventDateImagePulse);
         mcameraButton = findViewById(R.id.newEventCameraImageView);
+        auxiliarA=null;
+        auxiliarB=null;
 
         /* Añadimos listener al botón de añadir */
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +116,7 @@ public class NewEventActivity extends AppCompatActivity {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                     Date date = new Date();
                     String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
-                    String URL="";
+                    String URL=null;
                     if (mPhotoUri!=null){URL=mPhotoUri.toString();}
                     newEventActivtyViewModel.addEvent(
                             mDateText.getText().toString()+" "+horaActual,
@@ -243,6 +249,11 @@ public class NewEventActivity extends AppCompatActivity {
                             newEventActivtyViewModel.setPictureUrlOfUser(
                                     mPhotoUri
                             );
+                        }else{
+                            //Serveix per controlar si l'usuari ha cancel·lat l'acció de fer la foto
+                            auxiliarB=mPhotoUri;
+                            mPhotoUri=auxiliarA;
+                            auxiliarA=auxiliarB;
                         }
                     }
                 }

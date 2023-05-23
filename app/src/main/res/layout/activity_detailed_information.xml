@@ -61,6 +61,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:scaleType="centerCrop"
             android:background="@drawable/rounded_rectangle"
             android:fontFamily="@font/recursive_medium"
             app:srcCompat="@drawable/image"

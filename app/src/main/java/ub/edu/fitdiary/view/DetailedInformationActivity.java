@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -82,11 +83,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
                     mComment.setText(event.getComment());
                     mCalories.setText(String.valueOf(Integer.parseInt(event.getPulse()) * Integer.parseInt(event.getDuration())));
                     if (event.getImageURL()!=""){
-                        Picasso.get()
-                                .load(event.getImageURL())
-                                .resize(mImage.getWidth(), mImage.getHeight())
-                                .centerCrop()
-                                .into(mImage);}
+                        Picasso.get().load(event.getImageURL()).into(mImage);}
 
                     updateCompletion("sport", event.getSport(), event.getDate());
                 }

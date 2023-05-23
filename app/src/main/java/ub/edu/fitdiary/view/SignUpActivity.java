@@ -66,8 +66,8 @@ public class SignUpActivity extends AppCompatActivity {
         mEmailEditText = findViewById(R.id.signUpEmailEditText);
         mPasswordEditText = findViewById(R.id.signUpPasswordEditText);
         mAgreeCheckBox = findViewById(R.id.signUpAgreeCheckBox);
-        //mServiceText = findViewById(R.id.signUpServiceTextView);
-        //mPrivacyText = findViewById(R.id.signUpPrivacyTextView);
+        mServiceText = findViewById(R.id.signUpServiceTextView);
+        mPrivacyText = findViewById(R.id.signUpPrivacyTextView);
         mAcceptButton = findViewById(R.id.signUpAcceptButton);
         mSignInClickText = findViewById(R.id.signUpSignInClickText);
 
@@ -139,6 +139,44 @@ public class SignUpActivity extends AppCompatActivity {
                 // Show the confirmation dialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+
+        mPrivacyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                builder.setTitle("Privacy Policy");
+                builder.setMessage("We should have the privacy policy here");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                // Show the confirmation dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
+
+        mServiceText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                builder.setTitle("Term of Services");
+                builder.setMessage("We should have the Term of Services here");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                // Show the confirmation dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
         });
 

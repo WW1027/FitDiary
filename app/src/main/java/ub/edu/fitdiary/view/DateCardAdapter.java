@@ -54,6 +54,10 @@ public class DateCardAdapter extends RecyclerView.Adapter<DateCardAdapter.ViewHo
         DateCardAdapter.idDate = idDate;
     }
 
+    public Date getSelected(){
+        Date date = mDates.get(selectedItemIndex);
+        return date;
+    }
     public static void setSelectedItemIndex(int selectedItemIndex) {
         DateCardAdapter.selectedItemIndex = selectedItemIndex;
     }

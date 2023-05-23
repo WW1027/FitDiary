@@ -126,7 +126,28 @@ public class CalendarFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showOptionsDialog();
+                // Código para abrir la nueva actividad de añadir evento o reminder nuevo
+                Intent intent;
+
+                // Obtener la fecha actual
+                Calendar fechaActual = Calendar.getInstance();
+                Calendar fechaSeleccionada = Calendar.getInstance();
+
+                // Convertir las cadenas de texto a valores enteros
+                int dia = Integer.parseInt(mDateCardRVAdapter.getSelected().getNumDate());
+                int mes = mDateCardRVAdapter.getSelected().getNumMonth();
+                int ano = mDateCardRVAdapter.getSelected().getNumYear();
+
+                fechaSeleccionada.set(ano, mes, dia);
+
+                // Verificar si la fecha ingresada es futura
+                if(fechaSeleccionada.after(fechaActual)){
+                    intent = new Intent(getActivity(), NewReminderActivity.class);
+                }else{
+                    intent = new Intent(getActivity(), NewEventActivity.class);
+                }
+                startActivity(intent);
+
             }
         });
 

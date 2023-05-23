@@ -84,7 +84,8 @@
                 android:background="@drawable/rounded_rectangle"
                 android:fontFamily="@font/recursive_medium"
                 android:gravity="center"
-                android:hint="  dd/mm/yyyy"
+                android:hint="dd/mm/yyyy"
+                android:paddingLeft="8dp"
                 android:textAlignment="viewStart"
                 tools:ignore="RtlCompat,TouchTargetSizeCheck" />
 
@@ -183,7 +184,8 @@
                 android:background="@drawable/rounded_rectangle"
                 android:fontFamily="@font/recursive_medium"
                 android:gravity="center"
-                android:hint="  30"
+                android:hint="30"
+                android:paddingLeft="8dp"
                 android:inputType="number"
                 android:textAlignment="viewStart"
                 tools:ignore="RtlCompat,TouchTargetSizeCheck" />

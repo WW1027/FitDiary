@@ -11,6 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -93,6 +96,8 @@ public class NewEventActivity extends AppCompatActivity {
         auxiliarA=null;
         auxiliarB=null;
 
+        mDateText.setText(getIntent().getStringExtra("date"));
+
         /* Añadimos listener al botón de añadir */
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +131,7 @@ public class NewEventActivity extends AppCompatActivity {
                             mCommentText.getText().toString(),
                             URL
                     );
+                    loadFragment(new CalendarFragment(),true,mDateText.getText().toString());
                     finish();
 
                 }
@@ -300,5 +306,22 @@ public class NewEventActivity extends AppCompatActivity {
             intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mPhotoUri);
             takePictureLauncher.launch(intent);
         });
+    }
+    public void loadFragment(Fragment fragment, boolean flag, String date) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        if (flag) {
+            ft.add(R.id.newEventLayout, fragment);
+        } else {
+            ft.replace(R.id.newEventLayout, fragment);
+        }
+
+        // Pass the string parameter to the fragment's arguments bundle
+        Bundle bundle = new Bundle();
+        bundle.putString("date", date);
+        fragment.setArguments(bundle);
+
+        ft.commit();
     }
 }

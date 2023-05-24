@@ -1,6 +1,9 @@
 package ub.edu.fitdiary.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
@@ -54,6 +57,8 @@ public class NewReminderActivity extends AppCompatActivity {
         mSportSpinner = findViewById(R.id.newReminderSportSpinner);
         mAcceptButton= findViewById(R.id.newReminderAcceptButton);
         mCancelButton = findViewById(R.id.newReminderCancelButton);
+
+        mDateText.setText(getIntent().getStringExtra("date"));
 
         // Setear el spinner de deportes
         // Recuperar lista de sports desde BBDD
@@ -137,11 +142,29 @@ public class NewReminderActivity extends AppCompatActivity {
                             mSportSpinner.getSelectedItem().toString(),
                             null
                     );
+                    loadFragment(new CalendarFragment(),true,mDateText.getText().toString());
                     finish();
                 }
             }
         });
 
+    }
+    public void loadFragment(Fragment fragment, boolean flag, String date) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        if (flag) {
+            ft.add(R.id.newReminderLayout, fragment);
+        } else {
+            ft.replace(R.id.newReminderLayout, fragment);
+        }
+
+        // Pass the string parameter to the fragment's arguments bundle
+        Bundle bundle = new Bundle();
+        bundle.putString("date", date);
+        fragment.setArguments(bundle);
+
+        ft.commit();
     }
 
 }

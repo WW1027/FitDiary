@@ -107,7 +107,17 @@ public class CalendarFragment extends Fragment {
         int m = calendar.get(calendar.MONTH);
         int y = calendar.get(calendar.YEAR);
 
-        DateCardAdapter.setSelectedItemIndex(d-1);
+        //DateCardAdapter.setSelectedItemIndex(d-1);
+        if(getArguments()==null){//Per defecte
+            DateCardAdapter.setSelectedItemIndex(d-1);
+            mCalendarFragmentViewModel.loadEventsFromRepository(mDateCardRVAdapter.getIdDate());
+        } else {//Si venim d'una altra activitat(deleteActivity,newactivity,reminderActivity)--Per mostrar el dia adequat
+            mCalendarFragmentViewModel.loadEventsFromRepository(getArguments().getString("date"));
+            //Per agafar el dia solament
+            int firstIndex = getArguments().getString("date").indexOf("-");
+            int day = Integer.parseInt(getArguments().getString("date").substring(0, firstIndex));
+            DateCardAdapter.setSelectedItemIndex(day-1);
+        }
         DateCardAdapter.scroll();
 
         mCalendarFragmentViewModel.loadDatesFromRepository(m, y);  // Internament pobla les dates
@@ -139,12 +149,14 @@ public class CalendarFragment extends Fragment {
                 int ano = mDateCardRVAdapter.getSelected().getNumYear();
 
                 fechaSeleccionada.set(ano, mes, dia);
-
+                String date=dia+"-"+(mes+1)+"-"+ano;
                 // Verificar si la fecha ingresada es futura
                 if(fechaSeleccionada.after(fechaActual)){
                     intent = new Intent(getActivity(), NewReminderActivity.class);
+                    intent.putExtra("date",date);
                 }else{
                     intent = new Intent(getActivity(), NewEventActivity.class);
+                    intent.putExtra("date",date);
                 }
                 startActivity(intent);
 

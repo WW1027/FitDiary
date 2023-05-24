@@ -14,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -151,6 +154,14 @@ public class DetailedInformationActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // Delete Event
                         newEventActivityViewModel.deleteEvent(date);
+
+                        //El date està en format "dd-MM-yyyy i després hora"
+                        //Però només volem el "dd-MM-yyyy"
+                        int firstSpaceIndex = date.indexOf(" ");
+                        String formattedDate = date.substring(0, firstSpaceIndex);
+
+                        loadFragment(new CalendarFragment(),true,formattedDate);
+
                        finish();
                     }
                 });
@@ -248,5 +259,24 @@ public class DetailedInformationActivity extends AppCompatActivity {
         mEditPulseButton.setVisibility(view);
         mEditCommentButton.setEnabled(enabled);
         mEditCommentButton.setVisibility(view);
+    }
+
+
+    public void loadFragment(Fragment fragment, boolean flag, String date) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        if (flag) {
+            ft.add(R.id.detailedInfomationLayout, fragment);
+        } else {
+            ft.replace(R.id.detailedInfomationLayout, fragment);
+        }
+
+        // Pass the string parameter to the fragment's arguments bundle
+        Bundle bundle = new Bundle();
+        bundle.putString("date", date);
+        fragment.setArguments(bundle);
+
+        ft.commit();
     }
 }

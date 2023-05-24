@@ -126,7 +126,7 @@ public class NewReminderActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
                 else { // Si están los tres campos obligatorios rellenados, se añade el recordatorio
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                     Date date = new Date();
                     String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
                     newEventActivityViewModel.addEvent(

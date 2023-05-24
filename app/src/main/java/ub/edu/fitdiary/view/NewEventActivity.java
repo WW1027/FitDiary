@@ -113,7 +113,7 @@ public class NewEventActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Pulse should be between 50 and 300",
                             Toast.LENGTH_SHORT).show();}
                 else { // Si están los tres campos obligatorios rellenados, se añade el evento
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                     Date date = new Date();
                     String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
                     String URL=null;

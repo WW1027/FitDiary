@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -26,6 +27,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import ub.edu.fitdiary.R;
+import ub.edu.fitdiary.model.Date;
 import ub.edu.fitdiary.model.Event;
 import ub.edu.fitdiary.viewmodel.CalendarFragmentViewModel;
 
@@ -66,6 +68,17 @@ public class CalendarFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
+        mMonthYear = view.findViewById(R.id.monthYearCalendar);
+        Calendar calendar = Calendar.getInstance();
+        // Inicialment mostrarà el mes i any actual
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+
+        mMonthYear.setText(dateFormat.format(calendar.getTime()));
+
+        int d = calendar.get(calendar.DAY_OF_MONTH);
+        int m = calendar.get(calendar.MONTH);
+        int y = calendar.get(calendar.YEAR);
+
         // Inicialitza el ViewModel d'aquesta activity (HomeActivity)
         mCalendarFragmentViewModel = new ViewModelProvider(this)
                 .get(CalendarFragmentViewModel.class);
@@ -78,7 +91,7 @@ public class CalendarFragment extends Fragment {
                 view.getContext(), LinearLayoutManager.HORIZONTAL, false
         );
         mDateCardsRV.setLayoutManager(manager);
-
+        mCalendarFragmentViewModel.loadDatesFromRepository(m, y);  // Internament pobla les dates
         // (2) Inicialitza el RecyclerViewAdapter i li assignem a la RecyclerView.
         mDateCardRVAdapter = new DateCardAdapter(
                 mDateCardsRV, mCalendarFragmentViewModel.getDates().getValue() // Passem-li referencia llista
@@ -96,21 +109,24 @@ public class CalendarFragment extends Fragment {
         mDateCardsRV.setAdapter(mDateCardRVAdapter); // Associa l'adapter amb la ReciclerView
 
 
-        mMonthYear = view.findViewById(R.id.monthYearCalendar);
-        Calendar calendar = Calendar.getInstance();
-        // Inicialment mostrarà el mes i any actual
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
 
-        mMonthYear.setText(dateFormat.format(calendar.getTime()));
 
-        int d = calendar.get(calendar.DAY_OF_MONTH);
-        int m = calendar.get(calendar.MONTH);
-        int y = calendar.get(calendar.YEAR);
+        // Cargar los eventos del repositorio
+        if(getArguments()==null){//Per defecte
+            DateCardAdapter.setSelectedItemIndex(d-1);
+            mCalendarFragmentViewModel.loadEventsFromRepository(mDateCardRVAdapter.getIdDate());
+        } else {//Si venim d'una altra activitat(deleteActivity,newactivity,reminderActivity)--Per mostrar el dia adequat
+            mCalendarFragmentViewModel.loadEventsFromRepository(getArguments().getString("date"));
+            //Per agafar el dia solament
+            int firstIndex = getArguments().getString("date").indexOf("-");
+            int day = Integer.parseInt(getArguments().getString("date").substring(0, firstIndex));
+            DateCardAdapter.setSelectedItemIndex(day-1);
+        }
 
-        DateCardAdapter.setSelectedItemIndex(d-1);
+        //DateCardAdapter.setSelectedItemIndex(d-1);
         DateCardAdapter.scroll();
 
-        mCalendarFragmentViewModel.loadDatesFromRepository(m, y);  // Internament pobla les dates
+        //mCalendarFragmentViewModel.loadDatesFromRepository(m, y);  // Internament pobla les dates
 
 
         /*
@@ -147,7 +163,6 @@ public class CalendarFragment extends Fragment {
                     intent = new Intent(getActivity(), NewEventActivity.class);
                 }
                 startActivity(intent);
-
             }
         });
 
@@ -163,8 +178,6 @@ public class CalendarFragment extends Fragment {
         };
         mCalendarFragmentViewModel.getEvents().observe(getViewLifecycleOwner(), eventListObserver);
 
-        // Cargar los eventos del repositorio
-        mCalendarFragmentViewModel.loadEventsFromRepository(mDateCardRVAdapter.getIdDate());
 
         // Vamos a buscar el RecyclerView y hacer dos cosas
         mEventsCardsRV = view.findViewById(R.id.eventCardEvent);
@@ -249,6 +262,5 @@ public class CalendarFragment extends Fragment {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 
 }

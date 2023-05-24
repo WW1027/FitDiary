@@ -11,6 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -113,7 +116,7 @@ public class NewEventActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Pulse should be between 50 and 300",
                             Toast.LENGTH_SHORT).show();}
                 else { // Si están los tres campos obligatorios rellenados, se añade el evento
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                     Date date = new Date();
                     String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
                     String URL=null;
@@ -126,6 +129,7 @@ public class NewEventActivity extends AppCompatActivity {
                             mCommentText.getText().toString(),
                             URL
                     );
+                    loadFragment(new CalendarFragment(),true,mDateText.getText().toString());
                     finish();
 
                 }
@@ -301,4 +305,22 @@ public class NewEventActivity extends AppCompatActivity {
             takePictureLauncher.launch(intent);
         });
     }
+    public void loadFragment(Fragment fragment, boolean flag, String date) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        if (flag) {
+            ft.add(R.id.newEventLayout, fragment);
+        } else {
+            ft.replace(R.id.newEventLayout, fragment);
+        }
+
+        // Pass the string parameter to the fragment's arguments bundle
+        Bundle bundle = new Bundle();
+        bundle.putString("date", date);
+        fragment.setArguments(bundle);
+
+        ft.commit();
+    }
+
 }

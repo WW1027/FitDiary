@@ -1,6 +1,9 @@
 package ub.edu.fitdiary.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
@@ -126,7 +129,7 @@ public class NewReminderActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
                 else { // Si están los tres campos obligatorios rellenados, se añade el recordatorio
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                     Date date = new Date();
                     String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
                     newEventActivityViewModel.addEvent(
@@ -137,11 +140,29 @@ public class NewReminderActivity extends AppCompatActivity {
                             mSportSpinner.getSelectedItem().toString(),
                             null
                     );
+                    loadFragment(new CalendarFragment(),true,mDateText.getText().toString());
                     finish();
                 }
             }
         });
 
+    }
+    public void loadFragment(Fragment fragment, boolean flag, String date) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        if (flag) {
+            ft.add(R.id.newReminderLayout, fragment);
+        } else {
+            ft.replace(R.id.newReminderLayout, fragment);
+        }
+
+        // Pass the string parameter to the fragment's arguments bundle
+        Bundle bundle = new Bundle();
+        bundle.putString("date", date);
+        fragment.setArguments(bundle);
+
+        ft.commit();
     }
 
 }

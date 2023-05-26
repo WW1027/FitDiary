@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,23 +33,13 @@ import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 
 public class DetailedInformationActivity extends AppCompatActivity {
     // Atributos del layout
-    private ImageView mBackButton;
-    private ImageView mImage;
-    private TextView mSport;
-    private TextView mDate;
-    private TextView mDuration;
-    private TextView mPulse;
-    private TextView mCalories;
-    private TextView mComment;
-    private ImageView mEditDurationButton;
-    private ImageView mEditPulseButton;
-    private ImageView mEditCommentButton;
+    private TextView mSport, mDate, mDuration, mPulse, mCalories, mComment;
+    private ImageView mBackButton, mImage, mEditDurationButton, mEditPulseButton, mEditCommentButton;
     private Button mDeleteButton;
 
     // Atributos del view model o model del view
     private NewEventActivityViewModel newEventActivityViewModel;
 
-    private boolean isInitialSelection = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,16 +191,36 @@ public class DetailedInformationActivity extends AppCompatActivity {
         // add the layout to the dialog builder
         builder.setView(layout);
 
+        if(textView.equals(mDuration) || textView.equals(mPulse)){
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }else{
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE);
+        }
+
         builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // retrieve the user's message from the EditText view
                 String message = editText.getText().toString();
-                textView.setText(message);
-                /********************************************************
-                 Modificar en la base de datos //Se tiene que pasar por parámetro qué campo se va a modificar
-                 *********************************************************/
-                updateCompletion(field, message, id);
+                if(textView.equals(mPulse)){
+                    if(Integer.parseInt(message)<50 ||
+                            Integer.parseInt(message)>300){
+                        Toast.makeText(getApplicationContext(), "Pulse should be between 50 and 300",
+                                Toast.LENGTH_SHORT).show();
+                    }else{
+                        textView.setText(message);
+                        /********************************************************
+                         Modificar en la base de datos //Se tiene que pasar por parámetro qué campo se va a modificar
+                         *********************************************************/
+                        updateCompletion(field, message, id);
+                    }
+                }else{
+                    textView.setText(message);
+                    /********************************************************
+                     Modificar en la base de datos //Se tiene que pasar por parámetro qué campo se va a modificar
+                     *********************************************************/
+                    updateCompletion(field, message, id);
+                }
             }
         });
         builder.setNegativeButton("Cancel", null);

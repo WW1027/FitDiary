@@ -137,8 +137,8 @@ public class NewReminderActivity extends AppCompatActivity {
                     newEventActivityViewModel.addEvent(
                             mDateText.getText().toString()+" "+horaActual,
                             mSportSpinner.getSelectedItem().toString(),
-                            null,
-                            null,
+                            "0",
+                            "0",
                             mSportSpinner.getSelectedItem().toString(),
                             null
                     );

@@ -56,19 +56,14 @@ public class NewEventActivity extends AppCompatActivity {
     private ImageView mEventImage;
     private EditText mCommentText;
     private Button mSaveButton;
-    private ImageView mCancelButton;
-    private ImageView mHintPulseImage;
+    private ImageView mCancelButton, mHintPulseImage, mcameraButton;
 
-    private ImageView mcameraButton;
-
-    private Uri mPhotoUri;
-    private Uri auxiliarA;
-    private Uri auxiliarB;
+    private Uri mPhotoUri, auxiliarA, auxiliarB;
 
 
 
     // Atributos del view model o model del view
-    private NewEventActivityViewModel newEventActivtyViewModel;
+    private NewEventActivityViewModel newEventActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +71,7 @@ public class NewEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_event);
 
         // Instanciamos su propio view model
-        newEventActivtyViewModel = new ViewModelProvider(this)
+        newEventActivityViewModel = new ViewModelProvider(this)
                 .get(NewEventActivityViewModel.class);
 
         getSupportActionBar().hide(); //hide the title bar
@@ -113,8 +108,8 @@ public class NewEventActivity extends AppCompatActivity {
                             mPulseText.getText().toString().matches("\\d+")==false){ //Para comprobar que sean números
                     Toast.makeText(getApplicationContext(), "Durantion and Pulse must be numbers",
                             Toast.LENGTH_SHORT).show();}*/
-                else if (Integer.parseInt(mPulseText.getText().toString())<=50 ||
-                        Integer.parseInt(mPulseText.getText().toString())>=300){ //Test de rango
+                else if (Integer.parseInt(mPulseText.getText().toString())<50 ||
+                        Integer.parseInt(mPulseText.getText().toString())>300){ //Test de rango
                     Toast.makeText(getApplicationContext(), "Pulse should be between 50 and 300",
                             Toast.LENGTH_SHORT).show();}
                 else { // Si están los tres campos obligatorios rellenados, se añade el evento
@@ -123,7 +118,7 @@ public class NewEventActivity extends AppCompatActivity {
                     String horaActual = dateFormat.format(date); // Hora actual en formato de cadena
                     String URL=null;
                     if (mPhotoUri!=null){URL=mPhotoUri.toString();}
-                    newEventActivtyViewModel.addEvent(
+                    newEventActivityViewModel.addEvent(
                             mDateText.getText().toString()+" "+horaActual,
                             mSportSpinner.getSelectedItem().toString(),
                             mDurationText.getText().toString(),
@@ -146,7 +141,7 @@ public class NewEventActivity extends AppCompatActivity {
         // Aplicar el adaptador al spinner
 
         // Recuperar lista de sports desde BBDD
-        newEventActivtyViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
+        newEventActivityViewModel.getSports(new SportRepository.OnSportsLoadedListener() {
             @Override
             public void onSportsLoaded(List<String> sports) {
                 // Set up Spinner adapter with sports list
@@ -236,7 +231,7 @@ public class NewEventActivity extends AppCompatActivity {
                 }
             }
         };
-        newEventActivtyViewModel.getPictureAux().observe(this, observerPictureUrl);
+        newEventActivityViewModel.getPictureAux().observe(this, observerPictureUrl);
 
         //newEventActivtyViewModel.loadPictureOfUser();
 
@@ -252,7 +247,7 @@ public class NewEventActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            newEventActivtyViewModel.setPictureUrlOfUser(
+                            newEventActivityViewModel.setPictureUrlOfUser(
                                     mPhotoUri
                             );
                         }else{

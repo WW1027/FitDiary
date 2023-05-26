@@ -175,9 +175,6 @@ public class CalendarFragment extends Fragment {
         };
         mCalendarFragmentViewModel.getEvents().observe(getViewLifecycleOwner(), eventListObserver);
 
-        // Cargar los eventos del repositorio
-        mCalendarFragmentViewModel.loadEventsFromRepository(mDateCardRVAdapter.getIdDate());
-
         // Vamos a buscar el RecyclerView y hacer dos cosas
         mEventsCardsRV = view.findViewById(R.id.eventCardEvent);
 

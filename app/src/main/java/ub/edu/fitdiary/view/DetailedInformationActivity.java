@@ -1,9 +1,13 @@
 package ub.edu.fitdiary.view;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,6 +33,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,8 +46,9 @@ import ub.edu.fitdiary.viewmodel.NewEventActivityViewModel;
 public class DetailedInformationActivity extends AppCompatActivity {
     // Atributos del layout
     private TextView mSport, mDate, mDuration, mPulse, mCalories, mComment;
-    private ImageView mBackButton, mImage, mEditDurationButton, mEditPulseButton, mEditCommentButton;
+    private ImageView mBackButton, mImage, mEditDurationButton, mEditPulseButton, mEditCommentButton, mCamera;
     private Button mDeleteButton;
+    private Uri mPhotoUri, auxiliarA, auxiliarB;
 
     // Atributos del view model o model del view
     private NewEventActivityViewModel newEventActivityViewModel;
@@ -69,6 +82,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
         mDeleteButton = findViewById(R.id.detailedInformationDeleteButton);
         mEditPulseButton = findViewById(R.id.detailedInformationEditPulseButton);
         mEditCommentButton = findViewById(R.id.detailedInformationEditCommentButton);
+        mCamera = findViewById(R.id.newEventCameraImageView3);
 
         /* TODO: completar la información obtenida de la base de datos */
 
@@ -168,9 +182,12 @@ public class DetailedInformationActivity extends AppCompatActivity {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadFragment(new CalendarFragment(),true,mDate.getText().toString());
                 finish();
             }
         });
+
+        setTakeCameraPictureListener(mCamera);
 
     }
 
@@ -240,7 +257,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
     //Comprobar si el date es futuro
     private boolean isDateInFuture(String dateString) {
         // Create a SimpleDateFormat object to parse the date string
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
 
         try {
             // Parse the date string into a Date object
@@ -250,7 +267,7 @@ public class DetailedInformationActivity extends AppCompatActivity {
             Date currentDate = new Date();
 
             // Compare the dates
-            if (date.after(currentDate)) {
+            if (date.after(currentDate) || date.equals(currentDate)) {
                 // Date is in the future
                 return true;
             } else {
@@ -270,6 +287,8 @@ public class DetailedInformationActivity extends AppCompatActivity {
         mEditPulseButton.setVisibility(view);
         mEditCommentButton.setEnabled(enabled);
         mEditCommentButton.setVisibility(view);
+        mCamera.setVisibility(view);
+        mCamera.setEnabled(enabled);
     }
 
 
@@ -289,5 +308,71 @@ public class DetailedInformationActivity extends AppCompatActivity {
         fragment.setArguments(bundle);
 
         ft.commit();
+    }
+
+    private void setTakeCameraPictureListener(@NonNull View takePictureView) {
+        // Codi que s'encarrega de rebre el resultat de l'intent de fer foto des de càmera
+        // i que es llençarà des del listener que definirem a baix.
+        ActivityResultLauncher<Intent> takePictureLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            newEventActivityViewModel.setPictureUrlOfUser(
+                                    mPhotoUri
+                            );
+                            updateCompletion("imageURL", mPhotoUri.toString(), mDate.getText().toString());
+                        }else{
+                            //Serveix per controlar si l'usuari ha cancel·lat l'acció de fer la foto
+                            auxiliarB=mPhotoUri;
+                            mPhotoUri=auxiliarA;
+                            auxiliarA=auxiliarB;
+                        }
+                    }
+                }
+        );
+
+        // Listener del botó de fer foto, que llençarà l'intent amb l'ActivityResultLauncher.
+        takePictureView.setOnClickListener(view -> {
+            // Crearem un nom de fitxer d'imatge temporal amb una data i hora i format JPEG
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            // Anem a buscar el directori extern (del sistema) especificat per la variable
+            // d'entorn Environment.DIRECTORY_PICTURES (pren per valor "Pictures").
+            // Se li afageix, com a sufix, el directori del sistema on es guarden els fitxers.
+            File storageDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+            // Creem el fitxer
+            File image = null;
+            try {
+                image = File.createTempFile(
+                        imageFileName,  /* Prefix */
+                        ".jpg",         /* Sufix */
+                        storageDir      /* Directori on es guarda la imatge */
+                );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Recuperem la Uri definitiva del fitxer amb FileProvider (obligatori per seguretat)
+            // Per a fer-ho:
+            // 1. Especifiquem a res>xml>paths.xml el directori on es guardarà la imatge
+            //    de manera definitiva.
+            // 2. Afegir al manifest un provider que apunti a paths.xml del pas 1
+            Uri photoUri = FileProvider.getUriForFile(this,
+                    "edu.ub.pis.fitdiary.fileprovider",
+                    image);
+
+            // Per tenir accés a la URI de la foto quan es llenci l'intent de la camara.
+            // Perquè encara que li passem la photoUri com a dades extra a l'intent, aquestes
+            // no tornen com a resultat de l'Intent.
+            mPhotoUri = photoUri;
+
+            // Llancem l'intent amb el launcher declarat al començament d'aquest mateix mètode
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mPhotoUri);
+            takePictureLauncher.launch(intent);
+        });
     }
 }

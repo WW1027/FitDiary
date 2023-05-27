@@ -15,6 +15,18 @@
         tools:context=".view.DetailedInformationActivity">
 
         <ImageView
+            android:id="@+id/newEventCameraImageView3"
+            android:layout_width="48dp"
+            android:layout_height="55dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/newEventHorizontalLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/camera" />
+
+        <ImageView
             android:id="@+id/detailedInformationBackButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -57,18 +69,16 @@
             android:id="@+id/detailedInformationImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/newEventHorizontalLine"
-            android:gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:scaleType="centerCrop"
             android:background="@drawable/rounded_rectangle"
             android:fontFamily="@font/recursive_medium"
-            app:srcCompat="@drawable/image"
+            android:gravity="center"
+            android:scaleType="centerCrop"
             android:textAlignment="viewStart"
+            app:layout_constraintBottom_toTopOf="@id/newEventTableLayout"
+            app:layout_constraintTop_toBottomOf="@+id/newEventCameraImageView3"
+            app:srcCompat="@drawable/image"
             tools:ignore="RtlCompat,TouchTargetSizeCheck"
-            app:layout_constraintBottom_toTopOf="@id/newEventTableLayout"/>
+            tools:layout_editor_absoluteX="16dp" />
 
         <TableLayout
             android:id="@+id/newEventTableLayout"

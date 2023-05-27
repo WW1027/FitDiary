@@ -140,7 +140,7 @@ public class NewReminderActivity extends AppCompatActivity {
                             "0",
                             "0",
                             mSportSpinner.getSelectedItem().toString(),
-                            ""
+                            null
                     );
                     loadFragment(new CalendarFragment(),true,mDateText.getText().toString());
                     finish();
